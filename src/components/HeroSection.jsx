@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
 import Photo from './Photo'
-import FloatingBotanicalElements from './FloatingBotanicalElements'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -44,8 +43,6 @@ export default function HeroSection() {
       />
       <div aria-hidden="true" className="absolute inset-0 bg-ivory/20" />
 
-      <FloatingBotanicalElements variant="hero" />
-
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
         className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-6 pb-24 pt-28 text-center"
@@ -83,7 +80,7 @@ export default function HeroSection() {
           className="mt-8 flex items-center gap-3 font-serif text-base text-ink/90 sm:text-lg"
         >
           <span>{t.hero.date}</span>
-          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-chamomile" />
+          <span aria-hidden="true" className="h-1 w-1 rounded-full bg-stone/40" />
           <span>{t.hero.place}</span>
         </motion.div>
 

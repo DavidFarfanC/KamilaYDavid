@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { WHATSAPP_NUMBER, RSVP_ENDPOINT } from '../config'
 import Reveal from './Reveal'
-import { Chamomile } from './FloatingBotanicalElements'
+import { SectionAtmosphere } from './Monogram'
 
 const inputCls =
   'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-colors duration-300 focus:border-stone focus:outline-none'
@@ -114,9 +114,9 @@ export default function RSVPSection() {
 
   if (status === 'success') {
     return (
-      <section id="rsvp" className="bg-ivory px-6 py-24 sm:py-32">
-        <div className="mx-auto max-w-xl text-center">
-          <Chamomile size={48} className="mx-auto mb-6" />
+      <section id="rsvp" className="relative overflow-hidden bg-ivory px-6 py-32 sm:py-44">
+        <SectionAtmosphere />
+        <div className="relative z-10 mx-auto max-w-xl text-center">
           <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-4xl">
             {form.attendance === 'no' ? r.successNo : r.success}
           </p>
@@ -127,8 +127,9 @@ export default function RSVPSection() {
   }
 
   return (
-    <section id="rsvp" className="bg-ivory px-6 py-24 sm:py-32">
-      <div className="mx-auto max-w-xl">
+    <section id="rsvp" className="relative overflow-hidden bg-ivory px-6 py-32 sm:py-44">
+      <SectionAtmosphere />
+      <div className="relative z-10 mx-auto max-w-xl">
         <div className="text-center">
           <Reveal>
             <h2 className="font-serif text-4xl font-medium text-ink sm:text-5xl">{r.title}</h2>

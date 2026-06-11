@@ -3,7 +3,6 @@ import { useLang } from '../i18n/LanguageContext'
 import { GOOGLE_MAPS_URL, REGISTRY_URL, LODGING_OPTIONS } from '../config'
 import ExpandableInfoCard from './ExpandableInfoCard'
 import Reveal from './Reveal'
-import FloatingBotanicalElements from './FloatingBotanicalElements'
 
 const icon = (d) => (
   <svg
@@ -38,9 +37,7 @@ export default function DetailsCardsSection() {
   const c = t.details.cards
 
   return (
-    <section id="detalles" className="relative overflow-hidden bg-ivory px-6 py-24 sm:py-32">
-      <FloatingBotanicalElements />
-
+    <section id="detalles" className="relative overflow-hidden bg-ivory px-6 py-32 sm:py-44">
       <div className="relative mx-auto max-w-3xl">
         <div className="text-center">
           <Reveal>
@@ -53,7 +50,7 @@ export default function DetailsCardsSection() {
           </Reveal>
         </div>
 
-        <div className="mt-14 space-y-4">
+        <div className="mt-16 space-y-5">
           <Reveal>
             <ExpandableInfoCard
               title={c.location.title}

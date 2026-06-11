@@ -1,6 +1,6 @@
 import { useLang } from '../i18n/LanguageContext'
 import Reveal from './Reveal'
-import { BranchDivider } from './FloatingBotanicalElements'
+import { Divider } from './Monogram'
 
 const icons = [
   // Ceremonia: anillos
@@ -21,7 +21,7 @@ export default function ScheduleSection() {
   const { t } = useLang()
 
   return (
-    <section className="relative bg-cream/70 px-6 py-24 sm:py-32">
+    <section className="relative bg-cream/70 px-6 py-32 sm:py-44">
       <div className="mx-auto max-w-4xl">
         <div className="text-center">
           <Reveal>
@@ -29,7 +29,7 @@ export default function ScheduleSection() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-4 text-sm text-ink/60 sm:text-base">{t.schedule.subtitle}</p>
-            <BranchDivider className="mx-auto mt-8" />
+            <Divider className="mt-8" />
           </Reveal>
         </div>
 

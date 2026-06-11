@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LanguageContext'
 import Reveal from './Reveal'
 import Photo from './Photo'
+import { SectionAtmosphere } from './Monogram'
 
 export default function FinalVerseSection() {
   const { t } = useLang()
@@ -8,8 +9,9 @@ export default function FinalVerseSection() {
   return (
     <section className="bg-ivory">
       {/* Versículo sobre marfil, reverente y amplio */}
-      <div className="px-6 pb-20 pt-28 text-center sm:pb-28 sm:pt-40">
-        <div className="mx-auto max-w-3xl">
+      <div className="relative overflow-hidden px-6 pb-28 pt-36 text-center sm:pb-36 sm:pt-48">
+        <SectionAtmosphere />
+        <div className="relative z-10 mx-auto max-w-3xl">
           <Reveal>
             <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-5xl sm:leading-[1.35]">
               {t.finalVerse.text}
@@ -28,7 +30,7 @@ export default function FinalVerseSection() {
         <Photo
           name="final-verse"
           alt={t.finalVerse.photoAlt}
-          className="h-[55vh] min-h-[360px] w-full sm:h-[70vh]"
+          className="h-[65vh] min-h-[420px] w-full sm:h-[82vh]"
         />
         <div
           aria-hidden="true"

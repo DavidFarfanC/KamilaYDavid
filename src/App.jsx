@@ -1,4 +1,5 @@
 import { LanguageProvider } from './i18n/LanguageContext'
+import PaperTexture from './components/PaperTexture'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import IntroVerseSection from './components/IntroVerseSection'
@@ -16,6 +17,7 @@ import Footer from './components/Footer'
 export default function App() {
   return (
     <LanguageProvider>
+      <PaperTexture />
       <Navbar />
       <main>
         <HeroSection />

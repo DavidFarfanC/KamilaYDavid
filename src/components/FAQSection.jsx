@@ -49,7 +49,7 @@ export default function FAQSection() {
   const [open, setOpen] = useState(null)
 
   return (
-    <section className="bg-cream px-6 py-24 sm:py-32">
+    <section className="bg-cream px-6 py-32 sm:py-44">
       <div className="mx-auto max-w-2xl">
         <Reveal>
           <h2 className="text-center font-serif text-4xl font-medium text-ink sm:text-5xl">

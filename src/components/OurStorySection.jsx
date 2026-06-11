@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion
 import { useLang } from '../i18n/LanguageContext'
 import Photo from './Photo'
 import Reveal from './Reveal'
-import FloatingBotanicalElements from './FloatingBotanicalElements'
+import { SectionAtmosphere } from './Monogram'
 
 /** Foto con parallax vertical muy ligero dentro de su contenedor. */
 function ParallaxPhoto({ name, alt, className, imgClassName, strength = 30 }) {
@@ -32,7 +32,7 @@ function Chapter({ index, chapter, mainPhoto, detailPhoto, layout }) {
           <ParallaxPhoto
             name={mainPhoto}
             alt={chapter.mainAlt}
-            className="aspect-[3/4] w-full max-w-md"
+            className="aspect-[3/4] w-full max-w-lg"
           />
           <Reveal delay={0.25} className="absolute -bottom-10 -right-2 w-36 sm:-right-8 sm:w-44">
             <div className="rotate-[4deg] rounded-2xl bg-white p-2 pb-6 shadow-card">
@@ -51,7 +51,7 @@ function Chapter({ index, chapter, mainPhoto, detailPhoto, layout }) {
           <ParallaxPhoto
             name={mainPhoto}
             alt={chapter.mainAlt}
-            className="ml-auto aspect-[3/4] w-full max-w-md"
+            className="ml-auto aspect-[3/4] w-full max-w-lg"
             strength={40}
           />
           <Reveal delay={0.25} className="absolute -bottom-10 left-0 w-36 sm:-left-6 sm:w-44">
@@ -66,7 +66,7 @@ function Chapter({ index, chapter, mainPhoto, detailPhoto, layout }) {
     c: (
       <div className="text-center">
         <ChapterText chapter={chapter} index={index} center className="mx-auto max-w-2xl" />
-        <div className="relative mx-auto mt-12 max-w-3xl">
+        <div className="relative mx-auto mt-12 max-w-4xl">
           <ParallaxPhoto
             name={mainPhoto}
             alt={chapter.mainAlt}
@@ -114,8 +114,8 @@ export default function OurStorySection() {
   const chapters = t.story.chapters
 
   return (
-    <section id="historia" className="relative overflow-hidden bg-cream px-6 py-24 sm:py-32">
-      <FloatingBotanicalElements />
+    <section id="historia" className="relative overflow-hidden bg-cream px-6 py-32 sm:py-44">
+      <SectionAtmosphere />
 
       <div className="relative mx-auto max-w-5xl">
         <div className="text-center">
@@ -129,7 +129,7 @@ export default function OurStorySection() {
           </Reveal>
         </div>
 
-        <div className="mt-20 space-y-32 sm:mt-28 sm:space-y-44">
+        <div className="mt-24 space-y-40 sm:mt-36 sm:space-y-56">
           <Chapter index={0} chapter={chapters[0]} mainPhoto="story-1" detailPhoto="story-1b" layout="a" />
           <Chapter index={1} chapter={chapters[1]} mainPhoto="story-2" detailPhoto="story-2b" layout="b" />
           <Chapter index={2} chapter={chapters[2]} mainPhoto="story-3" detailPhoto="story-3b" layout="c" />

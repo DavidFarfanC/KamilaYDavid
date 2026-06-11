@@ -1,15 +1,15 @@
 import { useLang } from '../i18n/LanguageContext'
 import Reveal from './Reveal'
-import { BranchDivider } from './FloatingBotanicalElements'
+import { Divider } from './Monogram'
 
 export default function IntroVerseSection() {
   const { t } = useLang()
 
   return (
-    <section className="relative bg-ivory px-6 py-24 sm:py-36">
+    <section className="relative bg-ivory px-6 py-32 sm:py-44">
       <div className="mx-auto max-w-3xl text-center">
         <Reveal>
-          <BranchDivider className="mx-auto mb-10" />
+          <Divider className="mb-12" />
         </Reveal>
 
         <Reveal delay={0.15}>

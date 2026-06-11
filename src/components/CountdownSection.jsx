@@ -2,7 +2,7 @@ import { useLang } from '../i18n/LanguageContext'
 import { useCountdown } from '../hooks/useCountdown'
 import { WEDDING_DATE } from '../config'
 import Reveal from './Reveal'
-import { Chamomile } from './FloatingBotanicalElements'
+import { SectionAtmosphere } from './Monogram'
 
 function Unit({ value, label }) {
   return (
@@ -22,10 +22,10 @@ export default function CountdownSection() {
   const { total, days, hours, minutes, seconds } = useCountdown(WEDDING_DATE)
 
   return (
-    <section className="relative bg-ivory px-6 py-24 sm:py-32">
-      <div className="mx-auto max-w-3xl text-center">
+    <section className="relative overflow-hidden bg-ivory px-6 py-32 sm:py-44">
+      <SectionAtmosphere />
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
         <Reveal>
-          <Chamomile size={36} className="mx-auto mb-6 opacity-80" />
           <h2 className="text-balance font-serif text-3xl font-medium text-ink sm:text-4xl">
             {t.countdown.title}
           </h2>
