@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  @apply bg-ivory text-ink font-sans antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #f4d98b;
+  color: #3d4438;
+}
+
+/* Flotación suave para elementos botánicos */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+@keyframes float-slower {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-5deg); }
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
+.animate-float-slower { animation: float-slower 13s ease-in-out infinite; }
+.animate-sway { animation: sway 11s ease-in-out infinite; transform-origin: bottom center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-float-slower,
+  .animate-sway {
+    animation: none;
+  }
+}
+
+/* Foco visible y elegante para navegación con teclado */
+:focus-visible {
+  outline: 2px solid #4f6b4a;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
