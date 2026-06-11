@@ -29,7 +29,7 @@ const ICONS = {
 }
 
 const linkBtn =
-  'mt-4 inline-flex items-center gap-2 rounded-full bg-palm px-6 py-2.5 text-sm font-medium text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-hover active:bg-palm-active'
+  'mt-4 inline-flex items-center gap-2 rounded-full bg-paper px-6 py-2.5 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper-hover'
 
 export default function DetailsCardsSection() {
   const { t } = useLang()
@@ -111,14 +111,14 @@ export default function DetailsCardsSection() {
               <p>{c.lodging.text}</p>
               <ul className="mt-4 space-y-3">
                 {LODGING_OPTIONS.map((opt) => (
-                  <li key={opt.name} className="rounded-2xl bg-sand-soft/60 px-4 py-3">
+                  <li key={opt.name} className="rounded-2xl bg-cream px-4 py-3">
                     <p className="font-medium text-ink/85">
                       {opt.url ? (
                         <a
                           href={opt.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="underline decoration-honey/50 underline-offset-2 hover:text-palm"
+                          className="underline decoration-line underline-offset-2 hover:text-ink"
                         >
                           {opt.name}
                         </a>

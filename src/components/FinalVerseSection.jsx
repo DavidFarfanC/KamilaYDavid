@@ -16,7 +16,7 @@ export default function FinalVerseSection() {
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-8 text-xs font-medium uppercase tracking-widest2 text-palm">
+            <p className="mt-8 text-xs font-medium uppercase tracking-widest2 text-stone">
               {t.finalVerse.reference}
             </p>
           </Reveal>
@@ -32,7 +32,7 @@ export default function FinalVerseSection() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-b from-ivory via-transparent to-palm/60"
+          className="absolute inset-0 bg-gradient-to-b from-ivory via-transparent to-ink/45"
         />
         <div className="absolute inset-x-0 bottom-0 pb-14 text-center sm:pb-20">
           <Reveal delay={0.15}>

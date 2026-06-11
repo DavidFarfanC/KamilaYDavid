@@ -21,7 +21,7 @@ export default function ScheduleSection() {
   const { t } = useLang()
 
   return (
-    <section className="relative bg-palm-mist/70 px-6 py-24 sm:py-32">
+    <section className="relative bg-cream/70 px-6 py-24 sm:py-32">
       <div className="mx-auto max-w-4xl">
         <div className="text-center">
           <Reveal>
@@ -37,7 +37,7 @@ export default function ScheduleSection() {
           {/* Línea vertical */}
           <div
             aria-hidden="true"
-            className="absolute bottom-6 left-[27px] top-2 w-px bg-gradient-to-b from-palm/10 via-palm/35 to-palm/10 sm:left-1/2"
+            className="absolute bottom-6 left-[27px] top-2 w-px bg-gradient-to-b from-transparent via-line to-transparent sm:left-1/2"
           />
 
           {t.schedule.items.map((item, i) => (
@@ -49,11 +49,11 @@ export default function ScheduleSection() {
                   }`}
                 >
                   {/* Nodo con icono */}
-                  <div className="relative z-10 flex h-14 w-14 flex-none items-center justify-center rounded-full border border-palm/20 bg-ivory shadow-soft sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+                  <div className="relative z-10 flex h-14 w-14 flex-none items-center justify-center rounded-full border border-line bg-ivory shadow-soft sm:absolute sm:left-1/2 sm:-translate-x-1/2">
                     <svg
                       aria-hidden="true"
                       viewBox="0 0 24 24"
-                      className="h-6 w-6 text-palm"
+                      className="h-6 w-6 text-stone"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.4"
@@ -70,8 +70,8 @@ export default function ScheduleSection() {
                       i % 2 === 0 ? 'sm:mr-auto sm:pr-2 sm:text-right' : 'sm:ml-auto sm:pl-2'
                     }`}
                   >
-                    <div className="rounded-2xl border border-sand/50 bg-ivory/90 p-5 shadow-card">
-                      <p className="font-serif text-lg italic text-honey">{item.time}</p>
+                    <div className="rounded-2xl border border-line bg-card p-5 shadow-card">
+                      <p className="font-serif text-lg italic text-stone">{item.time}</p>
                       <h3 className="mt-1 font-serif text-xl font-medium text-ink">{item.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-ink/65">{item.text}</p>
                     </div>

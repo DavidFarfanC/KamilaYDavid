@@ -7,7 +7,7 @@ export default function GallerySection() {
   const { t } = useLang()
 
   return (
-    <section className="relative overflow-hidden bg-sand-soft/50 px-6 py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-cream px-6 py-24 sm:py-32">
       <FloatingBotanicalElements />
       <div className="relative mx-auto max-w-5xl">
         <Reveal>

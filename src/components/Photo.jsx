@@ -15,13 +15,13 @@ export default function Photo({ name, alt = '', className = '', imgClassName = '
       <div
         role="img"
         aria-label={alt || t.placeholder}
-        className={`flex items-center justify-center bg-gradient-to-br from-sand-soft via-ivory to-chamomile-soft ${className}`}
+        className={`flex items-center justify-center bg-gradient-to-br from-cream via-ivory to-chamomile-soft ${className}`}
       >
         <div className="text-center px-4">
           <svg
             aria-hidden="true"
             viewBox="0 0 24 24"
-            className="mx-auto mb-2 h-7 w-7 text-honey/50"
+            className="mx-auto mb-2 h-7 w-7 text-muted"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.2"
@@ -30,8 +30,8 @@ export default function Photo({ name, alt = '', className = '', imgClassName = '
             <circle cx="9" cy="10" r="1.6" />
             <path d="m4 18 5-5 3 3 4-4 4 4" />
           </svg>
-          <p className="font-serif italic text-honey/70 text-sm">{t.placeholder}</p>
-          <p className="mt-1 text-[10px] uppercase tracking-widest text-honey/40">{name}.jpg</p>
+          <p className="font-serif italic text-stone text-sm">{t.placeholder}</p>
+          <p className="mt-1 text-[10px] uppercase tracking-widest text-muted">{name}.jpg</p>
         </div>
       </div>
     )

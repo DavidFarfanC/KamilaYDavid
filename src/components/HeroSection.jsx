@@ -37,12 +37,12 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      {/* Velo marfil para legibilidad, manteniendo la luz de la foto */}
+      {/* Velo marfil tenue: la fotografía es la protagonista */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-ivory/55 via-ivory/15 to-ivory"
+        className="absolute inset-0 bg-gradient-to-b from-ivory/35 via-transparent to-ivory"
       />
-      <div aria-hidden="true" className="absolute inset-0 bg-ivory/10" />
+      <div aria-hidden="true" className="absolute inset-0 bg-ivory/20" />
 
       <FloatingBotanicalElements variant="hero" />
 
@@ -52,23 +52,23 @@ export default function HeroSection() {
       >
         <motion.p
           {...fadeUp(0.1)}
-          className="font-serif text-base tracking-[0.45em] text-palm"
+          className="font-serif text-base tracking-[0.45em] text-stone"
         >
           {t.hero.monogram}
         </motion.p>
 
         <motion.p
           {...fadeUp(0.25)}
-          className="mt-6 text-[11px] font-medium uppercase tracking-widest2 text-honey"
+          className="mt-6 text-[11px] font-medium uppercase tracking-widest2 text-stone"
         >
           {t.hero.eyebrow}
         </motion.p>
 
         <motion.h1
           {...fadeUp(0.4)}
-          className="mt-4 font-serif text-[15vw] font-medium leading-[1.02] text-ink sm:text-7xl md:text-8xl"
+          className="mt-4 font-serif text-[15vw] font-medium leading-[1.02] tracking-[-0.015em] text-ink sm:text-7xl md:text-8xl"
         >
-          Kamila <span className="font-normal italic text-palm">&amp;</span> David
+          Kamila <span className="font-normal italic text-stone">&amp;</span> David
         </motion.h1>
 
         <motion.p
@@ -90,13 +90,13 @@ export default function HeroSection() {
         <motion.div {...fadeUp(0.9)} className="mt-10 flex flex-col gap-3 sm:flex-row">
           <a
             href="#rsvp"
-            className="rounded-full bg-palm px-8 py-3.5 text-sm font-medium text-ivory shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-hover active:bg-palm-active hover:shadow-lift"
+            className="rounded-full bg-paper px-8 py-3.5 text-sm font-medium text-ink shadow-soft transition-colors duration-300 hover:bg-paper-hover"
           >
             {t.hero.ctaPrimary}
           </a>
           <a
             href="#detalles"
-            className="rounded-full border border-honey/40 bg-ivory/70 px-8 py-3.5 text-sm font-medium text-honey backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-honey hover:bg-ivory"
+            className="rounded-full border border-paper-line bg-transparent px-8 py-3.5 text-sm font-medium text-ink backdrop-blur-sm transition-colors duration-300 hover:bg-paper/30"
           >
             {t.hero.ctaSecondary}
           </a>
@@ -111,7 +111,7 @@ export default function HeroSection() {
         transition={{ delay: 1.6, duration: 1 }}
         className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
       >
-        <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-palm/50 to-palm animate-pulse" />
+        <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-stone/30 to-stone/50 animate-pulse" />
       </motion.div>
     </section>
   )

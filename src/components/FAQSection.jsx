@@ -8,7 +8,7 @@ function FAQItem({ item, open, onToggle }) {
   const reduce = useReducedMotion()
 
   return (
-    <div className="border-b border-sand/70 last:border-b-0">
+    <div className="border-b border-line last:border-b-0">
       <button
         type="button"
         aria-expanded={open}
@@ -21,7 +21,7 @@ function FAQItem({ item, open, onToggle }) {
           aria-hidden="true"
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: reduce ? 0 : 0.3 }}
-          className="flex-none text-xl font-light text-palm"
+          className="flex-none text-xl font-light text-stone"
         >
           +
         </motion.span>
@@ -49,7 +49,7 @@ export default function FAQSection() {
   const [open, setOpen] = useState(null)
 
   return (
-    <section className="bg-sand-soft/50 px-6 py-24 sm:py-32">
+    <section className="bg-cream px-6 py-24 sm:py-32">
       <div className="mx-auto max-w-2xl">
         <Reveal>
           <h2 className="text-center font-serif text-4xl font-medium text-ink sm:text-5xl">
@@ -57,7 +57,7 @@ export default function FAQSection() {
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
-          <div className="mt-12 rounded-3xl border border-sand/60 bg-ivory px-6 py-2 shadow-soft sm:px-10">
+          <div className="mt-12 rounded-3xl border border-line bg-ivory px-6 py-2 shadow-soft sm:px-10">
             {t.faq.items.map((item, i) => (
               <FAQItem
                 key={item.q}

@@ -11,8 +11,8 @@ export default function LanguageToggle({ className = '' }) {
       aria-label={code === 'es' ? 'Cambiar a español' : 'Switch to English'}
       className={`rounded-full px-2.5 py-1 text-xs font-medium tracking-wide transition-colors duration-300 ${
         lang === code
-          ? 'bg-palm text-ivory'
-          : 'text-palm hover:bg-palm-mist'
+          ? 'bg-paper text-ink'
+          : 'text-stone hover:bg-cream'
       }`}
     >
       {label}
@@ -20,7 +20,7 @@ export default function LanguageToggle({ className = '' }) {
   )
 
   return (
-    <div className={`flex items-center gap-0.5 rounded-full border border-palm/15 bg-ivory/60 p-0.5 ${className}`}>
+    <div className={`flex items-center gap-0.5 rounded-full border border-line bg-ivory/60 p-0.5 ${className}`}>
       {btn('es', 'ES')}
       {btn('en', 'EN')}
     </div>

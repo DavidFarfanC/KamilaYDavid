@@ -14,7 +14,7 @@ export default function Navbar() {
   }, [])
 
   const link =
-    'rounded-full px-3 py-1.5 text-sm text-ink/80 transition-colors duration-300 hover:bg-palm-mist hover:text-palm'
+    'rounded-full px-3 py-1.5 text-sm text-ink/80 transition-colors duration-300 hover:bg-cream hover:text-ink'
 
   return (
     <header className="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-5">
@@ -22,13 +22,13 @@ export default function Navbar() {
         aria-label="Navegación principal"
         className={`flex w-full max-w-xl items-center justify-between gap-1 rounded-full border px-3 py-2 backdrop-blur-md transition-all duration-500 sm:px-4 ${
           scrolled
-            ? 'border-sand/60 bg-ivory/80 shadow-soft'
-            : 'border-white/30 bg-ivory/40'
+            ? 'border-line bg-ivory/80 shadow-soft'
+            : 'border-white/40 bg-ivory/50'
         }`}
       >
         <a
           href="#inicio"
-          className="font-serif text-lg font-medium tracking-[0.18em] text-palm"
+          className="font-serif text-lg font-medium tracking-[0.18em] text-ink"
           aria-label="Kamila y David — inicio"
         >
           K&nbsp;&amp;&nbsp;D
@@ -43,7 +43,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <a
             href="#rsvp"
-            className="rounded-full bg-palm px-3 py-1.5 text-xs font-medium text-ivory transition-colors duration-300 hover:bg-palm-hover active:bg-palm-active sm:hidden"
+            className="rounded-full bg-paper px-3 py-1.5 text-xs font-medium text-ink transition-colors duration-300 hover:bg-paper-hover sm:hidden"
           >
             {t.nav.rsvp}
           </a>

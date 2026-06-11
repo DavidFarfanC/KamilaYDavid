@@ -19,7 +19,7 @@ export default function IntroVerseSection() {
         </Reveal>
 
         <Reveal delay={0.3}>
-          <p className="mt-8 text-xs font-medium uppercase tracking-widest2 text-palm">
+          <p className="mt-8 text-xs font-medium uppercase tracking-widest2 text-stone">
             {t.verse.reference}
           </p>
         </Reveal>

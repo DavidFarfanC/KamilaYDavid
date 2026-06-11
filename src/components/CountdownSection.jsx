@@ -10,7 +10,7 @@ function Unit({ value, label }) {
       <span className="font-serif text-5xl font-medium tabular-nums text-ink sm:text-7xl">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="mt-2 text-[9px] font-medium uppercase tracking-[0.18em] text-honey sm:text-xs sm:tracking-widest2">
+      <span className="mt-2 text-[9px] font-medium uppercase tracking-[0.18em] text-stone sm:text-xs sm:tracking-widest2">
         {label}
       </span>
     </div>
@@ -36,7 +36,7 @@ export default function CountdownSection() {
             <div
               role="timer"
               aria-live="off"
-              className="mx-auto mt-12 grid max-w-xl grid-cols-4 items-start gap-2 rounded-3xl border border-sand/60 bg-sand-soft/50 px-4 py-10 shadow-soft sm:gap-6 sm:px-10"
+              className="mx-auto mt-12 grid max-w-xl grid-cols-4 items-start gap-2 rounded-3xl border border-line bg-card px-4 py-10 shadow-soft sm:gap-6 sm:px-10"
             >
               <Unit value={days} label={t.countdown.days} />
               <Unit value={hours} label={t.countdown.hours} />
@@ -44,7 +44,7 @@ export default function CountdownSection() {
               <Unit value={seconds} label={t.countdown.seconds} />
             </div>
           ) : (
-            <p className="mt-12 font-serif text-3xl italic text-palm">{t.countdown.arrived}</p>
+            <p className="mt-12 font-serif text-3xl italic text-ink">{t.countdown.arrived}</p>
           )}
         </Reveal>
       </div>

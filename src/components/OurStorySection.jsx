@@ -90,8 +90,8 @@ function ChapterText({ chapter, index, center = false, className = '' }) {
   return (
     <div className={`${center ? 'text-center' : ''} ${className}`}>
       <Reveal>
-        <p className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-widest2 text-honey">
-          {!center && <span aria-hidden="true" className="h-px w-8 bg-honey/40" />}
+        <p className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-widest2 text-stone">
+          {!center && <span aria-hidden="true" className="h-px w-8 bg-line" />}
           <span className={center ? 'mx-auto' : ''}>{chapter.label}</span>
         </p>
       </Reveal>
@@ -114,7 +114,7 @@ export default function OurStorySection() {
   const chapters = t.story.chapters
 
   return (
-    <section id="historia" className="relative overflow-hidden bg-sand-soft/60 px-6 py-24 sm:py-32">
+    <section id="historia" className="relative overflow-hidden bg-cream px-6 py-24 sm:py-32">
       <FloatingBotanicalElements />
 
       <div className="relative mx-auto max-w-5xl">

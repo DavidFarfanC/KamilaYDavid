@@ -5,7 +5,7 @@ import Reveal from './Reveal'
 import { Chamomile } from './FloatingBotanicalElements'
 
 const inputCls =
-  'w-full rounded-2xl border border-sand bg-ivory px-4 py-3 text-sm text-ink placeholder:text-ink/35 transition-colors duration-300 focus:border-palm focus:outline-none'
+  'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-colors duration-300 focus:border-stone focus:outline-none'
 
 function RadioGroup({ legend, name, value, onChange, options }) {
   return (
@@ -17,8 +17,8 @@ function RadioGroup({ legend, name, value, onChange, options }) {
             key={opt.value}
             className={`cursor-pointer rounded-full border px-5 py-2.5 text-sm transition-all duration-300 ${
               value === opt.value
-                ? 'border-palm bg-palm text-ivory shadow-soft'
-                : 'border-sand bg-ivory text-ink/70 hover:border-honey/50'
+                ? 'border-paper bg-paper text-ink shadow-soft'
+                : 'border-line bg-ivory text-ink/70 hover:border-paper-line'
             }`}
           >
             <input
@@ -117,10 +117,10 @@ export default function RSVPSection() {
       <section id="rsvp" className="bg-ivory px-6 py-24 sm:py-32">
         <div className="mx-auto max-w-xl text-center">
           <Chamomile size={48} className="mx-auto mb-6" />
-          <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-palm sm:text-4xl">
+          <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-4xl">
             {form.attendance === 'no' ? r.successNo : r.success}
           </p>
-          <p className="mt-8 font-serif text-lg tracking-[0.2em] text-honey">K &amp; D</p>
+          <p className="mt-8 font-serif text-lg tracking-[0.2em] text-stone">K &amp; D</p>
         </div>
       </section>
     )
@@ -144,7 +144,7 @@ export default function RSVPSection() {
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="mt-12 space-y-7 rounded-3xl border border-sand/60 bg-sand-soft/40 p-6 shadow-soft sm:p-10"
+            className="mt-12 space-y-7 rounded-3xl border border-line bg-card p-6 shadow-soft sm:p-10"
           >
             <div>
               <label htmlFor="rsvp-name" className="mb-2 block text-sm font-medium text-ink/80">
@@ -162,7 +162,7 @@ export default function RSVPSection() {
                 className={inputCls}
               />
               {errors.name && (
-                <p id="rsvp-name-error" role="alert" className="mt-2 text-xs font-medium text-honey">
+                <p id="rsvp-name-error" role="alert" className="mt-2 text-xs font-medium text-stone">
                   {errors.name}
                 </p>
               )}
@@ -198,7 +198,7 @@ export default function RSVPSection() {
                 ]}
               />
               {errors.attendance && (
-                <p role="alert" className="mt-2 text-xs font-medium text-honey">
+                <p role="alert" className="mt-2 text-xs font-medium text-stone">
                   {errors.attendance}
                 </p>
               )}
@@ -240,7 +240,7 @@ export default function RSVPSection() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full rounded-full bg-palm px-8 py-4 text-sm font-medium text-ivory shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-hover active:bg-palm-active hover:shadow-lift disabled:cursor-wait disabled:opacity-60"
+                className="w-full rounded-full bg-paper px-8 py-4 text-sm font-medium text-ink shadow-soft transition-colors duration-300 hover:bg-paper-hover disabled:cursor-wait disabled:opacity-60"
               >
                 {status === 'sending' ? r.sending : r.submit}
               </button>
@@ -248,7 +248,7 @@ export default function RSVPSection() {
                 <button
                   type="button"
                   onClick={submitViaWhatsApp}
-                  className="w-full rounded-full border border-honey/40 px-8 py-4 text-sm font-medium text-honey transition-all duration-300 hover:border-honey hover:bg-chamomile-soft/40"
+                  className="w-full rounded-full border border-paper-line bg-transparent px-8 py-4 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper/30"
                 >
                   {r.submitWhatsApp}
                 </button>

@@ -13,7 +13,7 @@ export default function ExpandableInfoCard({ title, summary, icon, open, onToggl
   return (
     <div
       className={`overflow-hidden rounded-3xl border bg-ivory transition-all duration-500 ${
-        open ? 'border-palm/30 shadow-lift' : 'border-sand/60 shadow-card hover:border-honey/40'
+        open ? 'border-line shadow-lift' : 'border-line shadow-card hover:border-paper-line'
       }`}
     >
       <button
@@ -27,20 +27,20 @@ export default function ExpandableInfoCard({ title, summary, icon, open, onToggl
         <span
           aria-hidden="true"
           className={`flex h-11 w-11 flex-none items-center justify-center rounded-full transition-colors duration-300 ${
-            open ? 'bg-palm text-ivory' : 'bg-palm-mist text-palm'
+            open ? 'bg-paper text-ink' : 'bg-cream text-stone'
           }`}
         >
           {icon}
         </span>
         <span className="flex-1">
           <span className="block font-serif text-xl font-medium text-ink">{title}</span>
-          <span className="mt-0.5 block text-xs uppercase tracking-widest text-honey/80">{summary}</span>
+          <span className="mt-0.5 block text-xs uppercase tracking-widest text-stone">{summary}</span>
         </span>
         <motion.span
           aria-hidden="true"
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: reduce ? 0 : 0.35 }}
-          className="text-2xl font-light text-palm"
+          className="text-2xl font-light text-stone"
         >
           +
         </motion.span>
