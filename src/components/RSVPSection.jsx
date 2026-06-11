@@ -240,7 +240,7 @@ export default function RSVPSection() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full rounded-full bg-palm px-8 py-4 text-sm font-medium text-ivory shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-soft hover:shadow-lift disabled:cursor-wait disabled:opacity-60"
+                className="w-full rounded-full bg-palm px-8 py-4 text-sm font-medium text-ivory shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-hover active:bg-palm-active hover:shadow-lift disabled:cursor-wait disabled:opacity-60"
               >
                 {status === 'sending' ? r.sending : r.submit}
               </button>

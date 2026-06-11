@@ -4,10 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Acento principal cálido (chocolate / luz de atardecer)
         palm: {
-          DEFAULT: '#4F6B4A',
-          soft: '#6B8465',
-          mist: '#EEF2EC',
+          DEFAULT: '#D2691E',
+          hover: '#B85C1A',
+          active: '#A0522D',
+          soft: '#C4815B',
+          mist: '#F6EBDD',
         },
         sand: {
           DEFAULT: '#DCCDB5',
@@ -22,6 +25,8 @@ export default {
           DEFAULT: '#A67C52',
           soft: '#C4A074',
         },
+        // Verde botánico de apoyo — solo para hojas y detalles florales
+        leaf: '#4F6B4A',
         ink: '#3D4438',
       },
       fontFamily: {
@@ -29,7 +34,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 10px 40px -12px rgba(79, 107, 74, 0.16)',
+        soft: '0 10px 40px -12px rgba(160, 82, 45, 0.16)',
         card: '0 6px 24px -8px rgba(166, 124, 82, 0.18)',
         lift: '0 24px 60px -20px rgba(61, 68, 56, 0.25)',
       },

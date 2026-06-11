@@ -29,7 +29,7 @@ const ICONS = {
 }
 
 const linkBtn =
-  'mt-4 inline-flex items-center gap-2 rounded-full bg-palm px-6 py-2.5 text-sm font-medium text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-soft'
+  'mt-4 inline-flex items-center gap-2 rounded-full bg-palm px-6 py-2.5 text-sm font-medium text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:bg-palm-hover active:bg-palm-active'
 
 export default function DetailsCardsSection() {
   const { t } = useLang()

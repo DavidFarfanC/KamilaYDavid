@@ -43,7 +43,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <a
             href="#rsvp"
-            className="rounded-full bg-palm px-3 py-1.5 text-xs font-medium text-ivory transition-colors duration-300 hover:bg-palm-soft sm:hidden"
+            className="rounded-full bg-palm px-3 py-1.5 text-xs font-medium text-ivory transition-colors duration-300 hover:bg-palm-hover active:bg-palm-active sm:hidden"
           >
             {t.nav.rsvp}
           </a>
