@@ -19,12 +19,12 @@ function FAQItem({ item, open, onToggle }) {
         <span className="font-serif text-lg font-medium text-ink sm:text-xl">{item.q}</span>
         <motion.span
           aria-hidden="true"
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={{ duration: reduce ? 0 : 0.3 }}
-          className="flex-none text-xl font-light text-stone"
-        >
-          +
-        </motion.span>
+          animate={{ rotate: open ? 135 : 45 }}
+          transition={{ duration: reduce ? 0 : 0.35 }}
+          className={`h-1.5 w-1.5 flex-none transition-colors duration-300 ${
+            open ? 'bg-stone' : 'bg-stone/40'
+          }`}
+        />
       </button>
       <AnimatePresence initial={false}>
         {open && (

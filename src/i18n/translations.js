@@ -1,6 +1,6 @@
 // ============================================================
-// TEXTOS DE LA PÁGINA — Español e Inglés
-// Edita aquí cualquier texto. La estructura es idéntica en ambos idiomas.
+// TEXTOS DE LA PÁGINA — Español, Inglés y Alemán
+// Edita aquí cualquier texto. La estructura es idéntica en los tres idiomas.
 // ============================================================
 
 export const translations = {
@@ -100,41 +100,50 @@ export const translations = {
     },
     details: {
       title: 'Detalles para nuestros invitados',
-      subtitle: 'Toca cada tarjeta para conocer más.',
+      subtitle: 'Una pequeña guía para acompañarnos con calma este día.',
       openMaps: 'Abrir en Google Maps',
       seeRegistry: 'Ver mesa de regalos',
+      seeDetails: 'Ver detalles',
+      close: 'Cerrar',
       cards: {
         location: {
           title: 'Cómo llegar',
           summary: 'Cocoyoc, Morelos',
+          preview: 'La celebración será en Cocoyoc, Morelos. Te recomendamos revisar tu ruta con anticipación.',
           address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
           text: 'La celebración será en Cocoyoc, Morelos. Te recomendamos revisar tu ruta con anticipación para llegar con calma y disfrutar el día desde el inicio.',
-          extra: 'Contaremos con transporte disponible para invitados, con cupo limitado. Más adelante compartiremos detalles sobre puntos de salida y horarios.',
+          extra: 'También contaremos con transporte disponible para invitados, con cupo limitado. Más adelante compartiremos detalles sobre puntos de salida y horarios.',
         },
         transport: {
           title: 'Transporte',
           summary: 'Cupo limitado para invitados',
+          preview: 'Tendremos transporte disponible para facilitar la llegada de algunos invitados.',
           text: 'Para facilitar la llegada de nuestros invitados, tendremos transporte disponible con cupo limitado. Si deseas considerarlo, por favor indícalo al confirmar tu asistencia para poder organizar los lugares.',
         },
         registry: {
           title: 'Mesa de regalos',
           summary: 'Tu presencia es el mejor regalo',
+          preview: 'Si deseas tener un detalle con nosotros, podrás consultar nuestra mesa de regalos.',
           text: 'Tu presencia es el regalo más importante para nosotros. Si deseas tener un detalle con nosotros, podrás consultar nuestra mesa de regalos aquí.',
         },
         lodging: {
           title: 'Dónde hospedarse',
           summary: 'Opciones cerca de la celebración',
+          preview: 'Pronto compartiremos opciones recomendadas para hospedarte cerca del lugar.',
           text: 'Si vienes de fuera o deseas quedarte cerca del lugar de la celebración, pronto compartiremos algunas opciones de hospedaje recomendadas.',
         },
         dressCode: {
           title: 'Código de vestimenta',
           summary: 'Jardín · elegante · de día',
+          preview: 'Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
           text: 'Nos encantará compartir este día con ustedes en un ambiente de jardín, elegante y de día. Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
           note: 'Por favor evita vestir de blanco o tonos demasiado similares al vestido de la novia.',
+          palette: 'Tonos sugeridos',
         },
         kids: {
           title: 'Sobre los pequeñitos',
           summary: 'Celebración solo para adultos',
+          preview: 'Será una celebración íntima y con cupo limitado.',
           text: 'Amamos a sus familias y agradecemos profundamente su comprensión. Debido a que será una celebración íntima y con cupo limitado, en esta ocasión el evento será solo para adultos. Gracias por ayudarnos a cuidar este detalle con mucho cariño.',
         },
       },
@@ -226,7 +235,7 @@ export const translations = {
       cta: 'Confirmar asistencia',
       note: 'Gracias por ser parte de esta historia que Dios ha escrito con tanto amor.',
     },
-    placeholder: 'Agregar foto aquí',
+    placeholder: 'Agregar imagen',
   },
 
   en: {
@@ -325,41 +334,50 @@ export const translations = {
     },
     details: {
       title: 'Details for our guests',
-      subtitle: 'Tap each card to learn more.',
+      subtitle: 'A small guide to sharing this day with us.',
       openMaps: 'Open in Google Maps',
       seeRegistry: 'View gift registry',
+      seeDetails: 'See details',
+      close: 'Close',
       cards: {
         location: {
           title: 'Getting there',
           summary: 'Cocoyoc, Morelos · Mexico',
+          preview: 'The celebration will take place in Cocoyoc, Morelos. We recommend planning your route ahead of time.',
           address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
           text: 'The celebration will take place in Cocoyoc, Morelos. We recommend planning your route ahead of time so you can arrive at ease and enjoy the day from the very start.',
-          extra: 'Guest transportation will be available with limited seating. We will share pickup points and times soon.',
+          extra: 'Guest transportation will also be available with limited seating. We will share pickup points and times soon.',
         },
         transport: {
           title: 'Transportation',
           summary: 'Limited seating for guests',
+          preview: 'Transportation will be available to make the journey easier for some of our guests.',
           text: 'To make the journey easier for our guests, transportation will be available with limited seating. If you would like to use it, please let us know when you RSVP so we can arrange the seats.',
         },
         registry: {
           title: 'Gift registry',
           summary: 'Your presence is the greatest gift',
+          preview: 'If you would like to bless us with something more, you can find our gift registry here.',
           text: 'Your presence is the most meaningful gift to us. If you would like to bless us with something more, you can find our registry here.',
         },
         lodging: {
           title: 'Where to stay',
           summary: 'Options near the celebration',
+          preview: 'We will soon share recommended places to stay near the venue.',
           text: 'If you are traveling from out of town or would like to stay near the venue, we will soon share some recommended places to stay.',
         },
         dressCode: {
           title: 'Dress code',
           summary: 'Garden · elegant · daytime',
+          preview: 'We suggest light, fresh tones suited to an outdoor celebration.',
           text: 'We would love to share this day with you in an elegant, daytime garden setting. We suggest light, fresh tones suited to an outdoor celebration.',
           note: 'Please avoid wearing white or shades too similar to the bride’s dress.',
+          palette: 'Suggested tones',
         },
         kids: {
           title: 'About the little ones',
           summary: 'An adults-only celebration',
+          preview: 'It will be an intimate celebration with limited seating.',
           text: 'We love your families and deeply appreciate your understanding. Because this will be an intimate celebration with limited seating, the event will be adults-only on this occasion. Thank you for helping us care for this detail with so much love.',
         },
       },
@@ -451,6 +469,240 @@ export const translations = {
       cta: 'RSVP',
       note: 'Thank you for being part of this story God has written with so much love.',
     },
-    placeholder: 'Add photo here',
+    placeholder: 'Add image',
+  },
+
+  de: {
+    nav: {
+      story: 'Unsere Geschichte',
+      details: 'Details',
+      rsvp: 'RSVP',
+    },
+    hero: {
+      monogram: 'K & D',
+      eyebrow: 'Wir heiraten',
+      title: 'Kamila & David',
+      subtitle: 'Mit Gottes Gnade möchten wir den Beginn unserer Ehe feiern.',
+      date: '12. Dezember 2026',
+      place: 'Cocoyoc, Morelos · Mexiko',
+      ctaPrimary: 'Teilnahme bestätigen',
+      ctaSecondary: 'Details ansehen',
+      photoAlt: 'David trägt Kamila am Strand bei Sonnenuntergang',
+    },
+    verse: {
+      text: '„Wenn ich mit Menschen- und mit Engelzungen redete und hätte der Liebe nicht, so wäre ich ein tönendes Erz oder eine klingende Schelle. Und wenn ich prophetisch reden könnte und wüsste alle Geheimnisse und alle Erkenntnis und hätte allen Glauben, sodass ich Berge versetzen könnte, und hätte der Liebe nicht, so wäre ich nichts.“',
+      reference: '1. Korinther 13,1–2',
+      closing:
+        'Wir wünschen uns, dass dieser Tag mehr ist als ein Fest: ein Ausdruck der Dankbarkeit gegenüber Gott — für seine Liebe, seine Treue und die Geschichte, die er in uns geschrieben hat.',
+    },
+    story: {
+      title: 'Unsere Geschichte',
+      subtitle: 'Eine Geschichte, die Gott Schritt für Schritt geformt hat.',
+      chapters: [
+        {
+          label: 'Kapitel eins',
+          title: 'Wie alles begann',
+          text: 'Gott fügte Momente, Gespräche und Wege zusammen, bis unsere Leben begannen, gemeinsam zu gehen.',
+          mainAlt: 'Kamila und David umarmen sich am Meer',
+          detailAlt: 'Kamila an Davids Brust gelehnt',
+        },
+        {
+          label: 'Kapitel zwei',
+          title: 'Gemeinsam unterwegs',
+          text: 'Zwischen gewöhnlichen Tagen, Entscheidungen, Gebet und Wachstum entdeckten wir, dass Liebe auch aus Geduld, Glauben und Bestimmung gebaut wird.',
+          mainAlt: 'Kamila und David umarmen sich im Meer bei Sonnenuntergang',
+          detailAlt: 'Kamila und David umarmen sich am Ufer',
+        },
+        {
+          label: 'Kapitel drei',
+          title: 'Einander vor Gott wählen',
+          text: 'Heute gehen wir diesen Schritt voller Dankbarkeit — im Wissen, dass die Ehe nicht nur ein Versprechen zwischen uns ist, sondern ein Bund vor Gott.',
+          mainAlt: 'David kniet bei seinem Antrag an Kamila am Strand',
+          detailAlt: 'David steckt Kamila den Ring an',
+        },
+      ],
+    },
+    countdown: {
+      title: 'Bald feiern wir gemeinsam',
+      days: 'Tage',
+      hours: 'Stunden',
+      minutes: 'Minuten',
+      seconds: 'Sekunden',
+      arrived: 'Der große Tag ist da!',
+    },
+    schedule: {
+      title: 'Tagesablauf',
+      subtitle: 'Ungefähre Zeiten, damit ihr jeden Moment mit uns erleben könnt.',
+      items: [
+        {
+          time: '13:00 Uhr',
+          title: 'Christliche Trauung',
+          text: 'Wir versammeln uns, um Gott zu danken und unseren Ehebund zu feiern.',
+        },
+        {
+          time: '14:00 Uhr',
+          title: 'Empfang',
+          text: 'Ein Moment, um einander zu begrüßen und die Feier gemeinsam zu beginnen.',
+        },
+        {
+          time: '14:30 Uhr',
+          title: 'Festessen',
+          text: 'Wir genießen gemeinsam den Tisch, gute Gespräche und die Freude des Tages.',
+        },
+        {
+          time: '16:00 Uhr',
+          title: 'Fotos & besondere Momente',
+          text: 'Zeit für Erinnerungen, Familie und Freunde.',
+        },
+        {
+          time: '17:00 Uhr',
+          title: 'Feier',
+          text: 'Musik, Gemeinschaft und ein Nachmittag voller Dankbarkeit.',
+        },
+        {
+          time: '20:00 Uhr',
+          title: 'Ausklang',
+          text: 'Danke, dass ihr an einem so wichtigen Tag bei uns seid.',
+        },
+      ],
+    },
+    details: {
+      title: 'Informationen für unsere Gäste',
+      subtitle: 'Ein kleiner Leitfaden für diesen Tag mit uns.',
+      openMaps: 'In Google Maps öffnen',
+      seeRegistry: 'Geschenktisch ansehen',
+      seeDetails: 'Details ansehen',
+      close: 'Schließen',
+      cards: {
+        location: {
+          title: 'Anreise',
+          summary: 'Cocoyoc, Morelos · Mexiko',
+          preview: 'Die Feier findet in Cocoyoc, Morelos statt. Wir empfehlen, die Route im Voraus zu planen.',
+          address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
+          text: 'Die Feier findet in Cocoyoc, Morelos statt. Wir empfehlen, die Route im Voraus zu planen, um in Ruhe anzukommen und den Tag von Anfang an zu genießen.',
+          extra: 'Für unsere Gäste steht außerdem ein Transport mit begrenzten Plätzen zur Verfügung. Details zu Abfahrtsorten und Zeiten teilen wir bald mit.',
+        },
+        transport: {
+          title: 'Transport',
+          summary: 'Begrenzte Plätze für Gäste',
+          preview: 'Für einige Gäste steht ein Transport zur Verfügung, um die Anreise zu erleichtern.',
+          text: 'Um unseren Gästen die Anreise zu erleichtern, steht ein Transport mit begrenzten Plätzen zur Verfügung. Wenn ihr ihn nutzen möchtet, gebt es bitte bei eurer Zusage an, damit wir die Plätze einplanen können.',
+        },
+        registry: {
+          title: 'Geschenktisch',
+          summary: 'Eure Anwesenheit ist das schönste Geschenk',
+          preview: 'Wenn ihr uns eine Freude machen möchtet, findet ihr hier unseren Geschenktisch.',
+          text: 'Eure Anwesenheit ist für uns das wichtigste Geschenk. Wenn ihr uns darüber hinaus eine Freude machen möchtet, findet ihr hier unseren Geschenktisch.',
+        },
+        lodging: {
+          title: 'Unterkunft',
+          summary: 'Übernachten in der Nähe',
+          preview: 'Bald teilen wir empfohlene Unterkünfte in der Nähe der Feier mit.',
+          text: 'Wenn ihr von außerhalb anreist oder in der Nähe übernachten möchtet, teilen wir bald einige empfohlene Unterkünfte mit.',
+        },
+        dressCode: {
+          title: 'Dresscode',
+          summary: 'Garten · elegant · tagsüber',
+          preview: 'Wir empfehlen helle, frische Töne, passend zu einer Feier im Freien.',
+          text: 'Wir freuen uns, diesen Tag mit euch in einem eleganten Gartenambiente bei Tageslicht zu verbringen. Wir empfehlen helle, frische Töne, passend zu einer Feier im Freien.',
+          note: 'Bitte verzichtet auf Weiß oder Töne, die dem Kleid der Braut zu ähnlich sind.',
+          palette: 'Empfohlene Töne',
+        },
+        kids: {
+          title: 'Über die Kleinsten',
+          summary: 'Feier nur für Erwachsene',
+          preview: 'Es wird eine intime Feier mit begrenzter Gästezahl sein.',
+          text: 'Wir lieben eure Familien und sind von Herzen dankbar für euer Verständnis. Da es eine intime Feier mit begrenzter Gästezahl sein wird, ist das Fest dieses Mal nur für Erwachsene. Danke, dass ihr uns helft, dieses Detail mit viel Liebe zu bewahren.',
+        },
+      },
+    },
+    faq: {
+      title: 'Häufige Fragen',
+      items: [
+        {
+          q: 'Wann sollte ich ankommen?',
+          a: 'Wir empfehlen, zwischen 12:30 und 12:45 Uhr anzukommen. Die Trauung beginnt pünktlich um 13:00 Uhr, und wir würden uns freuen, wenn ihr sie von Anfang an miterlebt.',
+        },
+        {
+          q: 'Findet die Hochzeit im Freien statt?',
+          a: 'Ja, die Feier findet tagsüber in einem Gartenambiente statt. Wir empfehlen bequeme Schuhe für den Rasen und Sonnenschutz.',
+        },
+        {
+          q: 'Kann ich eine Begleitung mitbringen?',
+          a: 'Die Plätze sind entsprechend der auf eurer Einladung angegebenen Gästezahl reserviert. Bei Fragen zu eurer Einladung schreibt uns gerne.',
+        },
+        {
+          q: 'Gibt es einen Transport?',
+          a: 'Ja, es steht ein Transport mit begrenzten Plätzen zur Verfügung. Gebt es bitte bei eurer Zusage an; Abfahrtsorte und Zeiten teilen wir bald mit.',
+        },
+        {
+          q: 'Wo kann ich übernachten?',
+          a: 'Bald teilen wir empfohlene Hotels und Airbnb-Gegenden in der Nähe von Cocoyoc mit. Ihr findet die Informationen unter „Unterkunft“.',
+        },
+        {
+          q: 'Wie bestätige ich meine Teilnahme?',
+          a: 'Im Bereich „Teilnahme bestätigen“ findet ihr ein einfaches Formular. Ihr könnt uns auch direkt per WhatsApp schreiben.',
+        },
+        {
+          q: 'Bis wann kann ich zusagen?',
+          a: 'Bitte gebt uns bis spätestens 12. November 2026 Bescheid, damit wir jedes Detail mit Liebe vorbereiten können.',
+        },
+      ],
+    },
+    rsvp: {
+      title: 'Teilnahme bestätigen',
+      subtitle: 'Es ist uns eine Ehre, diesen Tag mit euch zu teilen. Bitte bestätigt eure Teilnahme.',
+      nameLabel: 'Vollständiger Name',
+      namePlaceholder: 'Vor- und Nachname',
+      guestsLabel: 'Anzahl der Gäste laut Einladung',
+      attendanceLabel: 'Ich nehme teil',
+      attendanceYes: 'Ja, ich bin dabei',
+      attendanceNo: 'Ich kann leider nicht kommen',
+      transportLabel: 'Werdet ihr den Transport nutzen?',
+      transportYes: 'Ja',
+      transportNo: 'Nein',
+      transportMaybe: 'Vielleicht',
+      commentsLabel: 'Unverträglichkeiten oder besondere Hinweise',
+      commentsPlaceholder: 'Allergien, Hinweise oder eine Nachricht an uns (optional)',
+      submit: 'Zusage senden',
+      submitWhatsApp: 'Per WhatsApp bestätigen',
+      sending: 'Wird gesendet…',
+      errorName: 'Bitte gib deinen Namen ein.',
+      errorAttendance: 'Bitte teile uns mit, ob du kommen kannst.',
+      errorSend: 'Deine Zusage konnte nicht gesendet werden. Versuche es bitte erneut oder bestätige per WhatsApp.',
+      success: 'Vielen Dank für deine Rückmeldung. Wir freuen uns sehr, diesen Tag mit dir zu teilen.',
+      successNo: 'Danke, dass du uns Bescheid gegeben hast. Wir tragen dich im Herzen und beten für dich.',
+      waIntro: 'Hallo, hier ist',
+      waBody: (name, guests, attendance, transport, comments) =>
+        `Hallo, hier ist ${name}. Wir bestätigen unsere Teilnahme an der Hochzeit von Kamila & David. ` +
+        `Teilnahme: ${attendance}. Anzahl der Gäste: ${guests}. Transport: ${transport}. Anmerkungen: ${comments || 'Keine'}.`,
+    },
+    gallery: {
+      title: 'Momente, die uns hierher geführt haben',
+      alts: [
+        'Kamila gerührt, während David kniet',
+        'Eine Umarmung direkt nach dem Ja',
+        'Verschlungene Hände mit dem Verlobungsring',
+        'Kamila in Davids Armen zeigt den Ring',
+        'Kamila und David lächeln eng beieinander',
+        'David umarmt Kamila von hinten',
+      ],
+    },
+    vision: {
+      text: 'Unser Gebet für diesen Tag ist einfach: dass jeder Moment auf Gott hinweist, dass sich unsere Familien und Freunde geliebt fühlen und dass wir voller Dankbarkeit den Beginn eines gemeinsamen Lebens feiern.',
+    },
+    finalVerse: {
+      text: '„Wer nicht liebt, der kennt Gott nicht; denn Gott ist Liebe.“',
+      reference: '1. Johannes 4,8',
+      signature: 'Mit Liebe und Dankbarkeit, Kamila & David',
+      photoAlt: 'Kamila und David laufen zum Meer, in Schwarz-Weiß',
+    },
+    footer: {
+      date: '12. Dezember 2026',
+      place: 'Cocoyoc, Morelos · Mexiko',
+      cta: 'Teilnahme bestätigen',
+      note: 'Danke, dass ihr Teil dieser Geschichte seid, die Gott mit so viel Liebe geschrieben hat.',
+    },
+    placeholder: 'Bild hinzufügen',
   },
 }

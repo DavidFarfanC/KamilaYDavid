@@ -6,7 +6,8 @@ const LanguageContext = createContext(null)
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
     if (typeof window === 'undefined') return 'es'
-    return localStorage.getItem('kd-lang') === 'en' ? 'en' : 'es'
+    const stored = localStorage.getItem('kd-lang')
+    return ['es', 'en', 'de'].includes(stored) ? stored : 'es'
   })
 
   useEffect(() => {
