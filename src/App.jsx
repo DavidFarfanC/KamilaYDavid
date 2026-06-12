@@ -1,6 +1,8 @@
 import { LanguageProvider } from './i18n/LanguageContext'
 import PaperTexture from './components/PaperTexture'
 import Navbar from './components/Navbar'
+import MobileCTA from './components/MobileCTA'
+import MusicControl from './components/MusicControl'
 import HeroSection from './components/HeroSection'
 import IntroVerseSection from './components/IntroVerseSection'
 import OurStorySection from './components/OurStorySection'
@@ -19,6 +21,8 @@ export default function App() {
     <LanguageProvider>
       <PaperTexture />
       <Navbar />
+      <MobileCTA />
+      <MusicControl />
       <main>
         <HeroSection />
         <IntroVerseSection />

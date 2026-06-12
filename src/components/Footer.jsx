@@ -12,7 +12,7 @@ export default function Footer() {
 
       <a
         href="#rsvp"
-        className="mt-8 inline-block rounded-full border border-paper-line bg-transparent px-8 py-3 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper/30"
+        className="mt-8 inline-block rounded-full border border-paper-line bg-transparent px-8 py-3 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0 active:bg-paper/40"
       >
         {t.footer.cta}
       </a>

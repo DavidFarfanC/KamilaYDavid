@@ -19,6 +19,7 @@ export const translations = {
       place: 'Cocoyoc, Morelos',
       ctaPrimary: 'Confirmar asistencia',
       ctaSecondary: 'Ver detalles',
+      scroll: 'Desliza',
       photoAlt: 'David cargando a Kamila en la playa al atardecer',
     },
     verse: {
@@ -139,6 +140,7 @@ export const translations = {
           text: 'Nos encantará compartir este día con ustedes en un ambiente de jardín, elegante y de día. Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
           note: 'Por favor evita vestir de blanco o tonos demasiado similares al vestido de la novia.',
           palette: 'Tonos sugeridos',
+          tones: ['Marfil', 'Beige', 'Champaña', 'Arena', 'Topo'],
         },
         kids: {
           title: 'Sobre los pequeñitos',
@@ -202,7 +204,7 @@ export const translations = {
       errorName: 'Por favor escribe tu nombre.',
       errorAttendance: 'Por favor indícanos si podrás asistir.',
       errorSend: 'No pudimos enviar tu confirmación. Intenta de nuevo o confírmanos por WhatsApp.',
-      success: 'Gracias por confirmar. Nos emociona mucho compartir este día contigo.',
+      success: 'Gracias por confirmar. Nos emociona profundamente compartir este día contigo.',
       successNo: 'Gracias por avisarnos. Te llevamos en el corazón y oramos por ti.',
       waIntro: 'Hola, somos',
       waBody: (name, guests, attendance, transport, comments) =>
@@ -236,6 +238,7 @@ export const translations = {
       note: 'Gracias por ser parte de esta historia que Dios ha escrito con tanto amor.',
     },
     placeholder: 'Agregar imagen',
+    music: { label: 'Música', play: 'Activar música', pause: 'Pausar música' },
   },
 
   en: {
@@ -253,6 +256,7 @@ export const translations = {
       place: 'Cocoyoc, Morelos · Mexico',
       ctaPrimary: 'RSVP',
       ctaSecondary: 'See details',
+      scroll: 'Scroll',
       photoAlt: 'David carrying Kamila on the beach at sunset',
     },
     verse: {
@@ -373,6 +377,7 @@ export const translations = {
           text: 'We would love to share this day with you in an elegant, daytime garden setting. We suggest light, fresh tones suited to an outdoor celebration.',
           note: 'Please avoid wearing white or shades too similar to the bride’s dress.',
           palette: 'Suggested tones',
+          tones: ['Ivory', 'Beige', 'Champagne', 'Sand', 'Taupe'],
         },
         kids: {
           title: 'About the little ones',
@@ -436,7 +441,7 @@ export const translations = {
       errorName: 'Please write your name.',
       errorAttendance: 'Please let us know if you will attend.',
       errorSend: 'We could not send your confirmation. Please try again or confirm via WhatsApp.',
-      success: 'Thank you for confirming. We are so excited to share this day with you.',
+      success: 'Thank you for confirming. It moves us deeply to share this day with you.',
       successNo: 'Thank you for letting us know. We hold you in our hearts and pray for you.',
       waIntro: 'Hello, this is',
       waBody: (name, guests, attendance, transport, comments) =>
@@ -470,6 +475,7 @@ export const translations = {
       note: 'Thank you for being part of this story God has written with so much love.',
     },
     placeholder: 'Add image',
+    music: { label: 'Music', play: 'Play music', pause: 'Pause music' },
   },
 
   de: {
@@ -487,6 +493,7 @@ export const translations = {
       place: 'Cocoyoc, Morelos · Mexiko',
       ctaPrimary: 'Teilnahme bestätigen',
       ctaSecondary: 'Details ansehen',
+      scroll: 'Scrollen',
       photoAlt: 'David trägt Kamila am Strand bei Sonnenuntergang',
     },
     verse: {
@@ -607,6 +614,7 @@ export const translations = {
           text: 'Wir freuen uns, diesen Tag mit euch in einem eleganten Gartenambiente bei Tageslicht zu verbringen. Wir empfehlen helle, frische Töne, passend zu einer Feier im Freien.',
           note: 'Bitte verzichtet auf Weiß oder Töne, die dem Kleid der Braut zu ähnlich sind.',
           palette: 'Empfohlene Töne',
+          tones: ['Elfenbein', 'Beige', 'Champagner', 'Sand', 'Taupe'],
         },
         kids: {
           title: 'Über die Kleinsten',
@@ -670,7 +678,7 @@ export const translations = {
       errorName: 'Bitte gib deinen Namen ein.',
       errorAttendance: 'Bitte teile uns mit, ob du kommen kannst.',
       errorSend: 'Deine Zusage konnte nicht gesendet werden. Versuche es bitte erneut oder bestätige per WhatsApp.',
-      success: 'Vielen Dank für deine Rückmeldung. Wir freuen uns sehr, diesen Tag mit dir zu teilen.',
+      success: 'Vielen Dank für deine Rückmeldung. Es berührt uns zutiefst, diesen Tag mit dir zu teilen.',
       successNo: 'Danke, dass du uns Bescheid gegeben hast. Wir tragen dich im Herzen und beten für dich.',
       waIntro: 'Hallo, hier ist',
       waBody: (name, guests, attendance, transport, comments) =>
@@ -704,5 +712,6 @@ export const translations = {
       note: 'Danke, dass ihr Teil dieser Geschichte seid, die Gott mit so viel Liebe geschrieben hat.',
     },
     placeholder: 'Bild hinzufügen',
+    music: { label: 'Musik', play: 'Musik abspielen', pause: 'Musik pausieren' },
   },
 }

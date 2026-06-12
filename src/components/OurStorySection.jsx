@@ -83,7 +83,12 @@ function Chapter({ index, chapter, mainPhoto, detailPhoto, layout }) {
     ),
   }
 
-  return <div className="relative">{layouts[layout]}</div>
+  // En móvil cada capítulo respira como una escena casi a pantalla completa
+  return (
+    <div className="relative flex min-h-[82svh] flex-col justify-center md:block md:min-h-0">
+      {layouts[layout]}
+    </div>
+  )
 }
 
 function ChapterText({ chapter, index, center = false, className = '' }) {

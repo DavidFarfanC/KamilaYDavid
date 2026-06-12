@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
 import Photo from './Photo'
+import Atmosphere from './Atmosphere'
 
 const EASE = [0.22, 1, 0.36, 1]
 
@@ -26,22 +27,37 @@ export default function HeroSection() {
 
   return (
     <section id="inicio" ref={ref} className="relative min-h-[100svh] overflow-hidden">
-      {/* Foto de fondo con parallax sutil */}
+      {/* Foto de fondo: zoom cinematográfico de apertura + parallax sutil al hacer scroll */}
       <motion.div style={{ scale: imgScale }} className="absolute inset-0">
-        <Photo
-          name="hero-1"
-          alt={t.hero.photoAlt}
-          eager
+        <motion.div
+          initial={{ scale: reduce ? 1 : 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 16, ease: 'easeOut' }}
           className="h-full w-full"
-        />
+        >
+          <Photo
+            name="hero-1"
+            alt={t.hero.photoAlt}
+            eager
+            className="h-full w-full"
+          />
+        </motion.div>
       </motion.div>
 
       {/* Velo marfil tenue: la fotografía es la protagonista */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-ivory/35 via-transparent to-ivory"
+        className="absolute inset-0 bg-gradient-to-b from-ivory/40 via-ivory/15 to-ivory"
       />
       <div aria-hidden="true" className="absolute inset-0 bg-ivory/20" />
+
+      {/* Luz que recorre el papel una sola vez al abrir */}
+      <div
+        aria-hidden="true"
+        className="animate-sheen absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-ivory/40 to-transparent motion-reduce:hidden"
+      />
+
+      <Atmosphere />
 
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
@@ -87,28 +103,42 @@ export default function HeroSection() {
         <motion.div {...fadeUp(0.9)} className="mt-10 flex flex-col gap-3 sm:flex-row">
           <a
             href="#rsvp"
-            className="rounded-full bg-paper px-8 py-3.5 text-sm font-medium text-ink shadow-soft transition-colors duration-300 hover:bg-paper-hover"
+            className="rounded-full bg-paper px-8 py-3.5 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover"
           >
             {t.hero.ctaPrimary}
           </a>
           <a
             href="#detalles"
-            className="rounded-full border border-paper-line bg-transparent px-8 py-3.5 text-sm font-medium text-ink backdrop-blur-sm transition-colors duration-300 hover:bg-paper/30"
+            className="rounded-full border border-paper-line bg-transparent px-8 py-3.5 text-sm font-medium text-ink backdrop-blur-sm transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0 active:bg-paper/40"
           >
             {t.hero.ctaSecondary}
           </a>
         </motion.div>
       </motion.div>
 
-      {/* Indicador de scroll */}
+      {/* Indicador "Desliza": texto en small caps + flecha fina con deriva vertical suave */}
       <motion.div
-        aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
+        transition={{ delay: 1.8, duration: 1.2 }}
+        className="absolute left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
+        style={{ bottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
       >
-        <div className="h-10 w-[1px] bg-gradient-to-b from-transparent via-stone/30 to-stone/50 animate-pulse" />
+        <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-ink/70">
+          {t.hero.scroll}
+        </span>
+        <motion.svg
+          aria-hidden="true"
+          width="14"
+          height="22"
+          viewBox="0 0 14 22"
+          fill="none"
+          animate={reduce ? undefined : { y: [0, 6, 0] }}
+          transition={{ duration: 2.1, ease: EASE, repeat: Infinity }}
+        >
+          <path d="M7 1v18" stroke="#4A433D" strokeOpacity="0.6" strokeWidth="1" strokeLinecap="round" />
+          <path d="M2.5 14.5 7 19l4.5-4.5" stroke="#4A433D" strokeOpacity="0.6" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        </motion.svg>
       </motion.div>
     </section>
   )

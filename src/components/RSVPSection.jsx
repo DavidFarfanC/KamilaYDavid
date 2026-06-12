@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { WHATSAPP_NUMBER, RSVP_ENDPOINT } from '../config'
 import Reveal from './Reveal'
-import { SectionAtmosphere } from './Monogram'
+import { SectionAtmosphere, Divider } from './Monogram'
 
 const inputCls =
-  'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-colors duration-300 focus:border-stone focus:outline-none'
+  'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-all duration-300 ease-editorial focus:border-paper-line focus:outline-none focus:ring-4 focus:ring-paper/40'
 
 function RadioGroup({ legend, name, value, onChange, options }) {
   return (
@@ -117,10 +117,15 @@ export default function RSVPSection() {
       <section id="rsvp" className="relative overflow-hidden bg-ivory px-6 py-32 sm:py-44">
         <SectionAtmosphere />
         <div className="relative z-10 mx-auto max-w-xl text-center">
-          <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-4xl">
-            {form.attendance === 'no' ? r.successNo : r.success}
-          </p>
-          <p className="mt-8 font-serif text-lg tracking-[0.2em] text-stone">K &amp; D</p>
+          <Reveal>
+            <Divider className="mb-10" />
+            <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-4xl">
+              {form.attendance === 'no' ? r.successNo : r.success}
+            </p>
+          </Reveal>
+          <Reveal delay={0.25}>
+            <p className="mt-10 font-serif text-lg tracking-[0.2em] text-stone">K &amp; D</p>
+          </Reveal>
         </div>
       </section>
     )
@@ -241,7 +246,7 @@ export default function RSVPSection() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full rounded-full bg-paper px-8 py-4 text-sm font-medium text-ink shadow-soft transition-colors duration-300 hover:bg-paper-hover disabled:cursor-wait disabled:opacity-60"
+                className="w-full rounded-full bg-paper px-8 py-4 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover disabled:cursor-wait disabled:opacity-60"
               >
                 {status === 'sending' ? r.sending : r.submit}
               </button>
@@ -249,7 +254,7 @@ export default function RSVPSection() {
                 <button
                   type="button"
                   onClick={submitViaWhatsApp}
-                  className="w-full rounded-full border border-paper-line bg-transparent px-8 py-4 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper/30"
+                  className="w-full rounded-full border border-paper-line bg-transparent px-8 py-4 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0 active:bg-paper/40"
                 >
                   {r.submitWhatsApp}
                 </button>

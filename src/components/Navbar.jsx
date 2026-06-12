@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import LanguageToggle from './LanguageToggle'
 
+const SECTION_IDS = ['historia', 'detalles', 'rsvp']
+
 export default function Navbar() {
   const { t } = useLang()
   const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -13,17 +16,36 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const link =
-    'rounded-full px-3 py-1.5 text-sm text-ink/80 transition-colors duration-300 hover:bg-cream hover:text-ink'
+  // Sección activa: la que cruza la franja media del viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-35% 0px -55% 0px' }
+    )
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
+
+  const link = (id) =>
+    `rounded-full px-3 py-1.5 text-sm transition-colors duration-300 ease-editorial ${
+      active === id ? 'bg-cream text-ink' : 'text-ink/80 hover:bg-cream hover:text-ink'
+    }`
 
   return (
-    <header className="fixed inset-x-0 top-3 z-50 flex justify-center px-3 sm:top-5">
+    <header className="fixed inset-x-0 top-[max(0.75rem,env(safe-area-inset-top))] z-50 flex justify-center px-3 sm:top-5">
       <nav
         aria-label="Navegación principal"
-        className={`flex w-full max-w-xl items-center justify-between gap-1 rounded-full border px-3 py-2 backdrop-blur-md transition-all duration-500 sm:px-4 ${
+        className={`flex w-full items-center justify-between gap-1 rounded-full border px-3 transition-all duration-500 ease-editorial sm:px-4 ${
           scrolled
-            ? 'border-line bg-ivory/80 shadow-soft'
-            : 'border-white/40 bg-ivory/50'
+            ? 'max-w-lg border-line bg-ivory/85 py-1.5 shadow-soft backdrop-blur-lg'
+            : 'max-w-xl border-white/40 bg-ivory/50 py-2 backdrop-blur-md'
         }`}
       >
         <a
@@ -35,15 +57,15 @@ export default function Navbar() {
         </a>
 
         <div className="hidden items-center sm:flex">
-          <a href="#historia" className={link}>{t.nav.story}</a>
-          <a href="#detalles" className={link}>{t.nav.details}</a>
-          <a href="#rsvp" className={link}>{t.nav.rsvp}</a>
+          <a href="#historia" className={link('historia')}>{t.nav.story}</a>
+          <a href="#detalles" className={link('detalles')}>{t.nav.details}</a>
+          <a href="#rsvp" className={link('rsvp')}>{t.nav.rsvp}</a>
         </div>
 
         <div className="flex items-center gap-2">
           <a
             href="#rsvp"
-            className="rounded-full bg-paper px-3 py-1.5 text-xs font-medium text-ink transition-colors duration-300 hover:bg-paper-hover sm:hidden"
+            className="rounded-full bg-paper px-3 py-1.5 text-xs font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover active:translate-y-0 active:bg-paper-hover sm:hidden"
           >
             {t.nav.rsvp}
           </a>

@@ -1,4 +1,7 @@
+import { motion } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
+
+const EASE = [0.22, 1, 0.36, 1]
 
 const LANGS = [
   { code: 'es', label: 'ES', aria: 'Cambiar a español' },
@@ -18,11 +21,19 @@ export default function LanguageToggle({ className = '' }) {
           onClick={() => setLang(code)}
           aria-pressed={lang === code}
           aria-label={aria}
-          className={`rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition-colors duration-300 sm:px-2.5 sm:text-xs ${
-            lang === code ? 'bg-paper text-ink' : 'text-stone hover:bg-cream'
+          className={`relative rounded-full px-2 py-1 text-[11px] font-medium tracking-wide transition-colors duration-300 sm:px-2.5 sm:text-xs ${
+            lang === code ? 'text-ink' : 'text-stone hover:bg-cream'
           }`}
         >
-          {label}
+          {lang === code && (
+            <motion.span
+              layoutId="lang-active"
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-paper"
+              transition={{ duration: 0.4, ease: EASE }}
+            />
+          )}
+          <span className="relative">{label}</span>
         </button>
       ))}
     </div>

@@ -9,13 +9,20 @@ import { Divider } from './Monogram'
 const EASE = [0.22, 1, 0.36, 1]
 
 const paperBtn =
-  'inline-flex items-center gap-2 rounded-full bg-paper px-6 py-2.5 text-sm font-medium text-ink transition-colors duration-300 hover:bg-paper-hover'
+  'group/btn inline-flex items-center gap-2 rounded-full bg-paper px-6 py-2.5 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover'
 
-// Zoom apenas perceptible de la fotografía al pasar el cursor sobre la tarjeta
+const btnArrow =
+  'transition-transform duration-300 ease-editorial group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5'
+
+// Zoom apenas perceptible de la fotografía al pasar el cursor sobre la tarjeta,
+// más una gradación cálida uniforme para que todas las fotos respiren la misma luz
 const imgHover = 'transition-transform duration-[1600ms] ease-out group-hover:scale-[1.03]'
+const imgGrade = '[filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
+const imgTreat = `${imgHover} ${imgGrade}`
 
-// Tonos claros sugeridos para el código de vestimenta (moodboard)
-const DRESS_TONES = ['#FAF8F2', '#F1EAD9', '#E8E0D2', '#D7CEC2', '#C5B6A0']
+// Moodboard del código de vestimenta: marfil cálido, beige, champaña, arena, topo.
+// Tonos cálidos a propósito — ninguno es blanco puro, para no invadir el color de la novia.
+const DRESS_TONES = ['#F3E8D8', '#E8D6BD', '#E6CFA8', '#D6BE99', '#B5A391']
 
 function Eyebrow({ children, className = '' }) {
   return (
@@ -48,7 +55,7 @@ function ToggleLink({ open, onToggle, controls, className = '' }) {
       onClick={onToggle}
       aria-expanded={open}
       aria-controls={controls}
-      className={`group/link mt-7 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-widest2 text-stone transition-colors duration-300 hover:text-ink ${className}`}
+      className={`group/link -mb-2 mt-7 inline-flex items-center gap-2 py-2 text-[11px] font-medium uppercase tracking-widest2 text-stone transition-colors duration-300 hover:text-ink ${className}`}
     >
       <span className="border-b border-line pb-1 transition-colors duration-300 group-hover/link:border-stone">
         {open ? t.details.close : t.details.seeDetails}
@@ -72,7 +79,16 @@ function ExpandPanel({ open, id, children }) {
           transition={{ duration: 0.6, ease: EASE }}
           className="overflow-hidden"
         >
-          <div className="pt-6 text-sm leading-loose text-ink/70 sm:text-base">{children}</div>
+          {/* El texto se asienta un instante después de abrirse la página */}
+          <motion.div
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, delay: 0.12, ease: EASE }}
+            className="pt-6 text-sm leading-loose text-ink/70 sm:text-base"
+          >
+            {children}
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
@@ -110,7 +126,7 @@ export default function DetailsCardsSection() {
                 name="details-location"
                 alt={c.location.title}
                 className="aspect-[16/9] w-full sm:aspect-[21/8]"
-                imgClassName={imgHover}
+                imgClassName={imgTreat}
               />
               <div className="p-8 sm:p-12">
                 <Eyebrow>{c.location.summary}</Eyebrow>
@@ -127,7 +143,7 @@ export default function DetailsCardsSection() {
                     className={`${paperBtn} mt-7`}
                   >
                     {t.details.openMaps}
-                    <span aria-hidden="true">↗</span>
+                    <span aria-hidden="true" className={btnArrow}>↗</span>
                   </a>
                 </ExpandPanel>
                 <ToggleLink
@@ -146,7 +162,7 @@ export default function DetailsCardsSection() {
                 name="details-transport"
                 alt={c.transport.title}
                 className="aspect-[16/9] w-full md:order-2 md:aspect-auto md:w-[42%]"
-                imgClassName={imgHover}
+                imgClassName={imgTreat}
               />
               <div className="flex-1 p-8 sm:p-10 md:order-1">
                 <Eyebrow>{c.transport.summary}</Eyebrow>
@@ -171,7 +187,7 @@ export default function DetailsCardsSection() {
                 name="details-registry"
                 alt=""
                 className="absolute inset-0 h-full w-full"
-                imgClassName={imgHover}
+                imgClassName={imgTreat}
               />
               <div aria-hidden="true" className="absolute inset-0 bg-ivory/85" />
               <div className="relative flex h-full flex-col p-8 sm:p-10">
@@ -187,7 +203,7 @@ export default function DetailsCardsSection() {
                     className={`${paperBtn} mt-7`}
                   >
                     {t.details.seeRegistry}
-                    <span aria-hidden="true">↗</span>
+                    <span aria-hidden="true" className={btnArrow}>↗</span>
                   </a>
                 </ExpandPanel>
                 <ToggleLink
@@ -208,6 +224,7 @@ export default function DetailsCardsSection() {
                   name="details-lodging"
                   alt=""
                   className="aspect-[3/4] w-full rounded-[4px]"
+                  imgClassName={imgGrade}
                 />
               </div>
               <div className="sm:pr-36">
@@ -254,26 +271,30 @@ export default function DetailsCardsSection() {
                 name="details-dresscode"
                 alt={c.dressCode.title}
                 className="aspect-[16/9] w-full sm:aspect-[16/6]"
-                imgClassName={imgHover}
+                imgClassName={imgTreat}
               />
               <div className="p-8 sm:p-10">
                 <Eyebrow>{c.dressCode.summary}</Eyebrow>
                 <Title>{c.dressCode.title}</Title>
                 <PreviewText>{c.dressCode.preview}</PreviewText>
-                <div className="mt-7 flex items-center gap-3">
-                  <div className="flex -space-x-1.5">
-                    {DRESS_TONES.map((tone) => (
-                      <span
-                        key={tone}
-                        aria-hidden="true"
-                        className="h-8 w-8 rounded-full border border-line"
-                        style={{ backgroundColor: tone }}
-                      />
+                <div className="mt-8">
+                  <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
+                    {c.dressCode.palette}
+                  </p>
+                  <div className="mt-4 grid max-w-md grid-cols-3 gap-x-3 gap-y-4 min-[420px]:grid-cols-5">
+                    {DRESS_TONES.map((tone, i) => (
+                      <div key={tone} className="text-center">
+                        <span
+                          aria-hidden="true"
+                          className="block h-12 rounded-lg border border-line sm:h-14"
+                          style={{ backgroundColor: tone }}
+                        />
+                        <span className="mt-2 block whitespace-nowrap text-[9px] uppercase tracking-wide text-muted">
+                          {c.dressCode.tones[i]}
+                        </span>
+                      </div>
                     ))}
                   </div>
-                  <span className="text-[10px] font-medium uppercase tracking-widest text-muted">
-                    {c.dressCode.palette}
-                  </span>
                 </div>
                 <ExpandPanel open={!!open.dressCode} id={panelId('dressCode')}>
                   <p>{c.dressCode.text}</p>
@@ -292,8 +313,16 @@ export default function DetailsCardsSection() {
 
           {/* 6 · Sobre los pequeñitos — sobria, delicada, mucho espacio en blanco */}
           <Reveal delay={0.05} className="md:col-span-12">
-            <article className="rounded-3xl border border-line bg-ivory px-8 py-16 text-center shadow-card sm:px-12 sm:py-20">
+            <article className="group rounded-3xl border border-line bg-ivory px-8 py-16 text-center shadow-card sm:px-12 sm:py-20">
               <div className="mx-auto max-w-xl">
+                <div className="mx-auto mb-10 max-w-[240px] overflow-hidden rounded-2xl shadow-card sm:max-w-[280px]">
+                  <Photo
+                    name="details-adults-only"
+                    alt=""
+                    className="aspect-[4/5] w-full"
+                    imgClassName={imgTreat}
+                  />
+                </div>
                 <Eyebrow>{c.kids.summary}</Eyebrow>
                 <Title>{c.kids.title}</Title>
                 <PreviewText className="text-balance">{c.kids.preview}</PreviewText>

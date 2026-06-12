@@ -17,6 +17,20 @@ export const RSVP_ENDPOINT = ''
 // Mesa de regalos
 export const REGISTRY_URL = 'https://example.com/mesa-de-regalos'
 
+// ---------------------------------------------------------------
+// Música de fondo
+// ---------------------------------------------------------------
+// Fuente activa: reproductor OFICIAL de YouTube embebido (la canción se
+// transmite desde YouTube, no se descarga ni se copia el archivo).
+// Cambia el ID si quieres otra canción (es lo que va después de "watch?v=").
+// Canción actual: https://www.youtube.com/watch?v=aCf_Ugp7vXg
+export const WEDDING_YOUTUBE_ID = 'aCf_Ugp7vXg'
+
+// Alternativa: si algún día tienes una versión legal/propia del audio en
+// archivo (mp3), colócala en public/audio/wedding-song.mp3 y pon aquí su
+// ruta; deja WEDDING_YOUTUBE_ID en '' para usar el archivo en vez de YouTube.
+export const WEDDING_AUDIO_SRC = '/audio/wedding-song.mp3'
+
 // Dirección del evento y link de Google Maps
 export const VENUE_ADDRESS =
   'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.'

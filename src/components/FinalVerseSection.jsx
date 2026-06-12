@@ -1,6 +1,7 @@
 import { useLang } from '../i18n/LanguageContext'
 import Reveal from './Reveal'
 import Photo from './Photo'
+import Atmosphere from './Atmosphere'
 import { SectionAtmosphere } from './Monogram'
 
 export default function FinalVerseSection() {
@@ -11,6 +12,7 @@ export default function FinalVerseSection() {
       {/* Versículo sobre marfil, reverente y amplio */}
       <div className="relative overflow-hidden px-6 pb-28 pt-36 text-center sm:pb-36 sm:pt-48">
         <SectionAtmosphere />
+        <Atmosphere />
         <div className="relative z-10 mx-auto max-w-3xl">
           <Reveal>
             <p className="text-balance font-serif text-3xl font-medium italic leading-snug text-ink sm:text-5xl sm:leading-[1.35]">
