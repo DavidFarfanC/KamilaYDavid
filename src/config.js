@@ -31,16 +31,45 @@ export const WEDDING_YOUTUBE_ID = 'aCf_Ugp7vXg'
 // ruta; deja WEDDING_YOUTUBE_ID en '' para usar el archivo en vez de YouTube.
 export const WEDDING_AUDIO_SRC = '/audio/wedding-song.mp3'
 
-// Dirección del evento y link de Google Maps
+// Dirección del evento y link de Google Maps (link corto real del lugar)
 export const VENUE_ADDRESS =
   'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.'
-export const GOOGLE_MAPS_URL =
-  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(VENUE_ADDRESS)
+export const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/jmGXkMx4VsCGCFC49'
 
-// Opciones de hospedaje (edita nombre, descripción y link; deja url vacía si aún no hay link)
+// ---------------------------------------------------------------
+// Padrinos / aportaciones (NO procesa pagos — solo registra intención;
+// las aportaciones se hacen por transferencia bancaria)
+// ---------------------------------------------------------------
+// Metas por padrinazgo, en MXN. Si una meta está en 0, la barra muestra 0%
+// (no divide entre cero). Edita estos montos cuando los tengas.
+export const SPONSORSHIP_GOALS = {
+  rings: 0, // Padrino de anillos
+  bouquet: 0, // Padrino de ramo
+  bible: 0, // Padrino de Biblia
+}
+
+// Aportaciones registradas (edítalas a mano conforme lleguen las transferencias).
+// category: 'rings' | 'bouquet' | 'bible'. amount en MXN.
+export const SPONSORSHIP_CONTRIBUTIONS = [
+  // { id: 'example-1', name: 'Ejemplo', category: 'rings', amount: 0, date: '2026-01-01' },
+]
+
+// Mostrar el monto de cada aportación en la tabla pública. Si es false,
+// la tabla solo muestra Nombre | Padrinazgo (sin montos).
+export const SHOW_CONTRIBUTION_AMOUNTS = true
+
+// Datos bancarios para transferencia. NO se inventa la CLABE: déjala como
+// placeholder hasta tenerla. No se guarda en ningún payload.
+export const BANK_DETAILS = {
+  accountHolder: 'David Ivan Farfan Castro',
+  bank: 'Santander',
+  clabe: 'PENDIENTE_AGREGAR_CLABE',
+}
+
+// Opciones de hospedaje recomendadas (nombre, categoría de precio y link a Maps).
+// El texto introductorio y la nota de Airbnb viven en las traducciones (i18n).
 export const LODGING_OPTIONS = [
-  { name: 'Hotel 1 — por confirmar', note: 'A pocos minutos del lugar de la celebración.', url: '' },
-  { name: 'Hotel 2 — por confirmar', note: 'Opción cómoda para familias.', url: '' },
-  { name: 'Hotel 3 — por confirmar', note: 'Alternativa cercana con buena relación calidad-precio.', url: '' },
-  { name: 'Airbnb — zona recomendada: Cocoyoc / Oaxtepec', note: 'Busca alojamientos cerca de Cocoyoc, Morelos.', url: '' },
+  { name: 'The Lorian Club', tier: '$$$', url: 'https://maps.app.goo.gl/p3rb17YgEoUmjaQL8?g_st=iw' },
+  { name: 'Hotel Xail', tier: '$$', url: 'https://maps.app.goo.gl/B5dqVKpxhvW8wPmR6?g_st=iw' },
+  { name: 'Terrazas Inn', tier: '$', url: 'https://maps.app.goo.gl/kbKPfrsyL3RBDe2T7?g_st=iw' },
 ]

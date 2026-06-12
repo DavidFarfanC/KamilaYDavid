@@ -31,9 +31,14 @@ export default function ScheduleSection() {
             <p className="mt-4 text-sm text-ink/60 sm:text-base">{t.schedule.subtitle}</p>
             <Divider className="mt-8" />
           </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mx-auto mt-10 max-w-2xl text-balance font-serif text-lg italic leading-relaxed text-ink/80 sm:text-xl">
+              {t.schedule.ceremonyNote}
+            </p>
+          </Reveal>
         </div>
 
-        <ol className="relative mx-auto mt-16 max-w-2xl">
+        <ol className="relative mx-auto mt-14 max-w-2xl">
           {/* Línea vertical */}
           <div
             aria-hidden="true"
@@ -81,6 +86,12 @@ export default function ScheduleSection() {
             </li>
           ))}
         </ol>
+
+        <Reveal>
+          <p className="mx-auto mt-12 max-w-xl text-center text-sm leading-relaxed text-stone">
+            {t.schedule.arrivalNote}
+          </p>
+        </Reveal>
       </div>
     </section>
   )

@@ -4,6 +4,7 @@ import { useLang } from '../i18n/LanguageContext'
 import { GOOGLE_MAPS_URL, REGISTRY_URL, LODGING_OPTIONS } from '../config'
 import Photo from './Photo'
 import Reveal from './Reveal'
+import SponsorsCard from './SponsorsCard'
 import { Divider } from './Monogram'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -187,8 +188,37 @@ export default function DetailsCardsSection() {
 
         <MotionConfig reducedMotion="user">
           <div className="mt-20 flex flex-col gap-6 sm:gap-8">
-            {/* 1 · Cómo llegar */}
+            {/* 1 · Información importante — el corazón del mensaje de los novios */}
             <Reveal>
+              <DetailCard
+                imageName="details-important"
+                alt={c.important.title}
+                eyebrow={c.important.summary}
+                title={c.important.title}
+                preview={c.important.preview}
+                open={!!open.important}
+                onToggle={() => toggle('important')}
+                pid={pid('important')}
+              >
+                {c.important.paragraphs.map((p, i) => (
+                  <Item key={i}>
+                    <p>{p}</p>
+                  </Item>
+                ))}
+              </DetailCard>
+            </Reveal>
+
+            {/* 2 · ¿Quieres ser nuestro padrino? — tarjeta destacada */}
+            <Reveal delay={0.05}>
+              <SponsorsCard
+                open={!!open.sponsors}
+                onToggle={() => toggle('sponsors')}
+                pid={pid('sponsors')}
+              />
+            </Reveal>
+
+            {/* 3 · Cómo llegar */}
+            <Reveal delay={0.05}>
               <DetailCard
                 imageName="details-location"
                 alt={c.location.title}
@@ -204,9 +234,6 @@ export default function DetailsCardsSection() {
                 </Item>
                 <Item>
                   <p>{c.location.text}</p>
-                </Item>
-                <Item>
-                  <p>{c.location.extra}</p>
                 </Item>
                 <Item>
                   <a href={GOOGLE_MAPS_URL} target="_blank" rel="noopener noreferrer" className={paperBtn}>
@@ -272,30 +299,29 @@ export default function DetailsCardsSection() {
                 pid={pid('lodging')}
               >
                 <Item>
-                  <p>{c.lodging.text}</p>
+                  <p>{c.lodging.intro}</p>
                 </Item>
                 <Item>
-                  <ul className="space-y-3">
-                    {LODGING_OPTIONS.map((opt) => (
-                      <li key={opt.name} className="border-l border-line pl-4">
-                        <p className="font-medium text-ink/85">
-                          {opt.url ? (
-                            <a
-                              href={opt.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="underline decoration-line underline-offset-2 transition-colors hover:text-ink"
-                            >
-                              {opt.name}
-                            </a>
-                          ) : (
-                            opt.name
-                          )}
-                        </p>
-                        <p className="text-xs text-stone">{opt.note}</p>
-                      </li>
+                  <div className="flex flex-col gap-3">
+                    {LODGING_OPTIONS.map((h) => (
+                      <a
+                        key={h.name}
+                        href={h.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/btn flex items-center justify-between gap-3 rounded-2xl bg-paper px-5 py-3.5 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none"
+                      >
+                        <span>{c.lodging.hotelCta(h.name)}</span>
+                        <span className="flex items-center gap-2 text-xs text-stone">
+                          {h.tier}
+                          <span aria-hidden="true" className={btnArrow}>↗</span>
+                        </span>
+                      </a>
                     ))}
-                  </ul>
+                  </div>
+                </Item>
+                <Item>
+                  <p>{c.lodging.airbnb}</p>
                 </Item>
               </DetailCard>
             </Reveal>

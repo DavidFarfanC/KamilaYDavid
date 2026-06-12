@@ -66,6 +66,10 @@ export const translations = {
     schedule: {
       title: 'Programa del día',
       subtitle: 'Horarios aproximados para acompañarnos en cada momento.',
+      ceremonyNote:
+        'La ceremonia cristiana es el corazón de nuestra celebración. Para nosotros será un honor que nos acompañes desde este primer momento, donde daremos gracias a Dios y celebraremos nuestro pacto matrimonial delante de Él.',
+      arrivalNote:
+        'Te recomendamos llegar con anticipación para poder acompañarnos desde el inicio de la ceremonia.',
       items: [
         {
           time: '1:00 p.m.',
@@ -107,19 +111,82 @@ export const translations = {
       seeDetails: 'Ver detalles',
       close: 'Cerrar',
       cards: {
+        important: {
+          title: 'Información importante',
+          summary: 'Mensaje de los novios',
+          preview: 'Un mensaje desde nuestro corazón sobre el sentido de este día.',
+          paragraphs: [
+            'Para nosotros, la ceremonia cristiana es el momento más importante del día. Más que una celebración social, este día representa un pacto delante de Dios, y nos llenaría de alegría que nos acompañes desde la ceremonia.',
+            'También queremos compartirte que, por decisión nuestra y cuidando el sentido de esta celebración, no se servirán bebidas alcohólicas durante el evento. Deseamos vivir una tarde llena de gratitud, alegría, convivencia y amor, en un ambiente que honre a Dios y nos permita disfrutar juntos este momento tan especial.',
+            'Debido a que será una celebración íntima y con cupo limitado, en esta ocasión el evento será solo para adultos. Agradecemos profundamente tu comprensión y cariño.',
+          ],
+        },
+        sponsors: {
+          title: '¿Quieres ser nuestro padrino?',
+          summary: 'Una forma especial de acompañarnos',
+          preview: 'Para nosotros sería muy especial contar con padrinos que nos acompañen en elementos significativos de nuestra ceremonia y celebración.',
+          paragraphs: [
+            'Para nosotros este día tiene un significado muy especial. Más que una celebración, representa un pacto delante de Dios, y nos llena de gratitud poder compartirlo con personas que amamos.',
+            'Si deseas acompañarnos como padrino en alguno de estos elementos, puedes seleccionar el campo en el que te gustaría aportar y registrar el monto de tu aportación.',
+            'Tu apoyo será recibido con mucho cariño y gratitud.',
+          ],
+          availableTitle: 'Aportaciones disponibles',
+          categoryLabels: { rings: 'Padrino de anillos', bouquet: 'Padrino de ramo', bible: 'Padrino de Biblia' },
+          goalPending: 'Meta por definir',
+          of: 'de',
+          formTitle: 'Para nosotros es muy importante',
+          formIntro: 'Si gustas ser nuestro padrino, selecciona el campo en el que deseas aportar y registra el monto de tu aportación. Después podrás realizar tu transferencia con los datos bancarios que aparecen abajo.',
+          nameLabel: 'Tu nombre',
+          namePlaceholder: 'Escribe tu nombre completo',
+          categoryLabel: 'Quiero aportar como',
+          amountLabel: 'Monto de tu aportación',
+          amountPlaceholder: 'Ej. 1000',
+          contactLabel: 'Contacto',
+          contactPlaceholder: 'WhatsApp o correo para poder agradecerte',
+          messageLabel: 'Mensaje para los novios',
+          messagePlaceholder: 'Déjanos un mensaje con cariño',
+          submit: 'Registrar aportación',
+          sending: 'Registrando...',
+          noPayNote: 'Este formulario no realiza ningún cobro. Las aportaciones se harán únicamente por transferencia bancaria. Gracias por ayudarnos a mantener un registro claro y poder agradecerte personalmente.',
+          bankTitle: 'Datos para transferencia',
+          bankName: 'Nombre',
+          bankBank: 'Banco',
+          bankClabe: 'CLABE',
+          copyBank: 'Copiar datos bancarios',
+          copied: 'Datos copiados',
+          tableTitle: 'Padrinos que han aportado',
+          colName: 'Nombre',
+          colCategory: 'Padrinazgo',
+          colAmount: 'Aportación',
+          empty: 'Aún no hay aportaciones registradas.',
+          errorName: 'Por favor escribe tu nombre.',
+          errorCategory: 'Por favor elige un padrinazgo.',
+          errorAmount: 'Por favor escribe un monto válido.',
+          thanksTitle: '¡Gracias por tu aportación!',
+          thanksBody: 'Tu apoyo significa mucho para nosotros. Gracias por acompañarnos con tanto cariño en este paso tan especial.',
+          signature: 'Kamila & David',
+          registerAnother: 'Registrar otra aportación',
+          sendWhatsApp: 'Enviar aviso por WhatsApp',
+          waBody: ({ name, category, amount, contact, message }) =>
+            `Hola, soy:\n${name}\n\n` +
+            `Quiero apoyar como:\n${category}\n\n` +
+            `Monto de aportación:\n$${amount} MXN\n\n` +
+            `Contacto:\n${contact}\n\n` +
+            `Mensaje:\n${message}\n\n` +
+            `Ya tengo los datos para realizar la transferencia bancaria.`,
+        },
         location: {
           title: 'Cómo llegar',
           summary: 'Cocoyoc, Morelos',
           preview: 'La celebración será en Cocoyoc, Morelos. Te recomendamos revisar tu ruta con anticipación.',
           address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
-          text: 'La celebración será en Cocoyoc, Morelos. Te recomendamos revisar tu ruta con anticipación para llegar con calma y disfrutar el día desde el inicio.',
-          extra: 'También contaremos con transporte disponible para invitados, con cupo limitado. Más adelante compartiremos detalles sobre puntos de salida y horarios.',
+          text: 'La celebración será en Cocoyoc, Morelos. Te recomendamos revisar tu ruta con anticipación para llegar con calma y acompañarnos desde el inicio de la ceremonia cristiana.',
         },
         transport: {
           title: 'Transporte',
-          summary: 'Cupo limitado para invitados',
-          preview: 'Tendremos transporte disponible para facilitar la llegada de algunos invitados.',
-          text: 'Para facilitar la llegada de nuestros invitados, tendremos transporte disponible con cupo limitado. Si deseas considerarlo, por favor indícalo al confirmar tu asistencia para poder organizar los lugares.',
+          summary: 'Shuttle desde CDMX',
+          preview: 'Estamos explorando un shuttle desde CDMX con posible costo compartido.',
+          text: 'Estamos explorando la posibilidad de coordinar un shuttle desde la Ciudad de México hacia el lugar del evento en Cocoyoc. Esta opción dependerá del número de personas interesadas y podría manejarse con costo compartido entre quienes decidan utilizarlo. Si te interesa ser considerado, por favor indícalo en tu confirmación para poder evaluar la logística y disponibilidad.',
         },
         registry: {
           title: 'Mesa de regalos',
@@ -130,8 +197,10 @@ export const translations = {
         lodging: {
           title: 'Dónde hospedarse',
           summary: 'Opciones cerca de la celebración',
-          preview: 'Pronto compartiremos opciones recomendadas para hospedarte cerca del lugar.',
-          text: 'Si vienes de fuera o deseas quedarte cerca del lugar de la celebración, pronto compartiremos algunas opciones de hospedaje recomendadas.',
+          preview: 'Algunas opciones recomendadas para hospedarte cerca del lugar.',
+          intro: 'Por comentarios y recomendaciones del host, estas son algunas opciones cercanas que podrían considerar. Si tienes dudas sobre la zona o necesitas orientación, con gusto podemos ayudarte.',
+          airbnb: 'Además, estamos explorando la posibilidad de coordinar una opción de hospedaje grupal, como un Airbnb, para familias o amigos que estén interesados en organizarse juntos. Esta sería una alternativa con costos compartidos entre quienes decidan participar. Si te interesa ser considerado para una opción grupal, por favor indícalo en tu confirmación para poder medir el interés y evaluar opciones.',
+          hotelCta: (name) => `Ver ${name}`,
         },
         dressCode: {
           title: 'Código de vestimenta',
@@ -186,30 +255,51 @@ export const translations = {
     rsvp: {
       title: 'Confirmar asistencia',
       subtitle: 'Será un honor compartir este día contigo. Por favor confírmanos tu asistencia.',
-      nameLabel: 'Nombre completo',
-      namePlaceholder: 'Tu nombre y apellido',
-      guestsLabel: 'Número de invitados incluidos en la invitación',
+      namesLabel: 'Nombre de los asistentes',
+      namesPlaceholder: 'Escribe el nombre de quienes asistirán',
       attendanceLabel: 'Confirmo asistencia',
       attendanceYes: 'Sí, ahí estaré',
       attendanceNo: 'No podré asistir',
-      transportLabel: '¿Usarás transporte?',
-      transportYes: 'Sí',
-      transportNo: 'No',
-      transportMaybe: 'Tal vez',
-      commentsLabel: 'Restricciones alimentarias o comentario especial',
-      commentsPlaceholder: 'Alergias, restricciones o un mensaje para nosotros (opcional)',
+      shuttleLabel: '¿Te interesa ser considerado para un posible shuttle desde CDMX?',
+      shuttleYes: 'Sí, me interesa recibir información',
+      shuttleNo: 'No, llegaré por mi cuenta',
+      shuttleMaybe: 'Aún no estoy seguro',
+      lodgingLabel: 'Sobre tu hospedaje',
+      lodgingShared: 'Me interesa una posible opción grupal con costo compartido',
+      lodgingOwn: 'Prefiero gestionar mi hospedaje por mi cuenta',
+      lodgingUnsure: 'Aún no estoy seguro',
+      coordinationNote:
+        'Estas respuestas nos ayudan únicamente a conocer el interés de los invitados y evaluar posibles opciones de coordinación. Más adelante compartiremos detalles, disponibilidad y costos en caso de avanzar con alguna opción grupal.',
+      emailLabel: 'Correo electrónico',
+      emailPlaceholder: 'tu.correo@email.com',
+      phoneLabel: 'Celular con WhatsApp',
+      phonePlaceholder: '+52...',
+      messageLabel: 'Mensaje para los novios',
+      messagePlaceholder: 'Déjanos un mensaje, una oración o unas palabras con cariño',
       submit: 'Enviar confirmación',
-      submitWhatsApp: 'Confirmar por WhatsApp',
-      sending: 'Enviando…',
-      errorName: 'Por favor escribe tu nombre.',
+      sending: 'Enviando confirmación...',
+      sendWhatsApp: 'Enviar por WhatsApp',
+      waHandoff: 'Al tocar el botón se abrirá WhatsApp con tu confirmación lista para enviar.',
+      errorNames: 'Por favor escribe el nombre de quienes asistirán.',
       errorAttendance: 'Por favor indícanos si podrás asistir.',
+      errorEmail: 'Por favor escribe tu correo electrónico.',
+      errorEmailInvalid: 'Por favor revisa tu correo electrónico.',
+      errorPhone: 'Por favor escribe tu celular con WhatsApp.',
       errorSend: 'No pudimos enviar tu confirmación. Intenta de nuevo o confírmanos por WhatsApp.',
-      success: 'Gracias por confirmar. Nos emociona profundamente compartir este día contigo.',
-      successNo: 'Gracias por avisarnos. Te llevamos en el corazón y oramos por ti.',
-      waIntro: 'Hola, somos',
-      waBody: (name, guests, attendance, transport, comments) =>
-        `Hola, somos ${name}. Confirmamos asistencia a la boda de Kamila & David. ` +
-        `Asistencia: ${attendance}. Número de invitados: ${guests}. Transporte: ${transport}. Comentarios: ${comments || 'Ninguno'}.`,
+      successTitle: 'Gracias por confirmar',
+      successBody:
+        'Nos emociona profundamente compartir este día contigo. Gracias por acompañarnos en esta historia que Dios ha escrito con tanto amor.',
+      successBodyNo: 'Gracias por avisarnos. Te llevamos en el corazón y oramos por ti.',
+      signature: 'Kamila & David',
+      none: '—',
+      waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
+        `Hola, somos:\n${names}\n\n` +
+        `Confirmación de asistencia:\n${attendance}\n\n` +
+        `Interés en posible shuttle desde CDMX:\n${shuttle}\n\n` +
+        `Hospedaje:\n${lodging}\n\n` +
+        `Correo:\n${email}\n\n` +
+        `WhatsApp:\n${phone}\n\n` +
+        `Mensaje para los novios:\n${message}`,
     },
     gallery: {
       title: 'Momentos que nos trajeron hasta aquí',
@@ -303,6 +393,10 @@ export const translations = {
     schedule: {
       title: 'Order of the day',
       subtitle: 'Approximate times so you can join us for every moment.',
+      ceremonyNote:
+        'The Christian ceremony is the heart of our celebration. It would mean so much to us to have you with us from this first moment, as we give thanks to God and celebrate our marriage covenant before Him.',
+      arrivalNote:
+        'We kindly recommend arriving early so you can join us from the beginning of the ceremony.',
       items: [
         {
           time: '1:00 p.m.',
@@ -344,19 +438,82 @@ export const translations = {
       seeDetails: 'See details',
       close: 'Close',
       cards: {
+        important: {
+          title: 'Important information',
+          summary: 'A message from the couple',
+          preview: 'A message from our hearts about the meaning of this day.',
+          paragraphs: [
+            'For us, the Christian ceremony is the most important moment of the day. More than a social celebration, this day represents a covenant before God, and it would bring us so much joy to have you with us from the ceremony.',
+            'We also want to share that, as a personal decision and in keeping with the heart of this celebration, alcoholic beverages will not be served during the event. Our desire is to enjoy an afternoon filled with gratitude, joy, fellowship and love, in an atmosphere that honors God and allows us to share this special moment together.',
+            'Because this will be an intimate celebration with limited space, this event will be adults-only. Thank you so much for your understanding and love.',
+          ],
+        },
+        sponsors: {
+          title: 'Would you like to be one of our sponsors?',
+          summary: 'A special way to be part of our day',
+          preview: 'It would be very special for us to have sponsors who accompany us in meaningful elements of our ceremony and celebration.',
+          paragraphs: [
+            'This day holds a very special meaning for us. More than a celebration, it represents a covenant before God, and it fills us with gratitude to share it with people we love.',
+            'If you would like to accompany us as a sponsor in one of these elements, you can select the field you would like to contribute to and register the amount of your contribution.',
+            'Your support will be received with much love and gratitude.',
+          ],
+          availableTitle: 'Available sponsorships',
+          categoryLabels: { rings: 'Ring sponsor', bouquet: 'Bouquet sponsor', bible: 'Bible sponsor' },
+          goalPending: 'Goal to be defined',
+          of: 'of',
+          formTitle: 'This means a lot to us',
+          formIntro: 'If you would like to be one of our sponsors, select the field you wish to contribute to and register your amount. You can then make your transfer using the bank details shown below.',
+          nameLabel: 'Your name',
+          namePlaceholder: 'Write your full name',
+          categoryLabel: 'I would like to contribute as',
+          amountLabel: 'Your contribution amount',
+          amountPlaceholder: 'e.g. 1000',
+          contactLabel: 'Contact',
+          contactPlaceholder: 'WhatsApp or email so we can thank you',
+          messageLabel: 'Message for the couple',
+          messagePlaceholder: 'Leave us a loving message',
+          submit: 'Register contribution',
+          sending: 'Registering...',
+          noPayNote: 'This form does not process any payment. Contributions are made only by bank transfer. Thank you for helping us keep a clear record so we can thank you personally.',
+          bankTitle: 'Bank transfer details',
+          bankName: 'Name',
+          bankBank: 'Bank',
+          bankClabe: 'CLABE',
+          copyBank: 'Copy bank details',
+          copied: 'Details copied',
+          tableTitle: 'Sponsors who have contributed',
+          colName: 'Name',
+          colCategory: 'Sponsorship',
+          colAmount: 'Contribution',
+          empty: 'No contributions registered yet.',
+          errorName: 'Please write your name.',
+          errorCategory: 'Please choose a sponsorship.',
+          errorAmount: 'Please enter a valid amount.',
+          thanksTitle: 'Thank you for your contribution!',
+          thanksBody: 'Your support means so much to us. Thank you for accompanying us with such love in this very special step.',
+          signature: 'Kamila & David',
+          registerAnother: 'Register another contribution',
+          sendWhatsApp: 'Send notice via WhatsApp',
+          waBody: ({ name, category, amount, contact, message }) =>
+            `Hello, I am:\n${name}\n\n` +
+            `I would like to support as:\n${category}\n\n` +
+            `Contribution amount:\n$${amount} MXN\n\n` +
+            `Contact:\n${contact}\n\n` +
+            `Message:\n${message}\n\n` +
+            `I already have the details to make the bank transfer.`,
+        },
         location: {
           title: 'Getting there',
           summary: 'Cocoyoc, Morelos · Mexico',
           preview: 'The celebration will take place in Cocoyoc, Morelos. We recommend planning your route ahead of time.',
           address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
-          text: 'The celebration will take place in Cocoyoc, Morelos. We recommend planning your route ahead of time so you can arrive at ease and enjoy the day from the very start.',
-          extra: 'Guest transportation will also be available with limited seating. We will share pickup points and times soon.',
+          text: 'The celebration will take place in Cocoyoc, Morelos. We recommend checking your route in advance so you can arrive calmly and join us from the beginning of the Christian ceremony.',
         },
         transport: {
           title: 'Transportation',
-          summary: 'Limited seating for guests',
-          preview: 'Transportation will be available to make the journey easier for some of our guests.',
-          text: 'To make the journey easier for our guests, transportation will be available with limited seating. If you would like to use it, please let us know when you RSVP so we can arrange the seats.',
+          summary: 'Shuttle from Mexico City',
+          preview: 'We are exploring a shuttle from Mexico City with possible shared cost.',
+          text: 'We are exploring the possibility of coordinating a shuttle from Mexico City to the venue in Cocoyoc. This option will depend on the number of interested guests and may be handled as a shared-cost service among those who choose to use it. If you would like to be considered, please let us know in your RSVP so we can evaluate logistics and availability.',
         },
         registry: {
           title: 'Gift registry',
@@ -367,8 +524,10 @@ export const translations = {
         lodging: {
           title: 'Where to stay',
           summary: 'Options near the celebration',
-          preview: 'We will soon share recommended places to stay near the venue.',
-          text: 'If you are traveling from out of town or would like to stay near the venue, we will soon share some recommended places to stay.',
+          preview: 'A few recommended places to stay near the venue.',
+          intro: 'Based on comments and recommendations from the host, these are some nearby options you may consider. If you have questions about the area or need guidance, we will gladly help.',
+          airbnb: 'We are also exploring the possibility of coordinating a shared lodging option, such as an Airbnb, for families or friends who may want to organize together. This would be a cost-sharing option among those who decide to participate. If you would like to be considered for a group option, please let us know in your RSVP so we can measure interest and evaluate possible options.',
+          hotelCta: (name) => `View ${name}`,
         },
         dressCode: {
           title: 'Dress code',
@@ -382,8 +541,8 @@ export const translations = {
         kids: {
           title: 'About the little ones',
           summary: 'An adults-only celebration',
-          preview: 'It will be an intimate celebration with limited seating.',
-          text: 'We love your families and deeply appreciate your understanding. Because this will be an intimate celebration with limited seating, the event will be adults-only on this occasion. Thank you for helping us care for this detail with so much love.',
+          preview: 'It will be an intimate celebration with limited space.',
+          text: 'We love your families and deeply appreciate your understanding. Because this will be an intimate celebration with limited space, this event will be adults-only. Thank you for helping us care for this detail with love.',
         },
       },
     },
@@ -423,30 +582,51 @@ export const translations = {
     rsvp: {
       title: 'RSVP',
       subtitle: 'It would be an honor to share this day with you. Please confirm your attendance.',
-      nameLabel: 'Full name',
-      namePlaceholder: 'Your first and last name',
-      guestsLabel: 'Number of guests included in your invitation',
+      namesLabel: 'Names of attendees',
+      namesPlaceholder: 'Write the names of those attending',
       attendanceLabel: 'Will you attend?',
       attendanceYes: 'Yes, I will be there',
       attendanceNo: 'I will not be able to attend',
-      transportLabel: 'Will you use the transportation?',
-      transportYes: 'Yes',
-      transportNo: 'No',
-      transportMaybe: 'Maybe',
-      commentsLabel: 'Dietary restrictions or special note',
-      commentsPlaceholder: 'Allergies, restrictions, or a message for us (optional)',
+      shuttleLabel: 'Would you like to be considered for a possible shuttle from Mexico City?',
+      shuttleYes: 'Yes, I would like to receive information',
+      shuttleNo: 'No, I will arrive on my own',
+      shuttleMaybe: 'I am not sure yet',
+      lodgingLabel: 'About your lodging',
+      lodgingShared: 'I am interested in a possible shared-cost group option',
+      lodgingOwn: 'I prefer to arrange my lodging on my own',
+      lodgingUnsure: 'I am not sure yet',
+      coordinationNote:
+        'These answers only help us understand guest interest and evaluate possible coordination options. We will share details, availability and costs later if we move forward with any group option.',
+      emailLabel: 'Email address',
+      emailPlaceholder: 'your.email@email.com',
+      phoneLabel: 'WhatsApp phone number',
+      phonePlaceholder: '+52...',
+      messageLabel: 'Message for the couple',
+      messagePlaceholder: 'Leave us a message, a prayer or a few loving words',
       submit: 'Send confirmation',
-      submitWhatsApp: 'Confirm via WhatsApp',
-      sending: 'Sending…',
-      errorName: 'Please write your name.',
+      sending: 'Sending confirmation...',
+      sendWhatsApp: 'Send via WhatsApp',
+      waHandoff: 'Tap the button to open WhatsApp with your RSVP ready to send.',
+      errorNames: 'Please write the names of those attending.',
       errorAttendance: 'Please let us know if you will attend.',
+      errorEmail: 'Please write your email address.',
+      errorEmailInvalid: 'Please check your email address.',
+      errorPhone: 'Please write your WhatsApp phone number.',
       errorSend: 'We could not send your confirmation. Please try again or confirm via WhatsApp.',
-      success: 'Thank you for confirming. It moves us deeply to share this day with you.',
-      successNo: 'Thank you for letting us know. We hold you in our hearts and pray for you.',
-      waIntro: 'Hello, this is',
-      waBody: (name, guests, attendance, transport, comments) =>
-        `Hello, this is ${name}. We confirm our attendance to Kamila & David's wedding. ` +
-        `Attendance: ${attendance}. Number of guests: ${guests}. Transportation: ${transport}. Comments: ${comments || 'None'}.`,
+      successTitle: 'Thank you for your RSVP',
+      successBody:
+        'We are deeply excited to share this day with you. Thank you for being part of this story that God has written with so much love.',
+      successBodyNo: 'Thank you for letting us know. We hold you in our hearts and pray for you.',
+      signature: 'Kamila & David',
+      none: '—',
+      waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
+        `Hello, we are:\n${names}\n\n` +
+        `Attendance confirmation:\n${attendance}\n\n` +
+        `Interest in possible shuttle from Mexico City:\n${shuttle}\n\n` +
+        `Lodging:\n${lodging}\n\n` +
+        `Email:\n${email}\n\n` +
+        `WhatsApp:\n${phone}\n\n` +
+        `Message for the couple:\n${message}`,
     },
     gallery: {
       title: 'Moments that brought us here',
@@ -540,6 +720,10 @@ export const translations = {
     schedule: {
       title: 'Tagesablauf',
       subtitle: 'Ungefähre Zeiten, damit ihr jeden Moment mit uns erleben könnt.',
+      ceremonyNote:
+        'Die christliche Trauung ist das Herzstück unserer Feier. Es würde uns sehr viel bedeuten, wenn du von diesem ersten Moment an dabei bist, wenn wir Gott danken und unseren Ehebund vor Ihm feiern.',
+      arrivalNote:
+        'Wir empfehlen dir, frühzeitig anzukommen, damit du von Beginn der Trauung an dabei sein kannst.',
       items: [
         {
           time: '13:00 Uhr',
@@ -581,19 +765,82 @@ export const translations = {
       seeDetails: 'Details ansehen',
       close: 'Schließen',
       cards: {
+        important: {
+          title: 'Wichtige Informationen',
+          summary: 'Eine Nachricht des Brautpaares',
+          preview: 'Eine Nachricht von Herzen über die Bedeutung dieses Tages.',
+          paragraphs: [
+            'Für uns ist die christliche Trauung der wichtigste Moment des Tages. Mehr als eine gesellschaftliche Feier bedeutet dieser Tag für uns einen Bund vor Gott, und es würde uns sehr freuen, wenn du uns bereits bei der Trauung begleitest.',
+            'Außerdem möchten wir mitteilen, dass während der Feier keine alkoholischen Getränke serviert werden. Dies ist eine persönliche Entscheidung, die dem Sinn unserer Feier entspricht. Wir wünschen uns einen Nachmittag voller Dankbarkeit, Freude, Gemeinschaft und Liebe, in einer Atmosphäre, die Gott ehrt und in der wir diesen besonderen Moment gemeinsam genießen können.',
+            'Da es eine intime Feier mit begrenztem Platz sein wird, ist diese Veranstaltung nur für Erwachsene. Vielen Dank für dein Verständnis und deine liebevolle Rücksichtnahme.',
+          ],
+        },
+        sponsors: {
+          title: 'Möchtest du einer unserer Paten sein?',
+          summary: 'Eine besondere Art, uns zu begleiten',
+          preview: 'Es wäre für uns sehr besonders, Paten zu haben, die uns bei bedeutsamen Elementen unserer Trauung und Feier begleiten.',
+          paragraphs: [
+            'Dieser Tag hat für uns eine ganz besondere Bedeutung. Mehr als eine Feier bedeutet er einen Bund vor Gott, und es erfüllt uns mit Dankbarkeit, ihn mit Menschen zu teilen, die wir lieben.',
+            'Wenn du uns als Pate bei einem dieser Elemente begleiten möchtest, kannst du den Bereich auswählen, zu dem du beitragen möchtest, und den Betrag deines Beitrags eintragen.',
+            'Deine Unterstützung nehmen wir mit viel Liebe und Dankbarkeit an.',
+          ],
+          availableTitle: 'Verfügbare Patenschaften',
+          categoryLabels: { rings: 'Pate der Ringe', bouquet: 'Pate des Brautstraußes', bible: 'Pate der Bibel' },
+          goalPending: 'Ziel wird noch festgelegt',
+          of: 'von',
+          formTitle: 'Das bedeutet uns sehr viel',
+          formIntro: 'Wenn du einer unserer Paten sein möchtest, wähle den Bereich aus, zu dem du beitragen möchtest, und trage deinen Betrag ein. Anschließend kannst du deine Überweisung mit den unten stehenden Bankdaten vornehmen.',
+          nameLabel: 'Dein Name',
+          namePlaceholder: 'Schreibe deinen vollständigen Namen',
+          categoryLabel: 'Ich möchte beitragen als',
+          amountLabel: 'Höhe deines Beitrags',
+          amountPlaceholder: 'z. B. 1000',
+          contactLabel: 'Kontakt',
+          contactPlaceholder: 'WhatsApp oder E-Mail, damit wir dir danken können',
+          messageLabel: 'Nachricht an das Brautpaar',
+          messagePlaceholder: 'Hinterlasse uns eine liebe Nachricht',
+          submit: 'Beitrag registrieren',
+          sending: 'Wird registriert...',
+          noPayNote: 'Dieses Formular nimmt keine Zahlung vor. Beiträge erfolgen ausschließlich per Banküberweisung. Danke, dass du uns hilfst, eine klare Übersicht zu behalten, damit wir dir persönlich danken können.',
+          bankTitle: 'Daten für die Banküberweisung',
+          bankName: 'Name',
+          bankBank: 'Bank',
+          bankClabe: 'CLABE',
+          copyBank: 'Bankdaten kopieren',
+          copied: 'Daten kopiert',
+          tableTitle: 'Paten, die beigetragen haben',
+          colName: 'Name',
+          colCategory: 'Patenschaft',
+          colAmount: 'Beitrag',
+          empty: 'Noch keine Beiträge registriert.',
+          errorName: 'Bitte gib deinen Namen ein.',
+          errorCategory: 'Bitte wähle eine Patenschaft.',
+          errorAmount: 'Bitte gib einen gültigen Betrag ein.',
+          thanksTitle: 'Vielen Dank für deinen Beitrag!',
+          thanksBody: 'Deine Unterstützung bedeutet uns sehr viel. Danke, dass du uns bei diesem besonderen Schritt mit so viel Liebe begleitest.',
+          signature: 'Kamila & David',
+          registerAnother: 'Weiteren Beitrag registrieren',
+          sendWhatsApp: 'Hinweis per WhatsApp senden',
+          waBody: ({ name, category, amount, contact, message }) =>
+            `Hallo, ich bin:\n${name}\n\n` +
+            `Ich möchte unterstützen als:\n${category}\n\n` +
+            `Beitragshöhe:\n$${amount} MXN\n\n` +
+            `Kontakt:\n${contact}\n\n` +
+            `Nachricht:\n${message}\n\n` +
+            `Ich habe bereits die Daten für die Banküberweisung.`,
+        },
         location: {
           title: 'Anreise',
           summary: 'Cocoyoc, Morelos · Mexiko',
           preview: 'Die Feier findet in Cocoyoc, Morelos statt. Wir empfehlen, die Route im Voraus zu planen.',
           address: 'Rómulo Hernández #21 km 1 Col. Lucio Moreno, 62736 Cocoyoc, Mor.',
-          text: 'Die Feier findet in Cocoyoc, Morelos statt. Wir empfehlen, die Route im Voraus zu planen, um in Ruhe anzukommen und den Tag von Anfang an zu genießen.',
-          extra: 'Für unsere Gäste steht außerdem ein Transport mit begrenzten Plätzen zur Verfügung. Details zu Abfahrtsorten und Zeiten teilen wir bald mit.',
+          text: 'Die Feier findet in Cocoyoc, Morelos, statt. Wir empfehlen dir, deine Route im Voraus zu prüfen, damit du entspannt ankommst und uns von Beginn der christlichen Trauung an begleiten kannst.',
         },
         transport: {
           title: 'Transport',
-          summary: 'Begrenzte Plätze für Gäste',
-          preview: 'Für einige Gäste steht ein Transport zur Verfügung, um die Anreise zu erleichtern.',
-          text: 'Um unseren Gästen die Anreise zu erleichtern, steht ein Transport mit begrenzten Plätzen zur Verfügung. Wenn ihr ihn nutzen möchtet, gebt es bitte bei eurer Zusage an, damit wir die Plätze einplanen können.',
+          summary: 'Shuttle ab Mexiko-Stadt',
+          preview: 'Wir prüfen einen Shuttle ab Mexiko-Stadt mit möglicher Kostenbeteiligung.',
+          text: 'Wir prüfen die Möglichkeit, einen Shuttle von Mexiko-Stadt zum Veranstaltungsort in Cocoyoc zu koordinieren. Diese Option hängt von der Anzahl der interessierten Gäste ab und könnte als gemeinsame Kostenbeteiligung unter den Personen organisiert werden, die den Shuttle nutzen möchten. Wenn du dafür berücksichtigt werden möchtest, gib dies bitte in deiner Rückmeldung an, damit wir die Logistik und Verfügbarkeit prüfen können.',
         },
         registry: {
           title: 'Geschenktisch',
@@ -604,8 +851,10 @@ export const translations = {
         lodging: {
           title: 'Unterkunft',
           summary: 'Übernachten in der Nähe',
-          preview: 'Bald teilen wir empfohlene Unterkünfte in der Nähe der Feier mit.',
-          text: 'Wenn ihr von außerhalb anreist oder in der Nähe übernachten möchtet, teilen wir bald einige empfohlene Unterkünfte mit.',
+          preview: 'Einige empfohlene Unterkünfte in der Nähe des Veranstaltungsortes.',
+          intro: 'Auf Grundlage von Kommentaren und Empfehlungen des Gastgebers sind dies einige nahegelegene Optionen, die ihr in Betracht ziehen könnt. Wenn ihr Fragen zur Gegend habt oder Orientierung benötigt, helfen wir euch gerne weiter.',
+          airbnb: 'Außerdem prüfen wir die Möglichkeit, eine gemeinsame Unterkunft, zum Beispiel ein Airbnb, für Familien oder Freunde zu koordinieren, die sich gemeinsam organisieren möchten. Die Kosten würden dabei unter den teilnehmenden Personen geteilt. Wenn du für eine Gruppenoption berücksichtigt werden möchtest, gib dies bitte in deiner Rückmeldung an, damit wir das Interesse einschätzen und mögliche Optionen prüfen können.',
+          hotelCta: (name) => `${name} ansehen`,
         },
         dressCode: {
           title: 'Dresscode',
@@ -619,8 +868,8 @@ export const translations = {
         kids: {
           title: 'Über die Kleinsten',
           summary: 'Feier nur für Erwachsene',
-          preview: 'Es wird eine intime Feier mit begrenzter Gästezahl sein.',
-          text: 'Wir lieben eure Familien und sind von Herzen dankbar für euer Verständnis. Da es eine intime Feier mit begrenzter Gästezahl sein wird, ist das Fest dieses Mal nur für Erwachsene. Danke, dass ihr uns helft, dieses Detail mit viel Liebe zu bewahren.',
+          preview: 'Es wird eine intime Feier mit begrenztem Platz sein.',
+          text: 'Wir lieben eure Familien und danken euch von Herzen für euer Verständnis. Da es eine intime Feier mit begrenztem Platz sein wird, ist diese Veranstaltung nur für Erwachsene. Vielen Dank, dass ihr uns helft, diesen Punkt liebevoll zu berücksichtigen.',
         },
       },
     },
@@ -660,30 +909,51 @@ export const translations = {
     rsvp: {
       title: 'Teilnahme bestätigen',
       subtitle: 'Es ist uns eine Ehre, diesen Tag mit euch zu teilen. Bitte bestätigt eure Teilnahme.',
-      nameLabel: 'Vollständiger Name',
-      namePlaceholder: 'Vor- und Nachname',
-      guestsLabel: 'Anzahl der Gäste laut Einladung',
+      namesLabel: 'Namen der teilnehmenden Personen',
+      namesPlaceholder: 'Schreibe die Namen der teilnehmenden Personen',
       attendanceLabel: 'Ich nehme teil',
-      attendanceYes: 'Ja, ich bin dabei',
-      attendanceNo: 'Ich kann leider nicht kommen',
-      transportLabel: 'Werdet ihr den Transport nutzen?',
-      transportYes: 'Ja',
-      transportNo: 'Nein',
-      transportMaybe: 'Vielleicht',
-      commentsLabel: 'Unverträglichkeiten oder besondere Hinweise',
-      commentsPlaceholder: 'Allergien, Hinweise oder eine Nachricht an uns (optional)',
+      attendanceYes: 'Ja, ich werde dabei sein',
+      attendanceNo: 'Ich kann leider nicht teilnehmen',
+      shuttleLabel: 'Möchtest du für einen möglichen Shuttle ab Mexiko-Stadt berücksichtigt werden?',
+      shuttleYes: 'Ja, ich möchte Informationen erhalten',
+      shuttleNo: 'Nein, ich komme selbst',
+      shuttleMaybe: 'Ich bin mir noch nicht sicher',
+      lodgingLabel: 'Über deine Unterkunft',
+      lodgingShared: 'Ich bin an einer möglichen Gruppenoption mit Kostenbeteiligung interessiert',
+      lodgingOwn: 'Ich organisiere meine Unterkunft selbst',
+      lodgingUnsure: 'Ich bin mir noch nicht sicher',
+      coordinationNote:
+        'Diese Antworten helfen uns lediglich, das Interesse der Gäste einzuschätzen und mögliche Koordinationsoptionen zu prüfen. Weitere Details, Verfügbarkeit und Kosten teilen wir später mit, falls wir eine Gruppenoption weiterverfolgen.',
+      emailLabel: 'E-Mail-Adresse',
+      emailPlaceholder: 'deine.email@email.com',
+      phoneLabel: 'WhatsApp-Telefonnummer',
+      phonePlaceholder: '+52...',
+      messageLabel: 'Nachricht an das Brautpaar',
+      messagePlaceholder: 'Hinterlasse uns eine Nachricht, ein Gebet oder ein paar liebe Worte',
       submit: 'Zusage senden',
-      submitWhatsApp: 'Per WhatsApp bestätigen',
-      sending: 'Wird gesendet…',
-      errorName: 'Bitte gib deinen Namen ein.',
+      sending: 'Rückmeldung wird gesendet...',
+      sendWhatsApp: 'Per WhatsApp senden',
+      waHandoff: 'Tippe auf die Schaltfläche, um WhatsApp mit deiner vorbereiteten Rückmeldung zu öffnen.',
+      errorNames: 'Bitte schreibe die Namen der teilnehmenden Personen.',
       errorAttendance: 'Bitte teile uns mit, ob du kommen kannst.',
+      errorEmail: 'Bitte gib deine E-Mail-Adresse ein.',
+      errorEmailInvalid: 'Bitte überprüfe deine E-Mail-Adresse.',
+      errorPhone: 'Bitte gib deine WhatsApp-Telefonnummer ein.',
       errorSend: 'Deine Zusage konnte nicht gesendet werden. Versuche es bitte erneut oder bestätige per WhatsApp.',
-      success: 'Vielen Dank für deine Rückmeldung. Es berührt uns zutiefst, diesen Tag mit dir zu teilen.',
-      successNo: 'Danke, dass du uns Bescheid gegeben hast. Wir tragen dich im Herzen und beten für dich.',
-      waIntro: 'Hallo, hier ist',
-      waBody: (name, guests, attendance, transport, comments) =>
-        `Hallo, hier ist ${name}. Wir bestätigen unsere Teilnahme an der Hochzeit von Kamila & David. ` +
-        `Teilnahme: ${attendance}. Anzahl der Gäste: ${guests}. Transport: ${transport}. Anmerkungen: ${comments || 'Keine'}.`,
+      successTitle: 'Vielen Dank für deine Rückmeldung',
+      successBody:
+        'Wir freuen uns sehr, diesen Tag mit dir zu teilen. Danke, dass du Teil dieser Geschichte bist, die Gott mit so viel Liebe geschrieben hat.',
+      successBodyNo: 'Danke, dass du uns Bescheid gegeben hast. Wir tragen dich im Herzen und beten für dich.',
+      signature: 'Kamila & David',
+      none: '—',
+      waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
+        `Hallo, wir sind:\n${names}\n\n` +
+        `Teilnahmebestätigung:\n${attendance}\n\n` +
+        `Interesse an einem möglichen Shuttle ab Mexiko-Stadt:\n${shuttle}\n\n` +
+        `Unterkunft:\n${lodging}\n\n` +
+        `E-Mail:\n${email}\n\n` +
+        `WhatsApp:\n${phone}\n\n` +
+        `Nachricht an das Brautpaar:\n${message}`,
     },
     gallery: {
       title: 'Momente, die uns hierher geführt haben',
