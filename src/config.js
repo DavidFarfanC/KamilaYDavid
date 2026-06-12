@@ -43,15 +43,21 @@ export const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/jmGXkMx4VsCGCFC49'
 // Metas por padrinazgo, en MXN. Si una meta está en 0, la barra muestra 0%
 // (no divide entre cero). Edita estos montos cuando los tengas.
 export const SPONSORSHIP_GOALS = {
-  rings: 0, // Padrino de anillos
-  bouquet: 0, // Padrino de ramo
-  bible: 0, // Padrino de Biblia
+  photography: 0, // Padrinos de fotografía
+  audio: 0, // Padrinos de audio
+  cake: 0, // Padrinos de pastel
+  flowers: 0, // Padrinos de flores
+  aisle: 0, // Padrinos de camino
+  bride_presentation: 0, // Padrinos de presentación de la novia
+  toast: 0, // Padrinos del brindis
+  gratitude: 0, // Padrinos de gratitud
 }
 
 // Aportaciones registradas (edítalas a mano conforme lleguen las transferencias).
-// category: 'rings' | 'bouquet' | 'bible'. amount en MXN.
+// category: 'photography' | 'audio' | 'cake' | 'flowers' | 'aisle' |
+//           'bride_presentation' | 'toast' | 'gratitude'. amount en MXN.
 export const SPONSORSHIP_CONTRIBUTIONS = [
-  // { id: 'example-1', name: 'Ejemplo', category: 'rings', amount: 0, date: '2026-01-01' },
+  // { id: 'example-1', name: 'Ejemplo', category: 'photography', amount: 0, date: '2026-01-01' },
 ]
 
 // Mostrar el monto de cada aportación en la tabla pública. Si es false,
@@ -63,7 +69,7 @@ export const SHOW_CONTRIBUTION_AMOUNTS = true
 export const BANK_DETAILS = {
   accountHolder: 'David Ivan Farfan Castro',
   bank: 'Santander',
-  clabe: 'PENDIENTE_AGREGAR_CLABE',
+  clabe: '014180606322677612',
 }
 
 // Opciones de hospedaje recomendadas (nombre, categoría de precio y link a Maps).

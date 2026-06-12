@@ -131,7 +131,16 @@ export const translations = {
             'Tu apoyo será recibido con mucho cariño y gratitud.',
           ],
           availableTitle: 'Aportaciones disponibles',
-          categoryLabels: { rings: 'Padrino de anillos', bouquet: 'Padrino de ramo', bible: 'Padrino de Biblia' },
+          categoryLabels: {
+            photography: 'Padrinos de fotografía',
+            audio: 'Padrinos de audio',
+            cake: 'Padrinos de pastel',
+            flowers: 'Padrinos de flores',
+            aisle: 'Padrinos de camino',
+            bride_presentation: 'Padrinos de presentación de la novia',
+            toast: 'Padrinos del brindis',
+            gratitude: 'Padrinos de gratitud',
+          },
           goalPending: 'Meta por definir',
           of: 'de',
           formTitle: 'Para nosotros es muy importante',
@@ -458,7 +467,16 @@ export const translations = {
             'Your support will be received with much love and gratitude.',
           ],
           availableTitle: 'Available sponsorships',
-          categoryLabels: { rings: 'Ring sponsor', bouquet: 'Bouquet sponsor', bible: 'Bible sponsor' },
+          categoryLabels: {
+            photography: 'Photography sponsors',
+            audio: 'Audio sponsors',
+            cake: 'Cake sponsors',
+            flowers: 'Flower sponsors',
+            aisle: 'Aisle sponsors',
+            bride_presentation: 'Bride presentation sponsors',
+            toast: 'Toast sponsors',
+            gratitude: 'Gratitude sponsors',
+          },
           goalPending: 'Goal to be defined',
           of: 'of',
           formTitle: 'This means a lot to us',
@@ -485,7 +503,7 @@ export const translations = {
           colName: 'Name',
           colCategory: 'Sponsorship',
           colAmount: 'Contribution',
-          empty: 'No contributions registered yet.',
+          empty: 'No contributions have been registered yet.',
           errorName: 'Please write your name.',
           errorCategory: 'Please choose a sponsorship.',
           errorAmount: 'Please enter a valid amount.',
@@ -496,11 +514,11 @@ export const translations = {
           sendWhatsApp: 'Send notice via WhatsApp',
           waBody: ({ name, category, amount, contact, message }) =>
             `Hello, I am:\n${name}\n\n` +
-            `I would like to support as:\n${category}\n\n` +
+            `I would like to contribute as:\n${category}\n\n` +
             `Contribution amount:\n$${amount} MXN\n\n` +
             `Contact:\n${contact}\n\n` +
             `Message:\n${message}\n\n` +
-            `I already have the details to make the bank transfer.`,
+            `I already have the bank transfer details.`,
         },
         location: {
           title: 'Getting there',
@@ -785,7 +803,16 @@ export const translations = {
             'Deine Unterstützung nehmen wir mit viel Liebe und Dankbarkeit an.',
           ],
           availableTitle: 'Verfügbare Patenschaften',
-          categoryLabels: { rings: 'Pate der Ringe', bouquet: 'Pate des Brautstraußes', bible: 'Pate der Bibel' },
+          categoryLabels: {
+            photography: 'Paten der Fotografie',
+            audio: 'Paten des Audios',
+            cake: 'Paten der Hochzeitstorte',
+            flowers: 'Paten der Blumen',
+            aisle: 'Paten des Weges',
+            bride_presentation: 'Paten der Vorstellung der Braut',
+            toast: 'Paten des Trinkspruchs',
+            gratitude: 'Paten der Dankbarkeit',
+          },
           goalPending: 'Ziel wird noch festgelegt',
           of: 'von',
           formTitle: 'Das bedeutet uns sehr viel',
@@ -812,7 +839,7 @@ export const translations = {
           colName: 'Name',
           colCategory: 'Patenschaft',
           colAmount: 'Beitrag',
-          empty: 'Noch keine Beiträge registriert.',
+          empty: 'Es wurden noch keine Beiträge registriert.',
           errorName: 'Bitte gib deinen Namen ein.',
           errorCategory: 'Bitte wähle eine Patenschaft.',
           errorAmount: 'Bitte gib einen gültigen Betrag ein.',
@@ -823,8 +850,8 @@ export const translations = {
           sendWhatsApp: 'Hinweis per WhatsApp senden',
           waBody: ({ name, category, amount, contact, message }) =>
             `Hallo, ich bin:\n${name}\n\n` +
-            `Ich möchte unterstützen als:\n${category}\n\n` +
-            `Beitragshöhe:\n$${amount} MXN\n\n` +
+            `Ich möchte beitragen als:\n${category}\n\n` +
+            `Beitragsbetrag:\n$${amount} MXN\n\n` +
             `Kontakt:\n${contact}\n\n` +
             `Nachricht:\n${message}\n\n` +
             `Ich habe bereits die Daten für die Banküberweisung.`,

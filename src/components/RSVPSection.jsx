@@ -5,6 +5,7 @@ import { WHATSAPP_NUMBER, RSVP_ENDPOINT } from '../config'
 import { buildRsvpPayload } from '../rsvpPayload'
 import Reveal from './Reveal'
 import Atmosphere from './Atmosphere'
+import RSVPBorderTrace from './RSVPBorderTrace'
 import { SectionAtmosphere } from './Monogram'
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -146,18 +147,19 @@ export default function RSVPSection() {
     e.preventDefault()
     if (!validate()) return
     setStatus('sending')
+    // Duración mínima del sello: deja que la línea recorra todo el contorno
+    const minTrace = new Promise((res) => setTimeout(res, 1500))
     try {
-      if (RSVP_ENDPOINT) {
-        const res = await fetch(RSVP_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildRsvpPayload(form, lang)),
-        })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      } else {
-        // Sin backend: una breve pausa para que la transición se sienta intencional
-        await new Promise((res) => setTimeout(res, 1000))
-      }
+      const work = RSVP_ENDPOINT
+        ? fetch(RSVP_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(buildRsvpPayload(form, lang)),
+          }).then((res) => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          })
+        : Promise.resolve()
+      await Promise.all([work, minTrace])
       setStatus('success')
     } catch {
       setStatus('error')
@@ -192,8 +194,9 @@ export default function RSVPSection() {
                 <form
                   onSubmit={handleSubmit}
                   noValidate
-                  className="mt-12 space-y-7 rounded-3xl border border-line bg-card p-6 shadow-soft sm:p-10"
+                  className="relative mt-12 space-y-7 rounded-3xl border border-line bg-card p-6 shadow-soft sm:p-10"
                 >
+                  <RSVPBorderTrace active={status === 'sending'} radius={24} />
                   {/* 1 · Nombres de los asistentes */}
                   <Field
                     label={r.namesLabel}

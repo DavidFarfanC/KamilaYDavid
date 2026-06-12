@@ -13,7 +13,16 @@ export const SPONSORSHIP_EVENT = 'kamila-david-wedding'
 export const SPONSORSHIP_SOURCE = 'wedding-website'
 
 // Categorías normalizadas (no dependen del idioma ni del texto visible).
-export const SPONSORSHIP_CATEGORIES = ['rings', 'bouquet', 'bible']
+export const SPONSORSHIP_CATEGORIES = [
+  'photography',
+  'audio',
+  'cake',
+  'flowers',
+  'aisle',
+  'bride_presentation',
+  'toast',
+  'gratitude',
+]
 
 /**
  * Construye el payload de la aportación de padrinos.

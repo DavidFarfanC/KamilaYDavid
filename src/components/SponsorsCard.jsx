@@ -14,7 +14,16 @@ import Photo from './Photo'
 import Atmosphere from './Atmosphere'
 
 const EASE = [0.22, 1, 0.36, 1]
-const CATEGORIES = ['rings', 'bouquet', 'bible']
+const CATEGORIES = [
+  'photography',
+  'audio',
+  'cake',
+  'flowers',
+  'aisle',
+  'bride_presentation',
+  'toast',
+  'gratitude',
+]
 const LOCALES = { es: 'es-MX', en: 'en-US', de: 'de-DE' }
 
 const paperBtn =
