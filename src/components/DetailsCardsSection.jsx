@@ -20,9 +20,9 @@ const imgHover = 'transition-transform duration-[1600ms] ease-out group-hover:sc
 const imgGrade = '[filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
 const imgTreat = `${imgHover} ${imgGrade}`
 
-// Moodboard del código de vestimenta: marfil cálido, beige, champaña, arena, topo.
-// Tonos cálidos a propósito — ninguno es blanco puro, para no invadir el color de la novia.
-const DRESS_TONES = ['#F3E8D8', '#E8D6BD', '#E6CFA8', '#D6BE99', '#B5A391']
+// Moodboard del código de vestimenta: la paleta real de la boda
+// (verde palma, beige arena, amarillo manzanilla, café miel).
+const DRESS_TONES = ['#4F6B4A', '#DCCDB5', '#F4D98B', '#A67C52']
 
 function Eyebrow({ children, className = '' }) {
   return (
@@ -281,7 +281,7 @@ export default function DetailsCardsSection() {
                   <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
                     {c.dressCode.palette}
                   </p>
-                  <div className="mt-4 grid max-w-md grid-cols-3 gap-x-3 gap-y-4 min-[420px]:grid-cols-5">
+                  <div className="mt-4 grid max-w-md grid-cols-2 gap-x-3 gap-y-4 min-[420px]:grid-cols-4">
                     {DRESS_TONES.map((tone, i) => (
                       <div key={tone} className="text-center">
                         <span
@@ -289,7 +289,7 @@ export default function DetailsCardsSection() {
                           className="block h-12 rounded-lg border border-line sm:h-14"
                           style={{ backgroundColor: tone }}
                         />
-                        <span className="mt-2 block whitespace-nowrap text-[9px] uppercase tracking-wide text-muted">
+                        <span className="mt-2 block text-[9px] uppercase tracking-wide text-muted">
                           {c.dressCode.tones[i]}
                         </span>
                       </div>

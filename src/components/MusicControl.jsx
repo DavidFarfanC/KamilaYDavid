@@ -43,7 +43,25 @@ export default function MusicControl() {
   const audioRef = useRef(null)
   const ytHolderRef = useRef(null)
   const ytPlayerRef = useRef(null)
+  const readyRef = useRef(false)
+  const wantsPlayRef = useRef(false) // hay intención de sonar pero aún no arranca
+  const pausedByUserRef = useRef(false) // el usuario pausó a mano: no auto-reanudar
   const [playing, setPlaying] = useState(false)
+
+  // Arranca la reproducción (idempotente). Si el reproductor aún no está listo,
+  // deja la intención registrada para reproducir en cuanto lo esté.
+  const startPlayback = () => {
+    if (pausedByUserRef.current) return
+    wantsPlayRef.current = true
+    if (useYouTube) {
+      const p = ytPlayerRef.current
+      if (readyRef.current && p && typeof p.playVideo === 'function') p.playVideo()
+    } else if (audioRef.current) {
+      audioRef.current.play().catch(() => {
+        /* bloqueado por el navegador: esperará al primer gesto */
+      })
+    }
+  }
 
   // Inicializa el reproductor de YouTube oculto
   useEffect(() => {
@@ -58,7 +76,7 @@ export default function MusicControl() {
         ytPlayerRef.current = new YT.Player(ytHolderRef.current, {
           videoId: WEDDING_YOUTUBE_ID,
           playerVars: {
-            autoplay: 0,
+            autoplay: 1,
             controls: 0,
             disablekb: 1,
             loop: 1,
@@ -68,7 +86,13 @@ export default function MusicControl() {
             rel: 0,
           },
           events: {
-            onReady: (e) => e.target.setVolume(Math.round(VOLUME * 100)),
+            onReady: (e) => {
+              readyRef.current = true
+              e.target.setVolume(Math.round(VOLUME * 100))
+              // Intento de autoplay al cargar; si el navegador lo bloquea,
+              // el primer gesto del usuario lo iniciará (ver efecto de gestos).
+              if (wantsPlayRef.current || !pausedByUserRef.current) e.target.playVideo()
+            },
             onStateChange: (e) => {
               if (e.data === YT.PlayerState.PLAYING) setPlaying(true)
               else if (
@@ -94,7 +118,25 @@ export default function MusicControl() {
     }
   }, [useYouTube])
 
+  // Arranque en el primer gesto del usuario (toque, scroll o tecla) por si el
+  // navegador bloquea el autoplay con sonido. Se ejecuta una sola vez.
+  useEffect(() => {
+    const events = ['pointerdown', 'touchstart', 'keydown', 'scroll']
+    const onFirst = () => {
+      cleanup()
+      startPlayback()
+    }
+    const cleanup = () => events.forEach((ev) => window.removeEventListener(ev, onFirst))
+    events.forEach((ev) => window.addEventListener(ev, onFirst, { once: true, passive: true }))
+    // Intento inmediato (funciona en algunos navegadores de escritorio)
+    startPlayback()
+    return cleanup
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const toggle = async () => {
+    pausedByUserRef.current = playing // si estaba sonando y lo pausa, recuérdalo
+
     if (useYouTube) {
       const p = ytPlayerRef.current
       if (!p || typeof p.playVideo !== 'function') return
