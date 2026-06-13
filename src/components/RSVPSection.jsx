@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
-import { WHATSAPP_NUMBER, RSVP_ENDPOINT } from '../config'
+import { RSVP_ENDPOINT } from '../config'
 import { buildRsvpPayload } from '../rsvpPayload'
 import Reveal from './Reveal'
 import Atmosphere from './Atmosphere'
@@ -15,12 +15,6 @@ const inputCls =
 
 // Estado de error: borde cálido tipo arcilla (elegante, no rojo neón) + aro suave
 const errorInput = 'border-[#B0694F] ring-2 ring-[#B0694F]/25 focus:border-[#B0694F]'
-
-const paperBtn =
-  'group/btn inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover'
-
-const btnArrow =
-  'transition-transform duration-300 ease-editorial group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -155,23 +149,6 @@ export default function RSVPSection() {
       node.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
-
-  // Etiquetas legibles para el mensaje de WhatsApp; las opcionales sin responder usan "—"
-  const resolved = () => ({
-    names: form.names.trim(),
-    attendance: form.attendance === 'yes' ? r.attendanceYes : r.attendanceNo,
-    shuttle: { yes: r.shuttleYes, no: r.shuttleNo, maybe: r.shuttleMaybe }[form.shuttle] || r.none,
-    lodging:
-      { shared: r.lodgingShared, own: r.lodgingOwn, unsure: r.lodgingUnsure }[form.lodging] || r.none,
-    email: form.email.trim(),
-    phone: form.phone.trim() || r.none,
-    message: form.message.trim() || r.none,
-  })
-
-  const buildWhatsAppUrl = () =>
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(r.waBody(resolved()))}`
-
-  const openWhatsApp = () => window.open(buildWhatsAppUrl(), '_blank', 'noopener')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -431,17 +408,6 @@ export default function RSVPSection() {
                   >
                     {r.signature}
                   </motion.p>
-
-                  {/* Handoff de WhatsApp, sin abrir nada de golpe */}
-                  <motion.div variants={successItem} className="mt-10">
-                    <button type="button" onClick={openWhatsApp} className={paperBtn}>
-                      {r.sendWhatsApp}
-                      <span aria-hidden="true" className={btnArrow}>↗</span>
-                    </button>
-                    <p className="mx-auto mt-4 max-w-xs text-xs leading-relaxed text-muted">
-                      {r.waHandoff}
-                    </p>
-                  </motion.div>
                 </motion.div>
               </motion.div>
             </MotionConfig>

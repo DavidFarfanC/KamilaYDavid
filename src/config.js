@@ -43,14 +43,14 @@ export const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/jmGXkMx4VsCGCFC49'
 // Metas por padrinazgo, en MXN. Si una meta está en 0, la barra muestra 0%
 // (no divide entre cero). Edita estos montos cuando los tengas.
 export const SPONSORSHIP_GOALS = {
-  photography: 0, // Padrinos de fotografía
-  audio: 0, // Padrinos de audio
-  cake: 0, // Padrinos de pastel
-  flowers: 0, // Padrinos de flores
-  aisle: 0, // Padrinos de camino
-  bride_presentation: 0, // Padrinos de presentación de la novia
-  toast: 0, // Padrinos del brindis
-  gratitude: 0, // Padrinos de gratitud
+  photography: 15000, // Padrinos de fotografía
+  audio: 10000, // Padrinos de audio
+  cake: 5000, // Padrinos de pastel
+  flowers: 5000, // Padrinos de flores
+  aisle: 3000, // Padrinos de camino
+  bride_presentation: 5000, // Padrinos de presentación de la novia
+  toast: 4000, // Padrinos del brindis
+  gratitude: 5000, // Padrinos de gratitud
 }
 
 // Aportaciones registradas (edítalas a mano conforme lleguen las transferencias).

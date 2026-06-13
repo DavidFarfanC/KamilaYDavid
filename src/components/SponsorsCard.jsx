@@ -7,7 +7,6 @@ import {
   SHOW_CONTRIBUTION_AMOUNTS,
   BANK_DETAILS,
   RSVP_ENDPOINT,
-  WHATSAPP_NUMBER,
 } from '../config'
 import { buildSponsorshipPayload } from '../sponsorshipPayload'
 import Photo from './Photo'
@@ -26,12 +25,8 @@ const CATEGORIES = [
 ]
 const LOCALES = { es: 'es-MX', en: 'en-US', de: 'de-DE' }
 
-const paperBtn =
-  'group/btn inline-flex items-center justify-center gap-2 rounded-full bg-paper px-6 py-3 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover'
 const ghostBtn =
   'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-6 py-3 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0'
-const btnArrow =
-  'transition-transform duration-300 ease-editorial group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5'
 const imgTreat =
   'transition-transform duration-700 ease-editorial group-hover:scale-[1.02] [filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
 const inputCls =
@@ -43,8 +38,6 @@ const money = (n, lang) =>
     currency: 'MXN',
     maximumFractionDigits: 0,
   }).format(Number(n) || 0)
-const plainNumber = (n, lang) =>
-  new Intl.NumberFormat(LOCALES[lang] || 'es-MX', { maximumFractionDigits: 0 }).format(Number(n) || 0)
 
 const raisedFor = (category) =>
   SPONSORSHIP_CONTRIBUTIONS.filter((c) => c.category === category).reduce(
@@ -159,17 +152,6 @@ export default function SponsorsCard({ open, onToggle, pid }) {
     setForm({ name: '', category: '', amount: '', contact: '', message: '' })
     setErrors({})
     setStatus('idle')
-  }
-
-  const openWhatsApp = () => {
-    const msg = sp.waBody({
-      name: form.name.trim(),
-      category: sp.categoryLabels[form.category] || '—',
-      amount: plainNumber(amountNumber, lang),
-      contact: form.contact.trim() || '—',
-      message: form.message.trim() || '—',
-    })
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
   }
 
   const copyBank = async () => {
@@ -426,14 +408,7 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                     >
                       {sp.signature}
                     </motion.p>
-                    <motion.div
-                      variants={successItem}
-                      className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
-                    >
-                      <button type="button" onClick={openWhatsApp} className={paperBtn}>
-                        {sp.sendWhatsApp}
-                        <span aria-hidden="true" className={btnArrow}>↗</span>
-                      </button>
+                    <motion.div variants={successItem} className="mt-7 flex justify-center">
                       <button type="button" onClick={resetForm} className={ghostBtn}>
                         {sp.registerAnother}
                       </button>
