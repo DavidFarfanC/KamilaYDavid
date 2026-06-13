@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
 import { WHATSAPP_NUMBER, RSVP_ENDPOINT } from '../config'
@@ -12,6 +12,9 @@ const EASE = [0.22, 1, 0.36, 1]
 
 const inputCls =
   'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-all duration-300 ease-editorial focus:border-paper-line focus:outline-none focus:ring-4 focus:ring-paper/40'
+
+// Estado de error: borde cálido tipo arcilla (elegante, no rojo neón) + aro suave
+const errorInput = 'border-[#B0694F] ring-2 ring-[#B0694F]/25 focus:border-[#B0694F]'
 
 const paperBtn =
   'group/btn inline-flex items-center gap-2 rounded-full bg-paper px-7 py-3 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover'
@@ -34,7 +37,7 @@ function Field({ label, htmlFor, error, errorId, children }) {
       </label>
       {children}
       {error && (
-        <p id={errorId} role="alert" className="mt-2 text-xs font-medium text-stone">
+        <p id={errorId} role="alert" className="mt-2 text-xs font-medium text-[#B0694F]">
           {error}
         </p>
       )}
@@ -47,7 +50,11 @@ function ChoiceGroup({ legend, name, value, onChange, options, variant = 'pills'
   return (
     <fieldset>
       <legend className="mb-2 block text-sm font-medium text-ink/80">{legend}</legend>
-      <div className={variant === 'stack' ? 'flex flex-col gap-2' : 'flex flex-wrap gap-2'}>
+      <div
+        className={`${variant === 'stack' ? 'flex flex-col gap-2' : 'flex flex-wrap gap-2'} ${
+          error ? 'rounded-2xl ring-2 ring-[#B0694F]/25 ring-offset-4 ring-offset-card' : ''
+        }`}
+      >
         {options.map((opt) => {
           const selected = value === opt.value
           return (
@@ -89,7 +96,7 @@ function ChoiceGroup({ legend, name, value, onChange, options, variant = 'pills'
         })}
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-xs font-medium text-stone">
+        <p role="alert" className="mt-2 text-xs font-medium text-[#B0694F]">
           {error}
         </p>
       )}
@@ -113,8 +120,18 @@ export default function RSVPSection() {
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | success | error
   const set = (key) => (val) => setForm((f) => ({ ...f, [key]: val }))
+  const containerRef = useRef(null)
 
-  const validate = () => {
+  // El formulario es alto; al enviarlo se encoge a la tarjeta de confirmación,
+  // que aparece más arriba. La centramos en cuanto se monta (con el form ya
+  // fuera) para que el sello y la confirmación SIEMPRE queden a la vista.
+  const centerSuccessCard = useCallback((node) => {
+    if (node) {
+      setTimeout(() => node.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120)
+    }
+  }, [])
+
+  const computeErrors = () => {
     const e = {}
     if (!form.names.trim()) e.names = r.errorNames
     if (!form.attendance) e.attendance = r.errorAttendance
@@ -122,8 +139,21 @@ export default function RSVPSection() {
     else if (!EMAIL_RE.test(form.email.trim())) e.email = r.errorEmailInvalid
     // El teléfono es requerido solo cuando confirma asistencia
     if (form.attendance === 'yes' && !form.phone.trim()) e.phone = r.errorPhone
-    setErrors(e)
-    return Object.keys(e).length === 0
+    return e
+  }
+
+  // Lleva al usuario al primer campo que falta y lo enfoca (feedback claro)
+  const focusFirstError = (e) => {
+    const order = ['names', 'attendance', 'email', 'phone']
+    const key = order.find((k) => e[k])
+    const node =
+      key === 'attendance'
+        ? document.querySelector('#rsvp input[name="attendance"]')
+        : key && document.getElementById(`rsvp-${key}`)
+    if (node) {
+      node.focus?.({ preventScroll: true })
+      node.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
   }
 
   // Etiquetas legibles para el mensaje de WhatsApp; las opcionales sin responder usan "—"
@@ -145,7 +175,13 @@ export default function RSVPSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!validate()) return
+    const errs = computeErrors()
+    setErrors(errs)
+    if (Object.keys(errs).length > 0) {
+      // Respuesta visible: lleva y enfoca el primer campo que falta
+      focusFirstError(errs)
+      return
+    }
     setStatus('sending')
     // Duración mínima del sello: deja que la línea recorra todo el contorno
     const minTrace = new Promise((res) => setTimeout(res, 1500))
@@ -171,7 +207,7 @@ export default function RSVPSection() {
       <SectionAtmosphere />
       {status === 'success' && <Atmosphere />}
 
-      <div className="relative z-10 mx-auto max-w-xl">
+      <div ref={containerRef} className="relative z-10 mx-auto max-w-xl scroll-mt-24">
         <AnimatePresence mode="wait">
           {status !== 'success' ? (
             <motion.div
@@ -212,7 +248,7 @@ export default function RSVPSection() {
                       placeholder={r.namesPlaceholder}
                       aria-invalid={!!errors.names}
                       aria-describedby={errors.names ? 'rsvp-names-error' : undefined}
-                      className={inputCls}
+                      className={`${inputCls} ${errors.names ? errorInput : ''}`}
                     />
                   </Field>
 
@@ -277,7 +313,7 @@ export default function RSVPSection() {
                       placeholder={r.emailPlaceholder}
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'rsvp-email-error' : undefined}
-                      className={inputCls}
+                      className={`${inputCls} ${errors.email ? errorInput : ''}`}
                     />
                   </Field>
 
@@ -298,7 +334,7 @@ export default function RSVPSection() {
                       placeholder={r.phonePlaceholder}
                       aria-invalid={!!errors.phone}
                       aria-describedby={errors.phone ? 'rsvp-phone-error' : undefined}
-                      className={inputCls}
+                      className={`${inputCls} ${errors.phone ? errorInput : ''}`}
                     />
                   </Field>
 
@@ -345,10 +381,11 @@ export default function RSVPSection() {
             <MotionConfig reducedMotion="user">
               <motion.div
                 key="success"
+                ref={centerSuccessCard}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, ease: EASE }}
-                className="mx-auto max-w-xl text-center"
+                className="mx-auto max-w-xl scroll-mt-24 text-center"
               >
                 {/* Monograma grande y suave */}
                 <motion.p
