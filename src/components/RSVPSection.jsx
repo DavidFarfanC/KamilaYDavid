@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
-import { RSVP_ENDPOINT } from '../config'
+import { RSVP_ENDPOINT, WHATSAPP_NUMBER } from '../config'
 import { buildRsvpPayload } from '../rsvpPayload'
 import Reveal from './Reveal'
 import Atmosphere from './Atmosphere'
@@ -15,8 +15,13 @@ const inputCls =
 
 // Estado de error: borde cálido tipo arcilla (elegante, no rojo neón) + aro suave
 const errorInput = 'border-[#B0694F] ring-2 ring-[#B0694F]/25 focus:border-[#B0694F]'
+const ghostBtn =
+  'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-6 py-3 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const ATTENDANCE_LABEL_KEYS = { yes: 'attendanceYes', no: 'attendanceNo' }
+const SHUTTLE_LABEL_KEYS = { yes: 'shuttleYes', no: 'shuttleNo', maybe: 'shuttleMaybe' }
+const LODGING_LABEL_KEYS = { shared: 'lodgingShared', own: 'lodgingOwn', unsure: 'lodgingUnsure' }
 
 const successItem = {
   hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
@@ -101,6 +106,7 @@ function ChoiceGroup({ legend, name, value, onChange, options, variant = 'pills'
 export default function RSVPSection() {
   const { t, lang } = useLang()
   const r = t.rsvp
+  const hasWhatsApp = Boolean(WHATSAPP_NUMBER)
 
   const [form, setForm] = useState({
     names: '',
@@ -136,6 +142,29 @@ export default function RSVPSection() {
     return e
   }
 
+  const rsvpWhatsAppUrl = useCallback(() => {
+    if (!hasWhatsApp) return ''
+
+    const pickLabel = (value, map) => (value && map[value] ? r[map[value]] : r.none)
+    const text = r.waBody({
+      names: form.names.trim() || r.none,
+      attendance: pickLabel(form.attendance, ATTENDANCE_LABEL_KEYS),
+      shuttle: pickLabel(form.shuttle, SHUTTLE_LABEL_KEYS),
+      lodging: pickLabel(form.lodging, LODGING_LABEL_KEYS),
+      email: form.email.trim() || r.none,
+      phone: form.phone.trim() || r.none,
+      message: form.message.trim() || r.none,
+    })
+
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
+  }, [form, hasWhatsApp, r])
+
+  const openWhatsAppHandoff = useCallback(() => {
+    const url = rsvpWhatsAppUrl()
+    if (!url || typeof window === 'undefined') return
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }, [rsvpWhatsAppUrl])
+
   // Lleva al usuario al primer campo que falta y lo enfoca (feedback claro)
   const focusFirstError = (e) => {
     const order = ['names', 'attendance', 'email', 'phone']
@@ -163,13 +192,21 @@ export default function RSVPSection() {
     // Duración mínima del sello: deja que la línea recorra todo el contorno
     const minTrace = new Promise((res) => setTimeout(res, 1500))
     try {
+      if (!RSVP_ENDPOINT) {
+        openWhatsAppHandoff()
+        await minTrace
+        setStatus('success')
+        return
+      }
+
       const work = RSVP_ENDPOINT
         ? fetch(RSVP_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(buildRsvpPayload(form, lang)),
-          }).then((res) => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          }).then(async (res) => {
+            const result = await res.json().catch(() => null)
+            if (!res.ok || !result?.ok) throw new Error(result?.error || `HTTP ${res.status}`)
           })
         : Promise.resolve()
       await Promise.all([work, minTrace])
@@ -328,9 +365,17 @@ export default function RSVPSection() {
                   </Field>
 
                   {status === 'error' && (
-                    <p role="alert" className="rounded-2xl bg-chamomile-soft px-4 py-3 text-sm text-ink/80">
-                      {r.errorSend}
-                    </p>
+                    <div className="space-y-4 rounded-2xl bg-chamomile-soft px-4 py-4 text-sm text-ink/80">
+                      <p role="alert">{r.errorSend}</p>
+                      {hasWhatsApp && (
+                        <div className="space-y-3">
+                          <button type="button" onClick={openWhatsAppHandoff} className={ghostBtn}>
+                            {r.sendWhatsApp}
+                          </button>
+                          <p className="text-xs leading-relaxed text-muted">{r.waHandoff}</p>
+                        </div>
+                      )}
+                    </div>
                   )}
 
                   <div className="pt-2">
@@ -408,6 +453,16 @@ export default function RSVPSection() {
                   >
                     {r.signature}
                   </motion.p>
+                  {hasWhatsApp && (
+                    <motion.div variants={successItem} className="mt-8 space-y-3">
+                      <div className="flex justify-center">
+                        <button type="button" onClick={openWhatsAppHandoff} className={ghostBtn}>
+                          {r.sendWhatsApp}
+                        </button>
+                      </div>
+                      <p className="mx-auto max-w-md text-xs leading-relaxed text-muted">{r.waHandoff}</p>
+                    </motion.div>
+                  )}
                 </motion.div>
               </motion.div>
             </MotionConfig>

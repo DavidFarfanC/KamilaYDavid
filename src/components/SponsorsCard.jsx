@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
 import {
@@ -27,6 +27,8 @@ const LOCALES = { es: 'es-MX', en: 'en-US', de: 'de-DE' }
 
 const ghostBtn =
   'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-6 py-3 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0'
+const refreshBtn =
+  'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-card/80 px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-stone transition-all duration-300 ease-editorial hover:-translate-y-px hover:border-stone/40 hover:bg-paper/40 hover:text-ink active:translate-y-0 disabled:cursor-wait disabled:opacity-70'
 const imgTreat =
   'transition-transform duration-700 ease-editorial group-hover:scale-[1.02] [filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
 const inputCls =
@@ -39,8 +41,8 @@ const money = (n, lang) =>
     maximumFractionDigits: 0,
   }).format(Number(n) || 0)
 
-const raisedFor = (category) =>
-  SPONSORSHIP_CONTRIBUTIONS.filter((c) => c.category === category).reduce(
+const raisedFor = (contributions, category) =>
+  contributions.filter((c) => c.category === category).reduce(
     (sum, c) => sum + (Number(c.amount) || 0),
     0
   )
@@ -50,9 +52,9 @@ const successItem = {
   show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: EASE } },
 }
 
-function ProgressBar({ category, label, lang, sp }) {
+function ProgressBar({ category, contributions, label, lang, sp }) {
   const goal = SPONSORSHIP_GOALS[category] || 0
-  const raised = raisedFor(category)
+  const raised = raisedFor(contributions, category)
   const pct = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0
   return (
     <div>
@@ -110,10 +112,65 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   const sp = t.details.cards.sponsors
 
   const [form, setForm] = useState({ name: '', category: '', amount: '', contact: '', message: '' })
+  const [publicContributions, setPublicContributions] = useState([])
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | thanks
   const [copied, setCopied] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
   const set = (key) => (val) => setForm((f) => ({ ...f, [key]: val }))
+  const mountedRef = useRef(true)
+  const refreshInFlightRef = useRef(false)
+
+  useEffect(() => {
+    mountedRef.current = true
+
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
+
+  const loadPublicContributions = useCallback(async ({ showLoader = false } = {}) => {
+    if (refreshInFlightRef.current) return
+
+    refreshInFlightRef.current = true
+    if (showLoader && mountedRef.current) setIsRefreshing(true)
+
+    try {
+      const res = await fetch('/api/sponsorships', { cache: 'no-store' })
+      const result = await res.json().catch(() => null)
+
+      if (res.ok && result?.ok && Array.isArray(result.contributions)) {
+        if (import.meta.env.DEV) {
+          console.log('[SponsorsCard] Loaded public contributions:', result.contributions)
+        }
+
+        if (mountedRef.current) setPublicContributions(result.contributions)
+        return
+      }
+
+      if (mountedRef.current) setPublicContributions(SPONSORSHIP_CONTRIBUTIONS)
+    } catch {
+      if (mountedRef.current) setPublicContributions(SPONSORSHIP_CONTRIBUTIONS)
+    } finally {
+      refreshInFlightRef.current = false
+      if (showLoader && mountedRef.current) setIsRefreshing(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    void loadPublicContributions()
+  }, [loadPublicContributions])
+
+  useEffect(() => {
+    if (!open) return
+
+    void loadPublicContributions()
+    const intervalId = window.setInterval(() => {
+      void loadPublicContributions()
+    }, 30000)
+
+    return () => window.clearInterval(intervalId)
+  }, [open, loadPublicContributions])
 
   const amountNumber = Number(String(form.amount).replace(/[^\d.]/g, '')) || 0
 
@@ -137,11 +194,13 @@ export default function SponsorsCard({ open, onToggle, pid }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(buildSponsorshipPayload(form, lang)),
         })
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        const result = await res.json().catch(() => null)
+        if (!res.ok || !result?.ok) throw new Error(result?.error || `HTTP ${res.status}`)
       } else {
         await new Promise((r) => setTimeout(r, 1000))
       }
       setStatus('thanks')
+      void loadPublicContributions()
     } catch {
       // Falla silenciosa de red: igual mostramos gracias (la aportación es por transferencia)
       setStatus('thanks')
@@ -164,8 +223,6 @@ export default function SponsorsCard({ open, onToggle, pid }) {
       /* clipboard no disponible: ignorar silenciosamente */
     }
   }
-
-  const contribs = SPONSORSHIP_CONTRIBUTIONS
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-paper-line bg-ivory shadow-card transition-[box-shadow,border-color,transform] duration-500 ease-editorial hover:shadow-lift active:scale-[0.99] md:min-h-[22rem] md:flex-row md:active:scale-100">
@@ -218,9 +275,17 @@ export default function SponsorsCard({ open, onToggle, pid }) {
             </p>
             <div className="mt-4 space-y-5">
               {CATEGORIES.map((cat) => (
-                <ProgressBar key={cat} category={cat} label={sp.categoryLabels[cat]} lang={lang} sp={sp} />
+                <ProgressBar
+                  key={cat}
+                  category={cat}
+                  contributions={publicContributions}
+                  label={sp.categoryLabels[cat]}
+                  lang={lang}
+                  sp={sp}
+                />
               ))}
             </div>
+            <p className="mt-4 text-xs leading-relaxed text-muted">{sp.progressNote}</p>
           </div>
 
           {/* Formulario / agradecimiento */}
@@ -404,6 +469,18 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                     </motion.p>
                     <motion.p
                       variants={successItem}
+                      className="mx-auto mt-3 max-w-sm text-balance text-sm leading-relaxed text-ink/60"
+                    >
+                      {sp.thanksSecondary}
+                    </motion.p>
+                    <motion.p
+                      variants={successItem}
+                      className="mx-auto mt-4 max-w-sm rounded-full border border-paper-line bg-paper/35 px-4 py-2 text-xs font-medium text-stone"
+                    >
+                      {sp.pendingNotice}
+                    </motion.p>
+                    <motion.p
+                      variants={successItem}
                       className="mt-5 font-serif text-base italic tracking-[0.12em] text-stone"
                     >
                       {sp.signature}
@@ -445,9 +522,33 @@ export default function SponsorsCard({ open, onToggle, pid }) {
 
           {/* Tabla de padrinos */}
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-widest text-muted">{sp.tableTitle}</p>
-            {contribs.length === 0 ? (
-              <p className="mt-4 text-sm italic text-stone">{sp.empty}</p>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
+                {sp.tableTitle}
+              </p>
+              <button
+                type="button"
+                onClick={() => void loadPublicContributions({ showLoader: true })}
+                disabled={isRefreshing}
+                className={refreshBtn}
+              >
+                {isRefreshing ? (
+                  <>
+                    {sp.refreshing}
+                    <span aria-hidden="true" className="loader-track">
+                      <span className="loader-seg" />
+                    </span>
+                  </>
+                ) : (
+                  sp.refreshAction
+                )}
+              </button>
+            </div>
+            {publicContributions.length === 0 ? (
+              <div className="mt-4 rounded-2xl border border-line bg-card px-4 py-4">
+                <p className="text-sm italic text-stone">{sp.empty}</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted">{sp.emptyNote}</p>
+              </div>
             ) : (
               <table className="mt-4 w-full text-sm">
                 <thead>
@@ -460,7 +561,7 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {contribs.map((c) => (
+                  {publicContributions.map((c) => (
                     <tr key={c.id} className="border-b border-line/60 last:border-0">
                       <td className="py-2.5 text-ink">{c.name}</td>
                       <td className="py-2.5 text-stone">{sp.categoryLabels[c.category] || c.category}</td>

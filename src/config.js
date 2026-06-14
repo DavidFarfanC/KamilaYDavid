@@ -10,9 +10,9 @@ export const WEDDING_DATE = new Date('2026-12-12T13:00:00-06:00')
 // Ejemplo México: 52 + 10 dígitos → '5215512345678' o '525512345678'
 export const WHATSAPP_NUMBER = '5215500000000'
 
-// Endpoint opcional para el RSVP (Formspree, Google Apps Script, API propia…).
-// Si lo dejas vacío (''), el formulario enviará la confirmación por WhatsApp.
-export const RSVP_ENDPOINT = ''
+// Endpoint del backend para RSVP y padrinos. Si lo dejas vacío (''),
+// el formulario RSVP usa WhatsApp como flujo principal.
+export const RSVP_ENDPOINT = '/api/rsvp'
 
 // Mesa de regalos
 export const REGISTRY_URL = 'https://example.com/mesa-de-regalos'
