@@ -21,7 +21,7 @@ const imgTreat =
   'transition-transform duration-700 ease-editorial group-hover:scale-[1.02] [filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
 
 // Paleta real de la boda para el moodboard del código de vestimenta.
-const DRESS_TONES = ['#4F6B4A', '#DCCDB5', '#F4D98B', '#A67C52']
+const DRESS_TONES = ['#4F6B4A', '#DCCDB5', '#F4D98B', '#7EACCE', '#A67C52']
 
 // Cada bloque del contenido expandido entra en secuencia (stagger).
 const itemVariants = {
@@ -350,9 +350,9 @@ export default function DetailsCardsSection() {
                   <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
                     {c.dressCode.palette}
                   </p>
-                  <div className="mt-4 grid max-w-md grid-cols-2 gap-x-3 gap-y-4 min-[420px]:grid-cols-4">
+                  <div className="mt-4 grid max-w-md grid-cols-2 gap-x-3 gap-y-4 min-[420px]:grid-cols-3 sm:grid-cols-5">
                     {DRESS_TONES.map((tone, i) => (
-                      <div key={tone} className="text-center">
+                      <div key={tone} className="text-center last:col-span-2 min-[420px]:last:col-span-1">
                         <span
                           aria-hidden="true"
                           className="block h-12 rounded-lg border border-line sm:h-14"

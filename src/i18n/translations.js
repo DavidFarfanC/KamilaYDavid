@@ -203,7 +203,7 @@ export const translations = {
           text: 'Nos encantará compartir este día con ustedes en un ambiente de jardín, elegante y de día. Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
           note: 'Por favor evita vestir de blanco o tonos demasiado similares al vestido de la novia.',
           palette: 'Tonos sugeridos',
-          tones: ['Verde palma', 'Beige arena', 'Amarillo manzanilla', 'Café miel'],
+          tones: ['Verde palma', 'Beige arena', 'Amarillo manzanilla', 'Azul Cielo', 'Café miel'],
         },
         kids: {
           title: 'Sobre los pequeñitos',
@@ -525,7 +525,7 @@ export const translations = {
           text: 'We would love to share this day with you in an elegant, daytime garden setting. We suggest light, fresh tones suited to an outdoor celebration.',
           note: 'Please avoid wearing white or shades too similar to the bride’s dress.',
           palette: 'Suggested tones',
-          tones: ['Palm green', 'Sand beige', 'Chamomile yellow', 'Honey brown'],
+          tones: ['Palm green', 'Sand beige', 'Chamomile yellow', 'Blue Skies', 'Honey brown'],
         },
         kids: {
           title: 'About the little ones',
@@ -847,7 +847,7 @@ export const translations = {
           text: 'Wir freuen uns, diesen Tag mit euch in einem eleganten Gartenambiente bei Tageslicht zu verbringen. Wir empfehlen helle, frische Töne, passend zu einer Feier im Freien.',
           note: 'Bitte verzichtet auf Weiß oder Töne, die dem Kleid der Braut zu ähnlich sind.',
           palette: 'Empfohlene Töne',
-          tones: ['Palmgrün', 'Sandbeige', 'Kamillengelb', 'Honigbraun'],
+          tones: ['Palmgrün', 'Sandbeige', 'Kamillengelb', 'Himmelblau', 'Honigbraun'],
         },
         kids: {
           title: 'Über die Kleinsten',
