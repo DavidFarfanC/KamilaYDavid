@@ -96,9 +96,11 @@ Crea `.env` en la raíz con:
 ```bash
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-El repo incluye `.env.example` con placeholders. No uses prefijos `VITE_` para estas variables y no importes la service role key en el frontend.
+El repo incluye `.env.example` con placeholders. `SUPABASE_SERVICE_ROLE_KEY` es solo backend. `VITE_SUPABASE_PUBLISHABLE_KEY` sí se usa en frontend. Nunca expongas la secret key con prefijo `VITE_`.
 
 ### 3. Variables en Vercel
 
@@ -106,6 +108,8 @@ Configura en Vercel Dashboard:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 El frontend consume en producción:
 
@@ -195,11 +199,37 @@ curl http://localhost:3000/api/sponsorships
 2. `POST /api/rsvp` guarda el registro completo en `public.sponsorship_contributions`.
 3. Ese mismo endpoint guarda una proyección pública en `public.sponsorship_public_contributions`.
 4. `GET /api/sponsorships` lee únicamente `public.sponsorship_public_contributions`.
-5. La tarjeta de padrinos consulta `/api/sponsorships` al montar y cada 3 segundos mientras está abierta.
-6. Las barras se recalculan automáticamente sin recargar la página.
-7. La UI pública no muestra ni usa `paymentStatus`.
+5. La tarjeta de padrinos consulta `/api/sponsorships` al montar y al abrirse.
+6. Si configuras `VITE_SUPABASE_URL` y `VITE_SUPABASE_PUBLISHABLE_KEY`, la tarjeta se suscribe en tiempo real a `public.sponsorship_public_contributions`.
+7. Con Realtime activo queda un polling de respaldo cada 15 segundos mientras la tarjeta está abierta.
+8. Si faltan variables públicas, el fallback usa polling cada 3 segundos mientras la tarjeta está abierta.
+9. Las barras se recalculan automáticamente sin recargar la página.
+10. La UI pública no muestra ni usa `paymentStatus`.
 
-### 8. SQL de tabla pública
+### 8. Realtime sponsorship dashboard
+
+Para habilitar Supabase Realtime en la tabla pública, ejecuta también:
+
+`supabase/enable_sponsorship_realtime.sql`
+
+Eso:
+
+1. agrega `public.sponsorship_public_contributions` a `supabase_realtime`
+2. crea una policy pública de lectura `select` para `anon`
+
+Variables frontend necesarias:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Variables backend que deben mantenerse separadas:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+
+La secret key nunca va en frontend.
+
+### 9. SQL de tabla pública
 
 Ejecuta este archivo en Supabase SQL Editor:
 

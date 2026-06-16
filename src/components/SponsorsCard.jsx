@@ -2,11 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
 import { SPONSORSHIP_GOALS, SPONSORSHIP_CONTRIBUTIONS, RSVP_ENDPOINT } from '../config'
+import { supabasePublicClient } from '../lib/supabasePublicClient'
 import { buildSponsorshipPayload } from '../sponsorshipPayload'
 import Photo from './Photo'
 import Atmosphere from './Atmosphere'
 
 const EASE = [0.22, 1, 0.36, 1]
+const DATE_LOCALES = { es: 'es-MX', en: 'en-US', de: 'de-DE' }
 const CATEGORIES = [
   'photography',
   'audio',
@@ -38,6 +40,24 @@ const totalForCategory = (contributions, category) =>
   contributions
     .filter((c) => c.category === category)
     .reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
+
+const formatContributionDate = (value, lang) => {
+  if (!value) return ''
+
+  const normalizedValue = /^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T00:00:00` : value
+  const parsedDate = new Date(normalizedValue)
+
+  if (Number.isNaN(parsedDate.getTime())) return value
+
+  const locale = DATE_LOCALES[lang] || 'es-MX'
+  const optionsByLang = {
+    es: { day: 'numeric', month: 'short', year: 'numeric' },
+    en: { month: 'short', day: 'numeric', year: 'numeric' },
+    de: { day: 'numeric', month: 'long', year: 'numeric' },
+  }
+
+  return new Intl.DateTimeFormat(locale, optionsByLang[lang] || optionsByLang.es).format(parsedDate)
+}
 
 const successItem = {
   hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
@@ -98,6 +118,7 @@ function ExpandPanel({ open, id, children }) {
 export default function SponsorsCard({ open, onToggle, pid }) {
   const { t, lang } = useLang()
   const sp = t.details.cards.sponsors
+  const hasRealtimeClient = Boolean(supabasePublicClient)
 
   const [form, setForm] = useState({ name: '', category: '', amount: '', contact: '', message: '' })
   const [publicContributions, setPublicContributions] = useState(() => normalizeContributions(SPONSORSHIP_CONTRIBUTIONS))
@@ -108,7 +129,16 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   const mountedRef = useRef(true)
   const openRef = useRef(open)
   const pollingIntervalRef = useRef(null)
+  const realtimeChannelRef = useRef(null)
   const refreshInFlightRef = useRef(false)
+  const pendingRefreshRef = useRef(false)
+
+  const clearPollingInterval = useCallback(() => {
+    if (pollingIntervalRef.current) {
+      window.clearInterval(pollingIntervalRef.current)
+      pollingIntervalRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     mountedRef.current = true
@@ -116,21 +146,26 @@ export default function SponsorsCard({ open, onToggle, pid }) {
     return () => {
       mountedRef.current = false
       openRef.current = false
-      if (pollingIntervalRef.current) {
-        window.clearInterval(pollingIntervalRef.current)
-        pollingIntervalRef.current = null
+      clearPollingInterval()
+      if (realtimeChannelRef.current && supabasePublicClient) {
+        void supabasePublicClient.removeChannel(realtimeChannelRef.current)
+        realtimeChannelRef.current = null
       }
     }
-  }, [])
+  }, [clearPollingInterval])
 
   useEffect(() => {
     openRef.current = open
   }, [open])
 
   const loadPublicContributions = useCallback(async () => {
-    if (refreshInFlightRef.current) return
+    if (refreshInFlightRef.current) {
+      pendingRefreshRef.current = true
+      return
+    }
 
     refreshInFlightRef.current = true
+    pendingRefreshRef.current = false
 
     try {
       const res = await fetch('/api/sponsorships', { cache: 'no-store' })
@@ -146,6 +181,10 @@ export default function SponsorsCard({ open, onToggle, pid }) {
       if (mountedRef.current) setPublicContributions(normalizeContributions(SPONSORSHIP_CONTRIBUTIONS))
     } finally {
       refreshInFlightRef.current = false
+      if (pendingRefreshRef.current && mountedRef.current) {
+        pendingRefreshRef.current = false
+        void loadPublicContributions()
+      }
     }
   }, [])
 
@@ -154,10 +193,7 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   }, [loadPublicContributions])
 
   useEffect(() => {
-    if (pollingIntervalRef.current) {
-      window.clearInterval(pollingIntervalRef.current)
-      pollingIntervalRef.current = null
-    }
+    clearPollingInterval()
 
     if (!open) return
 
@@ -165,15 +201,45 @@ export default function SponsorsCard({ open, onToggle, pid }) {
     pollingIntervalRef.current = window.setInterval(() => {
       if (!mountedRef.current || !openRef.current) return
       void loadPublicContributions()
-    }, 3000)
+    }, hasRealtimeClient ? 15000 : 3000)
 
     return () => {
-      if (pollingIntervalRef.current) {
-        window.clearInterval(pollingIntervalRef.current)
-        pollingIntervalRef.current = null
-      }
+      clearPollingInterval()
     }
-  }, [open, loadPublicContributions])
+  }, [clearPollingInterval, hasRealtimeClient, loadPublicContributions, open])
+
+  useEffect(() => {
+    if (!supabasePublicClient) return undefined
+
+    if (realtimeChannelRef.current) {
+      void supabasePublicClient.removeChannel(realtimeChannelRef.current)
+      realtimeChannelRef.current = null
+    }
+
+    const channel = supabasePublicClient
+      .channel('sponsorship-public-contributions')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'sponsorship_public_contributions',
+        },
+        () => {
+          void loadPublicContributions()
+        }
+      )
+      .subscribe()
+
+    realtimeChannelRef.current = channel
+
+    return () => {
+      if (realtimeChannelRef.current === channel) {
+        realtimeChannelRef.current = null
+      }
+      void supabasePublicClient.removeChannel(channel)
+    }
+  }, [loadPublicContributions])
 
   const amountNumber = Number(String(form.amount).replace(/[^\d.]/g, '')) || 0
 
@@ -285,10 +351,41 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                 />
               ))}
             </div>
-            {publicContributions.length === 0 && (
-              <div className="mt-4 rounded-2xl border border-line bg-card px-4 py-4">
+          </div>
+
+          <div className="rounded-2xl border border-line bg-card p-5 sm:p-6">
+            <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
+              {sp.contributorsTitle}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-ink/70">{sp.contributorsSubtitle}</p>
+
+            {publicContributions.length === 0 ? (
+              <div className="mt-5 rounded-2xl border border-line/80 bg-ivory/70 px-4 py-4">
                 <p className="text-sm italic text-stone">{sp.empty}</p>
                 <p className="mt-2 text-xs leading-relaxed text-muted">{sp.emptyNote}</p>
+              </div>
+            ) : (
+              <div className="mt-5 overflow-hidden rounded-2xl border border-line/80 bg-ivory/70">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3 border-b border-line/70 px-4 py-3 text-[11px] uppercase tracking-[0.14em] text-muted">
+                  <span>{sp.contributorsNameCol}</span>
+                  <span className="text-right">{sp.contributorsDateCol}</span>
+                </div>
+
+                <div className="divide-y divide-line/60">
+                  {publicContributions.map((contribution) => (
+                    <div
+                      key={contribution.id}
+                      className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-3"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-ink">{contribution.name}</p>
+                      </div>
+                      <p className="text-right text-xs text-stone sm:text-sm">
+                        {formatContributionDate(contribution.date, lang)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
