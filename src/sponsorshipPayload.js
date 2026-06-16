@@ -21,6 +21,7 @@ export const SPONSORSHIP_CATEGORIES = [
   'aisle',
   'bride_presentation',
   'toast',
+  'inflatable_bouncer',
   'gratitude',
 ]
 

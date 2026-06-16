@@ -17,6 +17,7 @@ const CATEGORIES = [
   'aisle',
   'bride_presentation',
   'toast',
+  'inflatable_bouncer',
   'gratitude',
 ]
 

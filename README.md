@@ -235,6 +235,10 @@ Ejecuta este archivo en Supabase SQL Editor:
 
 `supabase/sponsorship_public_contributions.sql`
 
+Si habilitas la categoría `inflatable_bouncer`, corre además:
+
+`supabase/add_inflatable_bouncer_category.sql`
+
 Contenido:
 
 ```sql

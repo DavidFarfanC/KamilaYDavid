@@ -50,12 +50,14 @@ export const SPONSORSHIP_GOALS = {
   aisle: 3000, // Padrinos de camino
   bride_presentation: 5000, // Padrinos de presentación de la novia
   toast: 4000, // Padrinos del brindis
+  inflatable_bouncer: 5000, // Padrinos de brincolín inflable
   gratitude: 5000, // Padrinos de gratitud
 }
 
 // Respaldo local si `/api/sponsorships` falla.
 // category: 'photography' | 'audio' | 'cake' | 'flowers' | 'aisle' |
-//           'bride_presentation' | 'toast' | 'gratitude'. amount en MXN.
+//           'bride_presentation' | 'toast' | 'inflatable_bouncer' |
+//           'gratitude'. amount en MXN.
 export const SPONSORSHIP_CONTRIBUTIONS = [
   // { id: 'example-1', name: 'Ejemplo', category: 'photography', amount: 0, date: '2026-01-01' },
 ]
