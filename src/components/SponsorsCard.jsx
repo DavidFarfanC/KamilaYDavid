@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
-import {
-  SPONSORSHIP_GOALS,
-  SPONSORSHIP_CONTRIBUTIONS,
-  SHOW_CONTRIBUTION_AMOUNTS,
-  BANK_DETAILS,
-  RSVP_ENDPOINT,
-} from '../config'
+import { SPONSORSHIP_GOALS, SPONSORSHIP_CONTRIBUTIONS, RSVP_ENDPOINT } from '../config'
 import { buildSponsorshipPayload } from '../sponsorshipPayload'
 import Photo from './Photo'
 import Atmosphere from './Atmosphere'
@@ -23,58 +17,54 @@ const CATEGORIES = [
   'toast',
   'gratitude',
 ]
-const LOCALES = { es: 'es-MX', en: 'en-US', de: 'de-DE' }
 
 const ghostBtn =
   'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-transparent px-6 py-3 text-sm font-medium text-ink transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0'
-const refreshBtn =
-  'inline-flex items-center justify-center gap-2 rounded-full border border-paper-line bg-card/80 px-4 py-2 text-[11px] font-medium uppercase tracking-widest text-stone transition-all duration-300 ease-editorial hover:-translate-y-px hover:border-stone/40 hover:bg-paper/40 hover:text-ink active:translate-y-0 disabled:cursor-wait disabled:opacity-70'
 const imgTreat =
   'transition-transform duration-700 ease-editorial group-hover:scale-[1.02] [filter:sepia(0.16)_saturate(0.9)_brightness(1.02)]'
 const inputCls =
   'w-full rounded-2xl border border-line bg-ivory px-4 py-3 text-sm text-ink placeholder:text-muted transition-all duration-300 ease-editorial focus:border-paper-line focus:outline-none focus:ring-4 focus:ring-paper/40'
 
-const money = (n, lang) =>
-  new Intl.NumberFormat(LOCALES[lang] || 'es-MX', {
-    style: 'currency',
-    currency: 'MXN',
-    maximumFractionDigits: 0,
-  }).format(Number(n) || 0)
+const normalizeContributions = (contributions) =>
+  (Array.isArray(contributions) ? contributions : []).map((contribution) => ({
+    id: contribution.id,
+    name: contribution.name,
+    category: contribution.category,
+    amount: Number(contribution.amount) || 0,
+    date: contribution.date || '',
+  }))
 
-const raisedFor = (contributions, category) =>
-  contributions.filter((c) => c.category === category).reduce(
-    (sum, c) => sum + (Number(c.amount) || 0),
-    0
-  )
+const totalForCategory = (contributions, category) =>
+  contributions
+    .filter((c) => c.category === category)
+    .reduce((sum, c) => sum + (Number(c.amount) || 0), 0)
 
 const successItem = {
   hidden: { opacity: 0, y: 12, filter: 'blur(4px)' },
   show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: EASE } },
 }
 
-function ProgressBar({ category, contributions, label, lang, sp }) {
+function ProgressBar({ category, contributions, label }) {
   const goal = SPONSORSHIP_GOALS[category] || 0
-  const raised = raisedFor(contributions, category)
-  const pct = goal > 0 ? Math.min(100, Math.round((raised / goal) * 100)) : 0
+  const total = totalForCategory(contributions, category)
+  const percentage = goal > 0 ? Math.min(100, Math.round((total / goal) * 100)) : 0
+
   return (
     <div>
       <div className="flex items-baseline justify-between gap-3">
         <span className="text-sm font-medium text-ink">{label}</span>
-        <span className="text-xs tabular-nums text-stone">{pct}%</span>
+        <span className="text-xs tabular-nums text-stone">{percentage}%</span>
       </div>
       <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream">
         <motion.span
           className="block h-full rounded-full"
           style={{ backgroundColor: '#A67C52' }}
           initial={{ width: 0 }}
-          whileInView={{ width: `${pct}%` }}
+          whileInView={{ width: `${percentage}%` }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 1.2, ease: EASE }}
         />
       </div>
-      <p className="mt-1.5 text-[11px] text-muted">
-        {money(raised, lang)} {goal > 0 ? `${sp.of} ${money(goal, lang)}` : `· ${sp.goalPending}`}
-      </p>
     </div>
   )
 }
@@ -102,23 +92,22 @@ function ExpandPanel({ open, id, children }) {
 }
 
 /**
- * Tarjeta destacada de padrinos: misma familia editorial que las demás, pero
- * más luminosa (bg-ivory, borde más fino, monograma K&D sutil). Incluye barras
- * de progreso, formulario de aportación (no procesa pagos), datos bancarios,
- * tabla de padrinos y animación de agradecimiento.
+ * Tarjeta destacada de padrinos con barras de progreso, formulario de
+ * aportación y animación de agradecimiento.
  */
 export default function SponsorsCard({ open, onToggle, pid }) {
   const { t, lang } = useLang()
   const sp = t.details.cards.sponsors
 
   const [form, setForm] = useState({ name: '', category: '', amount: '', contact: '', message: '' })
-  const [publicContributions, setPublicContributions] = useState([])
+  const [publicContributions, setPublicContributions] = useState(() => normalizeContributions(SPONSORSHIP_CONTRIBUTIONS))
   const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('idle') // idle | sending | thanks
-  const [copied, setCopied] = useState(false)
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [status, setStatus] = useState('idle')
+  const [submitError, setSubmitError] = useState('')
   const set = (key) => (val) => setForm((f) => ({ ...f, [key]: val }))
   const mountedRef = useRef(true)
+  const openRef = useRef(open)
+  const pollingIntervalRef = useRef(null)
   const refreshInFlightRef = useRef(false)
 
   useEffect(() => {
@@ -126,34 +115,37 @@ export default function SponsorsCard({ open, onToggle, pid }) {
 
     return () => {
       mountedRef.current = false
+      openRef.current = false
+      if (pollingIntervalRef.current) {
+        window.clearInterval(pollingIntervalRef.current)
+        pollingIntervalRef.current = null
+      }
     }
   }, [])
 
-  const loadPublicContributions = useCallback(async ({ showLoader = false } = {}) => {
+  useEffect(() => {
+    openRef.current = open
+  }, [open])
+
+  const loadPublicContributions = useCallback(async () => {
     if (refreshInFlightRef.current) return
 
     refreshInFlightRef.current = true
-    if (showLoader && mountedRef.current) setIsRefreshing(true)
 
     try {
       const res = await fetch('/api/sponsorships', { cache: 'no-store' })
       const result = await res.json().catch(() => null)
 
       if (res.ok && result?.ok && Array.isArray(result.contributions)) {
-        if (import.meta.env.DEV) {
-          console.log('[SponsorsCard] Loaded public contributions:', result.contributions)
-        }
-
-        if (mountedRef.current) setPublicContributions(result.contributions)
+        if (mountedRef.current) setPublicContributions(normalizeContributions(result.contributions))
         return
       }
 
-      if (mountedRef.current) setPublicContributions(SPONSORSHIP_CONTRIBUTIONS)
+      if (mountedRef.current) setPublicContributions(normalizeContributions(SPONSORSHIP_CONTRIBUTIONS))
     } catch {
-      if (mountedRef.current) setPublicContributions(SPONSORSHIP_CONTRIBUTIONS)
+      if (mountedRef.current) setPublicContributions(normalizeContributions(SPONSORSHIP_CONTRIBUTIONS))
     } finally {
       refreshInFlightRef.current = false
-      if (showLoader && mountedRef.current) setIsRefreshing(false)
     }
   }, [])
 
@@ -162,14 +154,25 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   }, [loadPublicContributions])
 
   useEffect(() => {
+    if (pollingIntervalRef.current) {
+      window.clearInterval(pollingIntervalRef.current)
+      pollingIntervalRef.current = null
+    }
+
     if (!open) return
 
     void loadPublicContributions()
-    const intervalId = window.setInterval(() => {
+    pollingIntervalRef.current = window.setInterval(() => {
+      if (!mountedRef.current || !openRef.current) return
       void loadPublicContributions()
-    }, 30000)
+    }, 3000)
 
-    return () => window.clearInterval(intervalId)
+    return () => {
+      if (pollingIntervalRef.current) {
+        window.clearInterval(pollingIntervalRef.current)
+        pollingIntervalRef.current = null
+      }
+    }
   }, [open, loadPublicContributions])
 
   const amountNumber = Number(String(form.amount).replace(/[^\d.]/g, '')) || 0
@@ -186,42 +189,43 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
+    setSubmitError('')
     setStatus('sending')
+
     try {
-      if (RSVP_ENDPOINT) {
-        const res = await fetch(RSVP_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildSponsorshipPayload(form, lang)),
-        })
-        const result = await res.json().catch(() => null)
-        if (!res.ok || !result?.ok) throw new Error(result?.error || `HTTP ${res.status}`)
-      } else {
-        await new Promise((r) => setTimeout(r, 1000))
+      if (!RSVP_ENDPOINT) {
+        throw new Error('Missing RSVP endpoint.')
       }
-      setStatus('thanks')
-      void loadPublicContributions()
+
+      const res = await fetch(RSVP_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildSponsorshipPayload(form, lang)),
+      })
+      const result = await res.json().catch(() => null)
+
+      if (!res.ok || !result?.ok) {
+        throw new Error(result?.error || `HTTP ${res.status}`)
+      }
+
+      await loadPublicContributions()
+
+      if (mountedRef.current) {
+        setStatus('thanks')
+      }
     } catch {
-      // Falla silenciosa de red: igual mostramos gracias (la aportación es por transferencia)
-      setStatus('thanks')
+      if (mountedRef.current) {
+        setStatus('idle')
+        setSubmitError(sp.submitError)
+      }
     }
   }
 
   const resetForm = () => {
     setForm({ name: '', category: '', amount: '', contact: '', message: '' })
     setErrors({})
+    setSubmitError('')
     setStatus('idle')
-  }
-
-  const copyBank = async () => {
-    const text = `${sp.bankName}: ${BANK_DETAILS.accountHolder}\n${sp.bankBank}: ${BANK_DETAILS.bank}\nCLABE: ${BANK_DETAILS.clabe}`
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      /* clipboard no disponible: ignorar silenciosamente */
-    }
   }
 
   return (
@@ -261,14 +265,12 @@ export default function SponsorsCard({ open, onToggle, pid }) {
         </div>
 
         <ExpandPanel open={open} id={pid}>
-          {/* Intro */}
           <div className="space-y-4 text-sm leading-loose text-ink/70 sm:text-base">
             {sp.paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
 
-          {/* Barras de progreso */}
           <div>
             <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
               {sp.availableTitle}
@@ -280,15 +282,17 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                   category={cat}
                   contributions={publicContributions}
                   label={sp.categoryLabels[cat]}
-                  lang={lang}
-                  sp={sp}
                 />
               ))}
             </div>
-            <p className="mt-4 text-xs leading-relaxed text-muted">{sp.progressNote}</p>
+            {publicContributions.length === 0 && (
+              <div className="mt-4 rounded-2xl border border-line bg-card px-4 py-4">
+                <p className="text-sm italic text-stone">{sp.empty}</p>
+                <p className="mt-2 text-xs leading-relaxed text-muted">{sp.emptyNote}</p>
+              </div>
+            )}
           </div>
 
-          {/* Formulario / agradecimiento */}
           <AnimatePresence mode="wait">
             {status !== 'thanks' ? (
               <motion.div
@@ -404,8 +408,6 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                     />
                   </div>
 
-                  <p className="text-xs leading-relaxed text-muted">{sp.noPayNote}</p>
-
                   <button
                     type="submit"
                     disabled={status === 'sending'}
@@ -422,6 +424,12 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                       sp.submit
                     )}
                   </button>
+
+                  {submitError && (
+                    <p role="alert" className="text-sm leading-relaxed text-stone">
+                      {submitError}
+                    </p>
+                  )}
                 </form>
               </motion.div>
             ) : (
@@ -475,12 +483,6 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                     </motion.p>
                     <motion.p
                       variants={successItem}
-                      className="mx-auto mt-4 max-w-sm rounded-full border border-paper-line bg-paper/35 px-4 py-2 text-xs font-medium text-stone"
-                    >
-                      {sp.pendingNotice}
-                    </motion.p>
-                    <motion.p
-                      variants={successItem}
                       className="mt-5 font-serif text-base italic tracking-[0.12em] text-stone"
                     >
                       {sp.signature}
@@ -495,85 +497,6 @@ export default function SponsorsCard({ open, onToggle, pid }) {
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Datos bancarios */}
-          <div className="rounded-2xl border border-line bg-card p-5 sm:p-6">
-            <p className="text-[10px] font-medium uppercase tracking-widest text-muted">{sp.bankTitle}</p>
-            <dl className="mt-4 space-y-2 text-sm">
-              <div className="flex justify-between gap-4">
-                <dt className="text-stone">{sp.bankName}</dt>
-                <dd className="text-right font-medium text-ink">{BANK_DETAILS.accountHolder}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-stone">{sp.bankBank}</dt>
-                <dd className="text-right font-medium text-ink">{BANK_DETAILS.bank}</dd>
-              </div>
-              <div className="flex items-baseline justify-between gap-4">
-                <dt className="text-stone">{sp.bankClabe}</dt>
-                <dd className="text-right font-mono text-[13px] tracking-wide text-ink">
-                  {BANK_DETAILS.clabe}
-                </dd>
-              </div>
-            </dl>
-            <button type="button" onClick={copyBank} className={`${ghostBtn} mt-5 w-full`}>
-              {copied ? sp.copied : sp.copyBank}
-            </button>
-          </div>
-
-          {/* Tabla de padrinos */}
-          <div>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[10px] font-medium uppercase tracking-widest text-muted">
-                {sp.tableTitle}
-              </p>
-              <button
-                type="button"
-                onClick={() => void loadPublicContributions({ showLoader: true })}
-                disabled={isRefreshing}
-                className={refreshBtn}
-              >
-                {isRefreshing ? (
-                  <>
-                    {sp.refreshing}
-                    <span aria-hidden="true" className="loader-track">
-                      <span className="loader-seg" />
-                    </span>
-                  </>
-                ) : (
-                  sp.refreshAction
-                )}
-              </button>
-            </div>
-            {publicContributions.length === 0 ? (
-              <div className="mt-4 rounded-2xl border border-line bg-card px-4 py-4">
-                <p className="text-sm italic text-stone">{sp.empty}</p>
-                <p className="mt-2 text-xs leading-relaxed text-muted">{sp.emptyNote}</p>
-              </div>
-            ) : (
-              <table className="mt-4 w-full text-sm">
-                <thead>
-                  <tr className="border-b border-line text-left text-[11px] uppercase tracking-wide text-muted">
-                    <th className="py-2 font-medium">{sp.colName}</th>
-                    <th className="py-2 font-medium">{sp.colCategory}</th>
-                    {SHOW_CONTRIBUTION_AMOUNTS && (
-                      <th className="py-2 text-right font-medium">{sp.colAmount}</th>
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {publicContributions.map((c) => (
-                    <tr key={c.id} className="border-b border-line/60 last:border-0">
-                      <td className="py-2.5 text-ink">{c.name}</td>
-                      <td className="py-2.5 text-stone">{sp.categoryLabels[c.category] || c.category}</td>
-                      {SHOW_CONTRIBUTION_AMOUNTS && (
-                        <td className="py-2.5 text-right tabular-nums text-ink">{money(c.amount, lang)}</td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
         </ExpandPanel>
 
         <button

@@ -75,17 +75,19 @@ Tipografías (Google Fonts, cargadas en `index.html`): Cormorant Garamond (títu
 La app usa dos Vercel Functions:
 
 - `POST /api/rsvp` para guardar RSVP y aportaciones de padrinos.
-- `GET /api/sponsorships` para leer la vista pública de padrinos confirmados.
+- `GET /api/sponsorships` para leer la tabla pública simplificada de padrinos.
 
-### 1. Tablas y vista en Supabase
+### 1. Tablas en Supabase
 
 Crea o verifica estas entidades en el esquema `public`:
 
 - `rsvp_submissions`
 - `sponsorship_contributions`
-- `public_sponsorship_contributions`
+- `sponsorship_public_contributions`
 
 Los payloads fuente viven en `src/rsvpPayload.js` y `src/sponsorshipPayload.js`.
+
+La tabla pública se crea con el SQL de `supabase/sponsorship_public_contributions.sql`.
 
 ### 2. Variables locales
 
@@ -190,17 +192,43 @@ curl http://localhost:3000/api/sponsorships
 ### 7. Flujo de aportaciones de padrinos
 
 1. El invitado registra su intención de aportar.
-2. El registro entra a Supabase como `pending_transfer`.
-3. Los novios revisan la transferencia bancaria.
-4. Cuando se confirme, se actualiza `paymentStatus` a `confirmed`.
-5. Solo entonces aparece públicamente en la tabla de padrinos y suma al avance.
+2. `POST /api/rsvp` guarda el registro completo en `public.sponsorship_contributions`.
+3. Ese mismo endpoint guarda una proyección pública en `public.sponsorship_public_contributions`.
+4. `GET /api/sponsorships` lee únicamente `public.sponsorship_public_contributions`.
+5. La tarjeta de padrinos consulta `/api/sponsorships` al montar y cada 3 segundos mientras está abierta.
+6. Las barras se recalculan automáticamente sin recargar la página.
+7. La UI pública no muestra ni usa `paymentStatus`.
 
-SQL para confirmar una aportación:
+### 8. SQL de tabla pública
+
+Ejecuta este archivo en Supabase SQL Editor:
+
+`supabase/sponsorship_public_contributions.sql`
+
+Contenido:
 
 ```sql
-update public.sponsorship_contributions
-set "paymentStatus" = 'confirmed'
-where id = 'UUID_DEL_REGISTRO';
+create table if not exists public.sponsorship_public_contributions (
+  id uuid primary key,
+  name text not null,
+  category text not null check (
+    category in (
+      'photography',
+      'audio',
+      'cake',
+      'flowers',
+      'aisle',
+      'bride_presentation',
+      'toast',
+      'gratitude'
+    )
+  ),
+  amount numeric(12,2) not null check (amount > 0),
+  date text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.sponsorship_public_contributions enable row level security;
 ```
 
 ## Estructura

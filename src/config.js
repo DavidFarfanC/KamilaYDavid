@@ -53,24 +53,12 @@ export const SPONSORSHIP_GOALS = {
   gratitude: 5000, // Padrinos de gratitud
 }
 
-// Aportaciones registradas (edítalas a mano conforme lleguen las transferencias).
+// Respaldo local si `/api/sponsorships` falla.
 // category: 'photography' | 'audio' | 'cake' | 'flowers' | 'aisle' |
 //           'bride_presentation' | 'toast' | 'gratitude'. amount en MXN.
 export const SPONSORSHIP_CONTRIBUTIONS = [
   // { id: 'example-1', name: 'Ejemplo', category: 'photography', amount: 0, date: '2026-01-01' },
 ]
-
-// Mostrar el monto de cada aportación en la tabla pública. Si es false,
-// la tabla solo muestra Nombre | Padrinazgo (sin montos).
-export const SHOW_CONTRIBUTION_AMOUNTS = true
-
-// Datos bancarios para transferencia. NO se inventa la CLABE: déjala como
-// placeholder hasta tenerla. No se guarda en ningún payload.
-export const BANK_DETAILS = {
-  accountHolder: 'David Ivan Farfan Castro',
-  bank: 'Santander',
-  clabe: '014180606322677612',
-}
 
 // Opciones de hospedaje recomendadas (nombre, categoría de precio y link a Maps).
 // El texto introductorio y la nota de Airbnb viven en las traducciones (i18n).

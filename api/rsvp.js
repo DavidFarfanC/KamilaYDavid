@@ -14,6 +14,7 @@ const VALID_LODGING = new Set([...Object.values(LODGING_VALUES), ''])
 const VALID_SPONSORSHIP_STATUS = new Set(['pending_transfer', 'confirmed', 'cancelled'])
 const VALID_SPONSORSHIP_CATEGORIES = new Set(SPONSORSHIP_CATEGORIES)
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PUBLIC_SPONSORSHIP_TABLE = 'sponsorship_public_contributions'
 
 function json(res, status, payload) {
   return res.status(status).json(payload)
@@ -190,6 +191,16 @@ function supabaseErrorStatus(error) {
   return validationCodes.has(error?.code) ? 400 : 500
 }
 
+function logSafeSupabaseError(scope, error, extra = {}) {
+  console.error(`[rsvp] ${scope}`, {
+    code: error?.code || null,
+    message: error?.message || 'Unknown error',
+    details: error?.details || null,
+    hint: error?.hint || null,
+    ...extra,
+  })
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
@@ -232,9 +243,39 @@ export default async function handler(req, res) {
     return json(res, status, { ok: false, error: message })
   }
 
+  if (isSponsorship) {
+    const publicInsertPayload = {
+      id: data?.id,
+      name: insertPayload.sponsorName,
+      category: insertPayload.category,
+      amount: insertPayload.amount,
+      date: insertPayload.submittedAt
+        ? String(insertPayload.submittedAt).slice(0, 10)
+        : new Date().toISOString().slice(0, 10),
+    }
+
+    const { error: publicError } = await supabase.from(PUBLIC_SPONSORSHIP_TABLE).insert(publicInsertPayload)
+
+    if (publicError) {
+      logSafeSupabaseError('public sponsorship insert failed', publicError, { id: data?.id ?? null })
+
+      const { error: rollbackError } = await supabase.from(table).delete().eq('id', data?.id)
+
+      if (rollbackError) {
+        logSafeSupabaseError('private sponsorship rollback failed', rollbackError, { id: data?.id ?? null })
+      }
+
+      return json(res, 500, {
+        ok: false,
+        error: 'Could not register sponsorship contribution.',
+      })
+    }
+  }
+
   return json(res, 200, {
     ok: true,
     table,
+    ...(isSponsorship ? { publicTable: PUBLIC_SPONSORSHIP_TABLE } : {}),
     id: data?.id ?? null,
   })
 }

@@ -20,9 +20,9 @@ export default async function handler(req, res) {
   }
 
   const { data, error } = await supabase
-    .from('public_sponsorship_contributions')
-    .select('*')
-    .order('date', { ascending: false })
+    .from('sponsorship_public_contributions')
+    .select('id,name,category,amount,date')
+    .order('created_at', { ascending: false })
 
   if (error) {
     return json(res, 500, { ok: false, error: error.message || 'Could not load sponsorship contributions.' })
@@ -39,8 +39,8 @@ export default async function handler(req, res) {
           id: row.id,
           name: row.name,
           category: row.category,
-          amount: row.amount,
-          date: row.date,
+          amount: Number(row.amount) || 0,
+          date: row.date || '',
         }))
       : [],
   })
