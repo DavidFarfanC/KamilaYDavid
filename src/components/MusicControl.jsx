@@ -115,12 +115,13 @@ export default function MusicControl() {
             onReady: (e) => {
               readyRef.current = true
               e.target.setVolume(Math.round(VOLUME * 100))
-              // Arranca en silencio (permitido en todos lados). El primer gesto
-              // del usuario le quitará el silencio.
+              // Arranca EN SILENCIO (permitido en todos lados) y se queda mudo.
+              // NO desmuteamos aquí: si lo hiciéramos, la API quedaría como
+              // "unmuted" e iOS trataría el unMute() del primer gesto como un
+              // no-op, dejando la animación encendida pero SIN sonido. El primer
+              // gesto real del usuario hará la única transición muted→unmuted.
               e.target.mute()
               e.target.playVideo()
-              // En escritorio (autoplay con sonido permitido) intentamos sonar ya.
-              goAudible()
             },
             onStateChange: (e) => {
               if (e.data === YT.PlayerState.PLAYING) {
@@ -161,7 +162,7 @@ export default function MusicControl() {
     audio.play().catch(() => {
       /* algún navegador no deja ni el autoplay mudo: el gesto lo arrancará */
     })
-    goAudible() // por si el escritorio permite sonido directo
+    // No desmuteamos aquí: el primer gesto del usuario hará la transición.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useYouTube])
 
