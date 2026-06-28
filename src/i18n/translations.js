@@ -177,6 +177,14 @@ export const translations = {
           thanksSecondary: 'El avance se actualiza automáticamente en esta sección.',
           signature: 'Kamila & David',
           registerAnother: 'Registrar otra aportación',
+          bank: {
+            title: 'Datos para transferencia',
+            name: 'Nombre',
+            bank: 'Banco',
+            clabe: 'CLABE',
+            copy: 'Copiar datos bancarios',
+            copied: 'Datos copiados',
+          },
         },
         location: {
           title: 'Cómo llegar',
@@ -512,6 +520,14 @@ export const translations = {
           thanksSecondary: 'The progress in this section updates automatically.',
           signature: 'Kamila & David',
           registerAnother: 'Register another contribution',
+          bank: {
+            title: 'Bank transfer details',
+            name: 'Name',
+            bank: 'Bank',
+            clabe: 'CLABE',
+            copy: 'Copy bank details',
+            copied: 'Details copied',
+          },
         },
         location: {
           title: 'Getting there',
@@ -847,6 +863,14 @@ export const translations = {
           thanksSecondary: 'Der Fortschritt in diesem Bereich aktualisiert sich automatisch.',
           signature: 'Kamila & David',
           registerAnother: 'Weiteren Beitrag registrieren',
+          bank: {
+            title: 'Bankdaten für Überweisung',
+            name: 'Name',
+            bank: 'Bank',
+            clabe: 'CLABE',
+            copy: 'Bankdaten kopieren',
+            copied: 'Daten kopiert',
+          },
         },
         location: {
           title: 'Anreise',

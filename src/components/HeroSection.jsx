@@ -25,6 +25,13 @@ export default function HeroSection() {
     transition: { duration: 1, delay, ease: EASE },
   })
 
+  // Al tocar el indicador, baja ~una pantalla (refuerza la invitación a deslizar
+  // para quienes intentan picarle en vez de hacer scroll).
+  const handleScrollHint = () => {
+    const h = typeof window !== 'undefined' ? window.innerHeight : 800
+    window.scrollTo({ top: Math.round(h * 0.92), behavior: reduce ? 'auto' : 'smooth' })
+  }
+
   return (
     <section id="inicio" ref={ref} className="relative min-h-[100svh] overflow-hidden">
       {/* Foto de fondo: zoom cinematográfico de apertura + parallax sutil al hacer scroll */}
@@ -116,30 +123,65 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Indicador "Desliza": texto en small caps + flecha fina con deriva vertical suave */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1.2 }}
-        className="absolute left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2"
-        style={{ bottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}
+      {/* Indicador "Desliza": pieza editorial centrada (marfil + blur + glow
+          cálido muy discreto) con flecha animada. El centrado vive en el
+          contenedor (inset-x-0 + justify-center) para que la animación de
+          Framer Motion sobre `y` NO pise el translateX y se mantenga centrado.
+          Tappable: al tocarlo baja una pantalla. */}
+      <div
+        className="pointer-events-none absolute inset-x-0 z-10 flex justify-center px-6"
+        style={{ bottom: 'max(2rem, env(safe-area-inset-bottom))' }}
       >
-        <span className="text-[10px] font-medium uppercase tracking-[0.4em] text-ink/70">
-          {t.hero.scroll}
-        </span>
-        <motion.svg
-          aria-hidden="true"
-          width="14"
-          height="22"
-          viewBox="0 0 14 22"
-          fill="none"
-          animate={reduce ? undefined : { y: [0, 6, 0] }}
-          transition={{ duration: 2.1, ease: EASE, repeat: Infinity }}
+        <motion.button
+          type="button"
+          onClick={handleScrollHint}
+          aria-label={t.hero.scroll}
+          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 1.1, ease: EASE }}
+          whileHover={reduce ? undefined : { y: -2 }}
+          className="group pointer-events-auto flex flex-col items-center gap-2 rounded-2xl border border-paper-line bg-ivory/75 px-6 py-3.5 backdrop-blur-md transition-colors duration-300 ease-editorial hover:bg-ivory/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-line/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory/40"
+          style={{
+            boxShadow:
+              '0 12px 32px -16px rgba(74,67,61,0.22), 0 0 26px -6px rgba(244,217,139,0.28)',
+          }}
         >
-          <path d="M7 1v18" stroke="#4A433D" strokeOpacity="0.6" strokeWidth="1" strokeLinecap="round" />
-          <path d="M2.5 14.5 7 19l4.5-4.5" stroke="#4A433D" strokeOpacity="0.6" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-        </motion.svg>
-      </motion.div>
+          {/* Pulso muy sutil del conjunto */}
+          <motion.div
+            className="flex flex-col items-center gap-2"
+            animate={reduce ? undefined : { scale: [1, 1.03, 1] }}
+            transition={{ duration: 2.4, ease: EASE, repeat: Infinity }}
+          >
+            <span className="text-xs font-semibold uppercase tracking-[0.38em] text-ink sm:text-[13px]">
+              {t.hero.scroll}
+            </span>
+            <motion.span
+              aria-hidden="true"
+              className="text-ink/90 drop-shadow-[0_1px_2px_rgba(74,67,61,0.2)]"
+              animate={reduce ? undefined : { y: [0, 6, 0], opacity: [0.6, 1, 0.6] }}
+              transition={{ duration: 2.1, ease: EASE, repeat: Infinity }}
+            >
+              <svg width="26" height="28" viewBox="0 0 24 26" fill="none">
+                <path
+                  d="M5 5l7 7 7-7"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M5 13l7 7 7-7"
+                  stroke="currentColor"
+                  strokeOpacity="0.45"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </motion.span>
+          </motion.div>
+        </motion.button>
+      </div>
     </section>
   )
 }

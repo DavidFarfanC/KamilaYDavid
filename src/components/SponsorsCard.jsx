@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
-import { SPONSORSHIP_GOALS, SPONSORSHIP_CONTRIBUTIONS, RSVP_ENDPOINT } from '../config'
+import { SPONSORSHIP_GOALS, SPONSORSHIP_CONTRIBUTIONS, RSVP_ENDPOINT, BANK_TRANSFER } from '../config'
 import { supabasePublicClient } from '../lib/supabasePublicClient'
 import { buildSponsorshipPayload } from '../sponsorshipPayload'
 import Photo from './Photo'
@@ -127,7 +127,37 @@ export default function SponsorsCard({ open, onToggle, pid }) {
   const [status, setStatus] = useState('idle')
   const [submitError, setSubmitError] = useState('')
   const set = (key) => (val) => setForm((f) => ({ ...f, [key]: val }))
+  const [bankCopied, setBankCopied] = useState(false)
+  const bankCopyTimerRef = useRef(null)
   const mountedRef = useRef(true)
+
+  // Copia los datos bancarios al portapapeles (solo UI, no toca payload alguno).
+  const copyBankDetails = useCallback(async () => {
+    const b = sp.bank
+    const text = `${b.name}: ${BANK_TRANSFER.name}\n${b.bank}: ${BANK_TRANSFER.bank}\n${b.clabe}: ${BANK_TRANSFER.clabe}`
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text)
+      } else {
+        const ta = document.createElement('textarea')
+        ta.value = text
+        ta.setAttribute('readonly', '')
+        ta.style.position = 'absolute'
+        ta.style.left = '-9999px'
+        document.body.appendChild(ta)
+        ta.select()
+        document.execCommand('copy')
+        document.body.removeChild(ta)
+      }
+      setBankCopied(true)
+      if (bankCopyTimerRef.current) window.clearTimeout(bankCopyTimerRef.current)
+      bankCopyTimerRef.current = window.setTimeout(() => {
+        if (mountedRef.current) setBankCopied(false)
+      }, 2600)
+    } catch {
+      /* si el navegador bloquea el portapapeles, los datos siguen visibles */
+    }
+  }, [sp.bank])
   const openRef = useRef(open)
   const pollingIntervalRef = useRef(null)
   const realtimeChannelRef = useRef(null)
@@ -147,6 +177,7 @@ export default function SponsorsCard({ open, onToggle, pid }) {
     return () => {
       mountedRef.current = false
       openRef.current = false
+      if (bankCopyTimerRef.current) window.clearTimeout(bankCopyTimerRef.current)
       clearPollingInterval()
       if (realtimeChannelRef.current && supabasePublicClient) {
         void supabasePublicClient.removeChannel(realtimeChannelRef.current)
@@ -528,6 +559,41 @@ export default function SponsorsCard({ open, onToggle, pid }) {
                       {submitError}
                     </p>
                   )}
+
+                  {/* Datos para transferencia (solo informativo, no se envía) */}
+                  <div className="rounded-2xl border border-paper-line bg-ivory p-5 shadow-soft sm:p-6">
+                    <h4 className="font-serif text-lg font-medium text-ink">{sp.bank.title}</h4>
+                    <dl className="mt-4 space-y-3 text-sm">
+                      <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                        <dt className="text-xs font-medium uppercase tracking-widest2 text-stone">
+                          {sp.bank.name}
+                        </dt>
+                        <dd className="text-ink sm:text-right">{BANK_TRANSFER.name}</dd>
+                      </div>
+                      <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                        <dt className="text-xs font-medium uppercase tracking-widest2 text-stone">
+                          {sp.bank.bank}
+                        </dt>
+                        <dd className="text-ink sm:text-right">{BANK_TRANSFER.bank}</dd>
+                      </div>
+                      <div className="flex flex-col gap-0.5 border-t border-line pt-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                        <dt className="text-xs font-medium uppercase tracking-widest2 text-stone">
+                          {sp.bank.clabe}
+                        </dt>
+                        <dd className="break-all font-mono text-[13px] tracking-tight text-ink sm:text-right sm:text-sm">
+                          {BANK_TRANSFER.clabe}
+                        </dd>
+                      </div>
+                    </dl>
+                    <button
+                      type="button"
+                      onClick={copyBankDetails}
+                      aria-live="polite"
+                      className="mt-5 flex w-full items-center justify-center gap-2 rounded-full border border-paper-line bg-paper px-6 py-3 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none"
+                    >
+                      {bankCopied ? sp.bank.copied : sp.bank.copy}
+                    </button>
+                  </div>
                 </form>
               </motion.div>
             ) : (

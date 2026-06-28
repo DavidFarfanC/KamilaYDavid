@@ -20,6 +20,14 @@ export const REGISTRY_URL =
 // Número de evento en Liverpool para encontrar nuestra mesa de regalos
 export const REGISTRY_EVENT_NUMBER = '52026264'
 
+// Datos para transferencia bancaria (SOLO se muestran en la UI de padrinos).
+// IMPORTANTE: esto NO se envía a Supabase ni forma parte de ningún payload.
+export const BANK_TRANSFER = {
+  name: 'David Farfán',
+  bank: 'Santander',
+  clabe: '014180606322677612',
+}
+
 // ---------------------------------------------------------------
 // Música de fondo
 // ---------------------------------------------------------------
