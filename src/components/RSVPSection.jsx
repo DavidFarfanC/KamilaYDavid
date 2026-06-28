@@ -28,12 +28,13 @@ const successItem = {
   show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: EASE } },
 }
 
-function Field({ label, htmlFor, error, errorId, children }) {
+function Field({ label, htmlFor, hint, error, errorId, children }) {
   return (
     <div>
-      <label htmlFor={htmlFor} className="mb-2 block text-sm font-medium text-ink/80">
+      <label htmlFor={htmlFor} className="mb-1 block text-sm font-medium text-ink/80">
         {label}
       </label>
+      {hint && <p className="mb-2 text-xs leading-relaxed text-muted">{hint}</p>}
       {children}
       {error && (
         <p id={errorId} role="alert" className="mt-2 text-xs font-medium text-[#B0694F]">
@@ -250,6 +251,7 @@ export default function RSVPSection() {
                   {/* 1 · Nombres de los asistentes */}
                   <Field
                     label={r.namesLabel}
+                    hint={r.namesHint}
                     htmlFor="rsvp-names"
                     error={errors.names}
                     errorId="rsvp-names-error"
@@ -447,6 +449,14 @@ export default function RSVPSection() {
                   >
                     {form.attendance === 'no' ? r.successBodyNo : r.successBody}
                   </motion.p>
+                  {form.attendance !== 'no' && (
+                    <motion.p
+                      variants={successItem}
+                      className="mx-auto mt-6 max-w-md text-balance rounded-2xl border border-line bg-paper px-5 py-4 text-sm font-bold leading-relaxed text-ink sm:text-base"
+                    >
+                      {r.successQrNote}
+                    </motion.p>
+                  )}
                   <motion.p
                     variants={successItem}
                     className="mt-8 font-serif text-lg italic tracking-[0.12em] text-stone"

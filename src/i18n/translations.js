@@ -251,7 +251,8 @@ export const translations = {
       title: 'Confirmar asistencia',
       subtitle: 'Será un honor compartir este día contigo. Por favor confírmanos tu asistencia.',
       namesLabel: 'Nombre de los asistentes',
-      namesPlaceholder: 'Escribe el nombre de quienes asistirán',
+      namesHint: 'El registro es individual: por favor envía un formulario por cada persona (también para el hospedaje).',
+      namesPlaceholder: 'Escribe tu nombre completo',
       attendanceLabel: 'Confirmo asistencia',
       attendanceYes: 'Sí, ahí estaré',
       attendanceNo: 'No podré asistir',
@@ -286,6 +287,8 @@ export const translations = {
       successBody:
         'Nos emociona profundamente compartir este día contigo. Gracias por acompañarnos en esta historia que Dios ha escrito con tanto amor.',
       successBodyNo: 'Gracias por avisarnos. Te llevamos en el corazón y oramos por ti.',
+      successQrNote:
+        'IMPORTANTE: A final de mes recibirás tu boleto digital con código QR. Es obligatorio presentarlo a la entrada, ya que la Finca lo exige para tu ingreso. Por favor consérvalo y tenlo a la mano ese día.',
       signature: 'Kamila & David',
       none: '—',
       waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
@@ -573,8 +576,9 @@ export const translations = {
     rsvp: {
       title: 'RSVP',
       subtitle: 'It would be an honor to share this day with you. Please confirm your attendance.',
-      namesLabel: 'Names of attendees',
-      namesPlaceholder: 'Write the names of those attending',
+      namesLabel: 'Name of attendee',
+      namesHint: 'Registration is individual: please submit one form per person (including lodging).',
+      namesPlaceholder: 'Write your full name',
       attendanceLabel: 'Will you attend?',
       attendanceYes: 'Yes, I will be there',
       attendanceNo: 'I will not be able to attend',
@@ -609,6 +613,8 @@ export const translations = {
       successBody:
         'We are deeply excited to share this day with you. Thank you for being part of this story that God has written with so much love.',
       successBodyNo: 'Thank you for letting us know. We hold you in our hearts and pray for you.',
+      successQrNote:
+        'IMPORTANT: At the end of the month you will receive your digital ticket with a QR code. You must present it at the entrance, as the Finca requires it for admission. Please keep it and have it ready that day.',
       signature: 'Kamila & David',
       none: '—',
       waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
@@ -896,8 +902,9 @@ export const translations = {
     rsvp: {
       title: 'Teilnahme bestätigen',
       subtitle: 'Es ist uns eine Ehre, diesen Tag mit euch zu teilen. Bitte bestätigt eure Teilnahme.',
-      namesLabel: 'Namen der teilnehmenden Personen',
-      namesPlaceholder: 'Schreibe die Namen der teilnehmenden Personen',
+      namesLabel: 'Name der teilnehmenden Person',
+      namesHint: 'Die Anmeldung erfolgt einzeln: bitte sende ein Formular pro Person (auch für die Unterkunft).',
+      namesPlaceholder: 'Schreibe deinen vollständigen Namen',
       attendanceLabel: 'Ich nehme teil',
       attendanceYes: 'Ja, ich werde dabei sein',
       attendanceNo: 'Ich kann leider nicht teilnehmen',
@@ -932,6 +939,8 @@ export const translations = {
       successBody:
         'Wir freuen uns sehr, diesen Tag mit dir zu teilen. Danke, dass du Teil dieser Geschichte bist, die Gott mit so viel Liebe geschrieben hat.',
       successBodyNo: 'Danke, dass du uns Bescheid gegeben hast. Wir tragen dich im Herzen und beten für dich.',
+      successQrNote:
+        'WICHTIG: Ende des Monats erhältst du dein digitales Ticket mit QR-Code. Du musst es am Eingang vorzeigen, da die Finca es für den Einlass verlangt. Bitte bewahre es auf und halte es an diesem Tag bereit.',
       signature: 'Kamila & David',
       none: '—',
       waBody: ({ names, attendance, shuttle, lodging, email, phone, message }) =>
