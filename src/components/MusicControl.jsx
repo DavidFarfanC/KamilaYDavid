@@ -31,7 +31,13 @@ function loadYouTubeApi() {
  *   desde YouTube; no se descarga ni se copia el archivo). Se mantiene oculto
  *   y se controla con este botón. Requiere conexión a internet.
  * - Si WEDDING_YOUTUBE_ID está vacío, usa el archivo local WEDDING_AUDIO_SRC.
- * - Nunca reproduce con sonido hasta que el usuario toca el botón.
+ * - Estrategia móvil (iOS Safari): el navegador NO permite autoplay con sonido,
+ *   pero SÍ permite autoplay EN SILENCIO. Por eso el reproductor arranca mudo
+ *   en cuanto carga y, en el primer gesto del usuario (toque/scroll/tecla),
+ *   solo le quitamos el silencio (unMute) — operación que iOS sí acepta y es
+ *   instantánea porque el video ya viene reproduciéndose. Así suena de forma
+ *   fiable en el primer toque, en vez de depender de iniciar la reproducción
+ *   justo dentro del gesto (lo que fallaba "a veces").
  * - Loop, volumen bajo (0.22), respeta safe-area del iPhone.
  * - Tolerante a errores: si algo falla, console.warn y la página sigue intacta.
  */
@@ -44,31 +50,50 @@ export default function MusicControl() {
   const ytHolderRef = useRef(null)
   const ytPlayerRef = useRef(null)
   const readyRef = useRef(false)
-  const wantsPlayRef = useRef(false) // hay intención de sonar pero aún no arranca
   const pausedByUserRef = useRef(false) // el usuario pausó a mano: no auto-reanudar
-  const [playing, setPlaying] = useState(false)
+  const audibleRef = useRef(false) // ya quitamos el silencio y se escucha
+  const [playing, setPlaying] = useState(false) // true solo cuando suena CON sonido
 
-  // Arranca la reproducción (idempotente). Si el reproductor aún no está listo,
-  // deja la intención registrada para reproducir en cuanto lo esté.
-  const startPlayback = () => {
+  const playingRef = useRef(false)
+  useEffect(() => {
+    playingRef.current = playing
+  }, [playing])
+
+  // Quita el silencio y asegura la reproducción. Es lo que se ejecuta en el
+  // primer gesto del usuario (y al pulsar el botón). Idempotente.
+  const goAudible = () => {
     if (pausedByUserRef.current) return
-    wantsPlayRef.current = true
     if (useYouTube) {
       const p = ytPlayerRef.current
-      if (readyRef.current && p && typeof p.playVideo === 'function') p.playVideo()
-    } else if (audioRef.current) {
-      audioRef.current.play().catch(() => {
-        /* bloqueado por el navegador: esperará al primer gesto */
-      })
+      if (!readyRef.current || !p || typeof p.unMute !== 'function') return
+      p.unMute()
+      p.setVolume(Math.round(VOLUME * 100))
+      p.playVideo()
+      audibleRef.current = true
+      // Tras desmutear no siempre llega un onStateChange, así que confirmamos.
+      setTimeout(() => {
+        if (ytPlayerRef.current) setPlaying(!ytPlayerRef.current.isMuted())
+      }, 150)
+    } else {
+      const audio = audioRef.current
+      if (!audio) return
+      audio.muted = false
+      audio.volume = VOLUME
+      audio
+        .play()
+        .then(() => {
+          audibleRef.current = true
+          setPlaying(true)
+        })
+        .catch(() => {
+          /* aún bloqueado: esperará a otro gesto */
+        })
     }
   }
 
-  // Inicializa el reproductor de YouTube oculto
+  // Inicializa el reproductor de YouTube oculto (autoplay EN SILENCIO).
   useEffect(() => {
-    if (!useYouTube) {
-      if (audioRef.current) audioRef.current.volume = VOLUME
-      return
-    }
+    if (!useYouTube) return
     let cancelled = false
     loadYouTubeApi()
       .then((YT) => {
@@ -77,6 +102,7 @@ export default function MusicControl() {
           videoId: WEDDING_YOUTUBE_ID,
           playerVars: {
             autoplay: 1,
+            mute: 1, // imprescindible: iOS solo permite autoplay en silencio
             controls: 0,
             disablekb: 1,
             loop: 1,
@@ -89,17 +115,23 @@ export default function MusicControl() {
             onReady: (e) => {
               readyRef.current = true
               e.target.setVolume(Math.round(VOLUME * 100))
-              // Intento de autoplay al cargar; si el navegador lo bloquea,
-              // el primer gesto del usuario lo iniciará (ver efecto de gestos).
-              if (wantsPlayRef.current || !pausedByUserRef.current) e.target.playVideo()
+              // Arranca en silencio (permitido en todos lados). El primer gesto
+              // del usuario le quitará el silencio.
+              e.target.mute()
+              e.target.playVideo()
+              // En escritorio (autoplay con sonido permitido) intentamos sonar ya.
+              goAudible()
             },
             onStateChange: (e) => {
-              if (e.data === YT.PlayerState.PLAYING) setPlaying(true)
-              else if (
+              if (e.data === YT.PlayerState.PLAYING) {
+                // Solo lo marcamos "sonando" si de verdad no está en silencio.
+                setPlaying(audibleRef.current && !e.target.isMuted())
+              } else if (
                 e.data === YT.PlayerState.PAUSED ||
                 e.data === YT.PlayerState.ENDED
-              )
+              ) {
                 setPlaying(false)
+              }
             },
             onError: () =>
               console.warn('[MusicControl] El reproductor de YouTube no pudo cargar la canción.'),
@@ -116,63 +148,50 @@ export default function MusicControl() {
         /* noop */
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useYouTube])
 
-  // Arranque automático en el primer gesto del usuario. En móvil (sobre todo
-  // iOS) el navegador exige un gesto que "califique como activación" para
-  // reproducir con sonido: por eso usamos pointerup/touchend/click (no scroll
-  // ni touchstart, que iOS no acepta para audio). Además NO usamos { once }:
-  // seguimos escuchando y reintentando en cada gesto hasta que la música suene
-  // de verdad, por si el reproductor de YouTube aún no estaba listo en el
-  // primer toque (el playVideo() debe ocurrir dentro del propio gesto).
-  const playingRef = useRef(false)
+  // Arranque del audio local en silencio (cuando no se usa YouTube).
   useEffect(() => {
-    playingRef.current = playing
-  }, [playing])
+    if (useYouTube) return
+    const audio = audioRef.current
+    if (!audio) return
+    audio.muted = true
+    audio.volume = VOLUME
+    audio.play().catch(() => {
+      /* algún navegador no deja ni el autoplay mudo: el gesto lo arrancará */
+    })
+    goAudible() // por si el escritorio permite sonido directo
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useYouTube])
 
+  // En el primer gesto del usuario quitamos el silencio. NO usamos { once }:
+  // reintentamos en cada gesto hasta que de verdad se escuche, por si el
+  // reproductor aún no estaba listo en el primer toque.
   useEffect(() => {
     const events = ['pointerup', 'touchend', 'click', 'keydown', 'scroll']
     const onGesture = () => {
-      // Reintenta mientras el usuario no haya pausado a mano y aún no suene.
-      if (!pausedByUserRef.current) startPlayback()
+      goAudible()
       if (playingRef.current) cleanup()
     }
     const cleanup = () => events.forEach((ev) => window.removeEventListener(ev, onGesture))
     events.forEach((ev) => window.addEventListener(ev, onGesture, { passive: true }))
-    // Intento inmediato (funciona en navegadores de escritorio que permiten autoplay)
-    startPlayback()
     return cleanup
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const toggle = async () => {
-    pausedByUserRef.current = playing // si estaba sonando y lo pausa, recuérdalo
-
-    if (useYouTube) {
-      const p = ytPlayerRef.current
-      if (!p || typeof p.playVideo !== 'function') return
-      if (playing) p.pauseVideo()
-      else p.playVideo()
-      return
-    }
-    // Fallback a archivo local
-    const audio = audioRef.current
-    if (!audio) return
+  const toggle = () => {
     if (playing) {
-      audio.pause()
+      // Pausa manual: recordarlo para no auto-reanudar.
+      pausedByUserRef.current = true
+      if (useYouTube) ytPlayerRef.current?.pauseVideo?.()
+      else audioRef.current?.pause()
       setPlaying(false)
       return
     }
-    try {
-      await audio.play()
-      setPlaying(true)
-    } catch {
-      console.warn(
-        `[MusicControl] No se pudo reproducir "${WEDDING_AUDIO_SRC}". ` +
-          'Coloca el archivo en public/audio/wedding-song.mp3.'
-      )
-      setPlaying(false)
-    }
+    // Reanudar / activar el sonido manualmente.
+    pausedByUserRef.current = false
+    goAudible()
   }
 
   return (
@@ -193,7 +212,9 @@ export default function MusicControl() {
           ref={audioRef}
           src={WEDDING_AUDIO_SRC}
           loop
-          preload="none"
+          muted
+          playsInline
+          preload="auto"
           onError={() =>
             console.warn(
               `[MusicControl] Audio no encontrado en "${WEDDING_AUDIO_SRC}". ` +
