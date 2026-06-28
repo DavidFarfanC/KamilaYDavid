@@ -217,8 +217,8 @@ export const translations = {
         dressCode: {
           title: 'Código de vestimenta',
           summary: 'Jardín · elegante · de día',
-          preview: 'Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
-          text: 'Nos encantará compartir este día con ustedes en un ambiente de jardín, elegante y de día. Te sugerimos vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
+          preview: 'Vestimenta formal. Vestir en tonos claros, frescos y acordes a una celebración al aire libre.',
+          text: 'Nos encantará compartir este día con ustedes en un ambiente de jardín, elegante y de día.',
           note: 'Por favor evita vestir de blanco o tonos demasiado similares al vestido de la novia.',
           palette: 'Tonos sugeridos',
           tones: ['Verde palma', 'Beige arena', 'Amarillo manzanilla', 'Azul Cielo', 'Café miel'],
