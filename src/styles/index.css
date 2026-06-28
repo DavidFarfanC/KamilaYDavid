@@ -34,6 +34,26 @@ body {
   .eq-playing .eq-bar { animation: none; transform: scaleY(0.7); }
 }
 
+/* Cursor parpadeante de la terminal del capítulo uno (nerd fino, sin neón) */
+@keyframes terminalBlink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.terminal-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1.05em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: currentColor;
+  border-radius: 1px;
+  animation: terminalBlink 1.1s steps(1, end) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor { animation: none; opacity: 0.6; }
+}
+
 /* Loader editorial del envío: un segmento fino que recorre una línea (sin spinner) */
 .loader-track {
   position: relative;

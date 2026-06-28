@@ -35,7 +35,16 @@ export const translations = {
         {
           label: 'Capítulo uno',
           title: 'Cómo comenzó',
-          text: 'Dios fue acomodando momentos, conversaciones y caminos hasta que nuestras vidas comenzaron a caminar juntas.',
+          text: 'Todo comenzó en Monterrey, en medio de una competencia tipo hackathon. Estábamos en equipos opuestos, resolviendo retos distintos, pero Dios ya estaba escribiendo una misma historia. Entre líneas de código, ideas a contrarreloj y conversaciones inesperadas, nuestros caminos se encontraron por primera vez.',
+          text2:
+            'Y desde ahí, lo que parecía solo una competencia, terminó siendo el inicio de algo que Dios decidió unir.',
+          terminal: [
+            'C:\\Monterrey\\hackathon> iniciar_historia.exe',
+            '[info] Equipos opuestos detectados.',
+            '[info] Ideas, código y conversaciones en progreso...',
+            '[ok] Dios unió nuestros caminos.',
+            'output: aquí comenzó nuestra historia.',
+          ],
           mainAlt: 'Kamila y David abrazados frente al mar',
           detailAlt: 'Kamila recargada en el pecho de David',
         },
@@ -361,7 +370,16 @@ export const translations = {
         {
           label: 'Chapter one',
           title: 'How it began',
-          text: 'God kept arranging moments, conversations, and paths until our lives began to walk together.',
+          text: 'It all began in Monterrey, in the middle of a hackathon-style competition. We were on opposing teams, solving different challenges, but God was already writing one shared story. Between lines of code, ideas against the clock, and unexpected conversations, our paths met for the first time.',
+          text2:
+            'And from there, what seemed like just a competition became the beginning of something God chose to bring together.',
+          terminal: [
+            'C:\\Monterrey\\hackathon> start_story.exe',
+            '[info] Opposing teams detected.',
+            '[info] Ideas, code, and conversations in progress...',
+            '[ok] God brought our paths together.',
+            'output: this is where our story began.',
+          ],
           mainAlt: 'Kamila and David embracing by the sea',
           detailAlt: 'Kamila resting on David’s chest',
         },
@@ -687,7 +705,16 @@ export const translations = {
         {
           label: 'Kapitel eins',
           title: 'Wie alles begann',
-          text: 'Gott fügte Momente, Gespräche und Wege zusammen, bis unsere Leben begannen, gemeinsam zu gehen.',
+          text: 'Alles begann in Monterrey, mitten in einem Hackathon-ähnlichen Wettbewerb. Wir waren in gegnerischen Teams und arbeiteten an unterschiedlichen Herausforderungen, doch Gott schrieb bereits eine gemeinsame Geschichte. Zwischen Codezeilen, Ideen unter Zeitdruck und unerwarteten Gesprächen kreuzten sich unsere Wege zum ersten Mal.',
+          text2:
+            'Und von da an wurde aus dem, was wie ein einfacher Wettbewerb aussah, der Anfang von etwas, das Gott zusammenführen wollte.',
+          terminal: [
+            'C:\\Monterrey\\hackathon> geschichte_starten.exe',
+            '[info] Gegnerische Teams erkannt.',
+            '[info] Ideen, Code und Gespräche laufen...',
+            '[ok] Gott führte unsere Wege zusammen.',
+            'output: hier begann unsere Geschichte.',
+          ],
           mainAlt: 'Kamila und David umarmen sich am Meer',
           detailAlt: 'Kamila an Davids Brust gelehnt',
         },
