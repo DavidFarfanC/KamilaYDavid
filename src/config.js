@@ -16,7 +16,7 @@ export const RSVP_ENDPOINT = '/api/rsvp'
 
 // Mesa de regalos
 export const REGISTRY_URL =
-  'https://mesaderegalos.liverpool.com.mx/gestiondeeventos/listaderegalos/52026264'
+  'https://mesaderegalos.liverpool.com.mx/milistaderegalos/52026264'
 // Número de evento en Liverpool para encontrar nuestra mesa de regalos
 export const REGISTRY_EVENT_NUMBER = '52026264'
 
