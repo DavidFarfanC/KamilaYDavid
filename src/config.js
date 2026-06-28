@@ -8,14 +8,17 @@ export const WEDDING_DATE = new Date('2026-12-12T13:00:00-06:00')
 
 // Número de WhatsApp para confirmaciones (formato internacional, sin "+", sin espacios)
 // Ejemplo México: 52 + 10 dígitos → '5215512345678' o '525512345678'
-export const WHATSAPP_NUMBER = '5215500000000'
+export const WHATSAPP_NUMBER = '525524828381'
 
 // Endpoint del backend para RSVP y padrinos. Si lo dejas vacío (''),
 // el formulario RSVP usa WhatsApp como flujo principal.
 export const RSVP_ENDPOINT = '/api/rsvp'
 
 // Mesa de regalos
-export const REGISTRY_URL = 'https://example.com/mesa-de-regalos'
+export const REGISTRY_URL =
+  'https://mesaderegalos.liverpool.com.mx/gestiondeeventos/listaderegalos/52026264'
+// Número de evento en Liverpool para encontrar nuestra mesa de regalos
+export const REGISTRY_EVENT_NUMBER = '52026264'
 
 // ---------------------------------------------------------------
 // Música de fondo

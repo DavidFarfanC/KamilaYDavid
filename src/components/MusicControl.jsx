@@ -118,17 +118,28 @@ export default function MusicControl() {
     }
   }, [useYouTube])
 
-  // Arranque en el primer gesto del usuario (toque, scroll o tecla) por si el
-  // navegador bloquea el autoplay con sonido. Se ejecuta una sola vez.
+  // Arranque automático en el primer gesto del usuario. En móvil (sobre todo
+  // iOS) el navegador exige un gesto que "califique como activación" para
+  // reproducir con sonido: por eso usamos pointerup/touchend/click (no scroll
+  // ni touchstart, que iOS no acepta para audio). Además NO usamos { once }:
+  // seguimos escuchando y reintentando en cada gesto hasta que la música suene
+  // de verdad, por si el reproductor de YouTube aún no estaba listo en el
+  // primer toque (el playVideo() debe ocurrir dentro del propio gesto).
+  const playingRef = useRef(false)
   useEffect(() => {
-    const events = ['pointerdown', 'touchstart', 'keydown', 'scroll']
-    const onFirst = () => {
-      cleanup()
-      startPlayback()
+    playingRef.current = playing
+  }, [playing])
+
+  useEffect(() => {
+    const events = ['pointerup', 'touchend', 'click', 'keydown', 'scroll']
+    const onGesture = () => {
+      // Reintenta mientras el usuario no haya pausado a mano y aún no suene.
+      if (!pausedByUserRef.current) startPlayback()
+      if (playingRef.current) cleanup()
     }
-    const cleanup = () => events.forEach((ev) => window.removeEventListener(ev, onFirst))
-    events.forEach((ev) => window.addEventListener(ev, onFirst, { once: true, passive: true }))
-    // Intento inmediato (funciona en algunos navegadores de escritorio)
+    const cleanup = () => events.forEach((ev) => window.removeEventListener(ev, onGesture))
+    events.forEach((ev) => window.addEventListener(ev, onGesture, { passive: true }))
+    // Intento inmediato (funciona en navegadores de escritorio que permiten autoplay)
     startPlayback()
     return cleanup
     // eslint-disable-next-line react-hooks/exhaustive-deps

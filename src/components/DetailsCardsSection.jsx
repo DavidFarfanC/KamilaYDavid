@@ -1,7 +1,7 @@
 import { useId, useState } from 'react'
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import { useLang } from '../i18n/LanguageContext'
-import { GOOGLE_MAPS_URL, REGISTRY_URL, LODGING_OPTIONS } from '../config'
+import { GOOGLE_MAPS_URL, REGISTRY_URL, REGISTRY_EVENT_NUMBER, LODGING_OPTIONS } from '../config'
 import Photo from './Photo'
 import Reveal from './Reveal'
 import SponsorsCard from './SponsorsCard'
@@ -277,6 +277,18 @@ export default function DetailsCardsSection() {
                 <Item>
                   <p>{c.registry.text}</p>
                 </Item>
+                {REGISTRY_EVENT_NUMBER && (
+                  <Item>
+                    <div className="flex flex-col items-start gap-1.5 rounded-2xl bg-paper px-5 py-4">
+                      <span className="text-xs uppercase tracking-[0.18em] text-stone">
+                        {c.registry.eventNumberLabel}
+                      </span>
+                      <span className="font-serif text-2xl tracking-wider text-ink">
+                        {REGISTRY_EVENT_NUMBER}
+                      </span>
+                    </div>
+                  </Item>
+                )}
                 <Item>
                   <a href={REGISTRY_URL} target="_blank" rel="noopener noreferrer" className={paperBtn}>
                     {t.details.seeRegistry}

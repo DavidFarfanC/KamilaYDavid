@@ -187,6 +187,7 @@ export const translations = {
           summary: 'Tu presencia es el mejor regalo',
           preview: 'Si deseas tener un detalle con nosotros, podrás consultar nuestra mesa de regalos.',
           text: 'Tu presencia es el regalo más importante para nosotros. Si deseas tener un detalle con nosotros, podrás consultar nuestra mesa de regalos aquí.',
+          eventNumberLabel: 'Número de evento en Liverpool',
         },
         lodging: {
           title: 'Dónde hospedarse',
@@ -509,6 +510,7 @@ export const translations = {
           summary: 'Your presence is the greatest gift',
           preview: 'If you would like to bless us with something more, you can find our gift registry here.',
           text: 'Your presence is the most meaningful gift to us. If you would like to bless us with something more, you can find our registry here.',
+          eventNumberLabel: 'Liverpool event number',
         },
         lodging: {
           title: 'Where to stay',
@@ -831,6 +833,7 @@ export const translations = {
           summary: 'Eure Anwesenheit ist das schönste Geschenk',
           preview: 'Wenn ihr uns eine Freude machen möchtet, findet ihr hier unseren Geschenktisch.',
           text: 'Eure Anwesenheit ist für uns das wichtigste Geschenk. Wenn ihr uns darüber hinaus eine Freude machen möchtet, findet ihr hier unseren Geschenktisch.',
+          eventNumberLabel: 'Liverpool-Veranstaltungsnummer',
         },
         lodging: {
           title: 'Unterkunft',
