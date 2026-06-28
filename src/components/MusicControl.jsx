@@ -115,6 +115,13 @@ export default function MusicControl() {
             onReady: (e) => {
               readyRef.current = true
               e.target.setVolume(Math.round(VOLUME * 100))
+              // El iframe necesita permiso explícito de autoplay para que el
+              // navegador respete tanto el autoplay mudo como el unMute posterior.
+              try {
+                e.target.getIframe()?.setAttribute('allow', 'autoplay; encrypted-media')
+              } catch {
+                /* noop */
+              }
               // Arranca EN SILENCIO (permitido en todos lados) y se queda mudo.
               // NO desmuteamos aquí: si lo hiciéramos, la API quedaría como
               // "unmuted" e iOS trataría el unMute() del primer gesto como un
@@ -159,6 +166,7 @@ export default function MusicControl() {
     if (!audio) return
     audio.muted = true
     audio.volume = VOLUME
+    readyRef.current = true // el <audio> ya puede recibir el gesto único
     audio.play().catch(() => {
       /* algún navegador no deja ni el autoplay mudo: el gesto lo arrancará */
     })
@@ -166,14 +174,24 @@ export default function MusicControl() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useYouTube])
 
-  // En el primer gesto del usuario quitamos el silencio. NO usamos { once }:
-  // reintentamos en cada gesto hasta que de verdad se escuche, por si el
-  // reproductor aún no estaba listo en el primer toque.
+  // Arranque automático: UNA sola vez, en el primer gesto válido del usuario.
+  // En iOS, "desplazar hacia abajo" termina en un `touchend` al levantar el
+  // dedo, y ese touchend SÍ cuenta como activación de audio → el scroll arranca
+  // la música. Solo escuchamos gestos que el navegador acepta como activación
+  // (toque/clic/tecla); NADA de scroll/wheel, que en Safari no activa el audio
+  // y solo "envenenaría" el estado dejando la animación sin sonido.
+  //
+  // Es de una sola acción: tras el primer gesto válido quitamos los listeners,
+  // así si el usuario vuelve a subir y bajar ya no pasa nada. A partir de ahí
+  // solo el botón pone o quita la música.
   useEffect(() => {
-    const events = ['pointerup', 'touchend', 'click', 'keydown', 'scroll']
+    const events = ['pointerup', 'touchend', 'click', 'keydown']
     const onGesture = () => {
+      // Si el reproductor aún no está listo, NO gastamos el único intento:
+      // esperamos al siguiente gesto.
+      if (!readyRef.current) return
       goAudible()
-      if (playingRef.current) cleanup()
+      cleanup() // acción única: a partir de aquí manda el botón
     }
     const cleanup = () => events.forEach((ev) => window.removeEventListener(ev, onGesture))
     events.forEach((ev) => window.addEventListener(ev, onGesture, { passive: true }))
