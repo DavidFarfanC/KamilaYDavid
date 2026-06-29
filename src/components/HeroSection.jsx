@@ -108,12 +108,12 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
-      {/* Indicador "Desliza": marcador editorial fino (sin caja ni borde).
-          Palabra en taupe con tracking amplio, hairline vertical y chevron
-          minimalista que "respira". Glow marfil casi imperceptible para
-          legibilidad sobre la foto. El centrado vive en el contenedor
-          (inset-x-0 + justify-center) para que la animación de Framer Motion
-          sobre `y` no pise el centrado. Tappable: al tocarlo baja una pantalla. */}
+      {/* Indicador "Desliza": marcador editorial (sin caja ni borde) con HALO
+          marfil radial detrás —luz suave, no tarjeta— para separarlo del fondo.
+          Texto y flecha con más contraste, hairline fina y chevron que respira.
+          El centrado vive en el contenedor (inset-x-0 + justify-center) para que
+          la animación de `y` de Framer Motion no pise el centrado.
+          Tappable: al tocarlo baja una pantalla. */}
       <div
         className="pointer-events-none absolute inset-x-0 z-10 flex justify-center px-6"
         style={{ bottom: 'max(2.25rem, env(safe-area-inset-bottom))' }}
@@ -124,27 +124,43 @@ export default function HeroSection() {
           aria-label={t.hero.scroll}
           initial={{ opacity: 0, y: reduce ? 0 : 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1.2, ease: EASE }}
-          className="group pointer-events-auto flex flex-col items-center gap-2.5 rounded-md bg-transparent focus:outline-none focus-visible:ring-1 focus-visible:ring-stone/40 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
-          style={{ filter: 'drop-shadow(0 1px 10px rgba(250,248,242,0.55))' }}
+          transition={{ delay: 1.4, duration: 1.2, ease: EASE }}
+          className="group pointer-events-auto relative flex flex-col items-center gap-2 rounded-md bg-transparent px-6 py-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-stone/40 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+          style={{ filter: 'drop-shadow(0 2px 8px rgba(74,67,61,0.16))' }}
         >
-          <span className="text-[10px] font-medium uppercase tracking-[0.45em] text-stone transition-colors duration-300 ease-editorial group-hover:text-ink sm:text-[11px]">
+          {/* Halo marfil radial: luz difusa detrás, con un pulso muy sutil */}
+          <motion.span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[160%] w-[210%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-xl"
+            style={{
+              background:
+                'radial-gradient(closest-side, rgba(250,248,242,0.92), rgba(250,248,242,0.5) 55%, rgba(250,248,242,0) 76%)',
+            }}
+            animate={reduce ? undefined : { opacity: [0.75, 1, 0.75], scale: [1, 1.05, 1] }}
+            transition={{ duration: 2.6, ease: EASE, repeat: Infinity }}
+          />
+
+          <motion.span
+            className="text-[11px] font-semibold uppercase tracking-[0.42em] text-ink sm:text-xs"
+            animate={reduce ? undefined : { opacity: [0.82, 1, 0.82] }}
+            transition={{ duration: 2.6, ease: EASE, repeat: Infinity }}
+          >
             {t.hero.scroll}
-          </span>
+          </motion.span>
 
           {/* Hairline + chevron: respiración editorial (no rebote) */}
-          <span aria-hidden="true" className="relative flex h-9 w-5 items-start justify-center">
-            <span className="absolute top-0 h-5 w-px bg-gradient-to-b from-stone/45 to-transparent" />
+          <span aria-hidden="true" className="relative flex h-[38px] w-5 items-start justify-center">
+            <span className="absolute top-0 h-[18px] w-px bg-gradient-to-b from-stone/70 to-transparent" />
             <motion.span
-              className="absolute top-[11px] text-ink/70"
-              animate={reduce ? undefined : { y: [0, 6, 0], opacity: [0.4, 0.9, 0.4] }}
+              className="absolute top-[12px] text-ink/90 drop-shadow-[0_1px_2px_rgba(250,248,242,0.7)]"
+              animate={reduce ? undefined : { y: [0, 8, 0], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2.4, ease: EASE, repeat: Infinity }}
             >
-              <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
+              <svg width="18" height="11" viewBox="0 0 18 11" fill="none">
                 <path
-                  d="M1 1l6 6 6-6"
+                  d="M1 1.5l8 8 8-8"
                   stroke="currentColor"
-                  strokeWidth="1.3"
+                  strokeWidth="1.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
