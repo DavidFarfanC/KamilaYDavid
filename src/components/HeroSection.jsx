@@ -106,80 +106,51 @@ export default function HeroSection() {
           <span aria-hidden="true" className="h-1 w-1 rounded-full bg-stone/40" />
           <span>{t.hero.place}</span>
         </motion.div>
-
-        <motion.div {...fadeUp(0.9)} className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="#rsvp"
-            className="rounded-full bg-paper px-8 py-3.5 text-sm font-medium text-ink shadow-soft transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper-hover hover:shadow-card active:translate-y-0 active:shadow-none active:bg-paper-hover"
-          >
-            {t.hero.ctaPrimary}
-          </a>
-          <a
-            href="#detalles"
-            className="rounded-full border border-paper-line bg-transparent px-8 py-3.5 text-sm font-medium text-ink backdrop-blur-sm transition-all duration-300 ease-editorial hover:-translate-y-px hover:bg-paper/30 active:translate-y-0 active:bg-paper/40"
-          >
-            {t.hero.ctaSecondary}
-          </a>
-        </motion.div>
       </motion.div>
 
-      {/* Indicador "Desliza": pieza editorial centrada (marfil + blur + glow
-          cálido muy discreto) con flecha animada. El centrado vive en el
-          contenedor (inset-x-0 + justify-center) para que la animación de
-          Framer Motion sobre `y` NO pise el translateX y se mantenga centrado.
-          Tappable: al tocarlo baja una pantalla. */}
+      {/* Indicador "Desliza": marcador editorial fino (sin caja ni borde).
+          Palabra en taupe con tracking amplio, hairline vertical y chevron
+          minimalista que "respira". Glow marfil casi imperceptible para
+          legibilidad sobre la foto. El centrado vive en el contenedor
+          (inset-x-0 + justify-center) para que la animación de Framer Motion
+          sobre `y` no pise el centrado. Tappable: al tocarlo baja una pantalla. */}
       <div
         className="pointer-events-none absolute inset-x-0 z-10 flex justify-center px-6"
-        style={{ bottom: 'max(2rem, env(safe-area-inset-bottom))' }}
+        style={{ bottom: 'max(2.25rem, env(safe-area-inset-bottom))' }}
       >
         <motion.button
           type="button"
           onClick={handleScrollHint}
           aria-label={t.hero.scroll}
-          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1.1, ease: EASE }}
-          whileHover={reduce ? undefined : { y: -2 }}
-          className="group pointer-events-auto flex flex-col items-center gap-2 rounded-2xl border border-paper-line bg-ivory/75 px-6 py-3.5 backdrop-blur-md transition-colors duration-300 ease-editorial hover:bg-ivory/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-paper-line/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ivory/40"
-          style={{
-            boxShadow:
-              '0 12px 32px -16px rgba(74,67,61,0.22), 0 0 26px -6px rgba(244,217,139,0.28)',
-          }}
+          transition={{ delay: 1.5, duration: 1.2, ease: EASE }}
+          className="group pointer-events-auto flex flex-col items-center gap-2.5 rounded-md bg-transparent focus:outline-none focus-visible:ring-1 focus-visible:ring-stone/40 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
+          style={{ filter: 'drop-shadow(0 1px 10px rgba(250,248,242,0.55))' }}
         >
-          {/* Pulso muy sutil del conjunto */}
-          <motion.div
-            className="flex flex-col items-center gap-2"
-            animate={reduce ? undefined : { scale: [1, 1.03, 1] }}
-            transition={{ duration: 2.4, ease: EASE, repeat: Infinity }}
-          >
-            <span className="text-xs font-semibold uppercase tracking-[0.38em] text-ink sm:text-[13px]">
-              {t.hero.scroll}
-            </span>
+          <span className="text-[10px] font-medium uppercase tracking-[0.45em] text-stone transition-colors duration-300 ease-editorial group-hover:text-ink sm:text-[11px]">
+            {t.hero.scroll}
+          </span>
+
+          {/* Hairline + chevron: respiración editorial (no rebote) */}
+          <span aria-hidden="true" className="relative flex h-9 w-5 items-start justify-center">
+            <span className="absolute top-0 h-5 w-px bg-gradient-to-b from-stone/45 to-transparent" />
             <motion.span
-              aria-hidden="true"
-              className="text-ink/90 drop-shadow-[0_1px_2px_rgba(74,67,61,0.2)]"
-              animate={reduce ? undefined : { y: [0, 6, 0], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2.1, ease: EASE, repeat: Infinity }}
+              className="absolute top-[11px] text-ink/70"
+              animate={reduce ? undefined : { y: [0, 6, 0], opacity: [0.4, 0.9, 0.4] }}
+              transition={{ duration: 2.4, ease: EASE, repeat: Infinity }}
             >
-              <svg width="26" height="28" viewBox="0 0 24 26" fill="none">
+              <svg width="14" height="9" viewBox="0 0 14 9" fill="none">
                 <path
-                  d="M5 5l7 7 7-7"
+                  d="M1 1l6 6 6-6"
                   stroke="currentColor"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M5 13l7 7 7-7"
-                  stroke="currentColor"
-                  strokeOpacity="0.45"
-                  strokeWidth="1.7"
+                  strokeWidth="1.3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
             </motion.span>
-          </motion.div>
+          </span>
         </motion.button>
       </div>
     </section>

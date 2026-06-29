@@ -252,7 +252,7 @@ export const translations = {
         },
         {
           q: '¿Dónde puedo hospedarme?',
-          a: 'Pronto compartiremos opciones recomendadas de hoteles y zonas de Airbnb cerca de Cocoyoc. Encontrarás la información en la tarjeta “Dónde hospedarse”.',
+          a: 'Te compartimos algunas recomendaciones de hoteles y zonas con opciones de Airbnb cerca de Cocoyoc. Encontrarás todos los detalles en la tarjeta "Dónde hospedarse".',
         },
         {
           q: '¿Cómo confirmo mi asistencia?',
